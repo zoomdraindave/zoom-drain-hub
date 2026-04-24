@@ -5,345 +5,396 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Privacy Policy — Zoom Drain Phoenix</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --ink:       #1a1814;
-      --ink-soft:  #4a4540;
-      --ink-muted: #8a847c;
-      --rule:      #d8d2c8;
-      --bg:        #faf8f4;
-      --accent:    #b84a2e;
-      --accent-bg: #f5ede9;
+      --red:       #DA1332;
+      --teal:      #00B5D0;
+      --teal-lite: #C0E7E6;
+      --black:     #1a1a1a;
+      --gray-dark: #444444;
+      --gray-mid:  #777777;
+      --gray-lite: #f4f4f4;
+      --rule:      #e2e2e2;
+      --white:     #ffffff;
     }
 
-    html { font-size: 17px; scroll-behavior: smooth; }
+    html { font-size: 16px; scroll-behavior: smooth; }
 
     body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: 'Source Serif 4', Georgia, serif;
-      font-weight: 300;
-      line-height: 1.75;
-      min-height: 100vh;
+      background: var(--white);
+      color: var(--black);
+      font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
     }
 
-    /* ── Header ── */
-    header {
+    /* ── Top accent bar — matches site's red/teal identity ── */
+    .topbar {
+      background: var(--red);
+      height: 5px;
+    }
+
+    /* ── Nav header ── */
+    nav {
+      background: var(--white);
       border-bottom: 1px solid var(--rule);
-      padding: 2.5rem 2rem 2rem;
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+    }
+    /* SVG logo matching the full-color Zoom Drain logo style */
+    .nav-logo img { height: 48px; width: auto; }
+    .nav-phone {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--red);
+      text-decoration: none;
+    }
+    .nav-phone:hover { text-decoration: underline; }
+
+    /* ── Hero banner ── */
+    .hero {
+      background: var(--gray-lite);
+      border-bottom: 3px solid var(--teal);
+      padding: 3rem 2rem;
       text-align: center;
-      position: relative;
     }
-    header::before {
-      content: '';
-      display: block;
-      width: 3rem;
-      height: 3px;
-      background: var(--accent);
-      margin: 0 auto 1.5rem;
-    }
-    .brand {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
+    .hero-inner { max-width: 800px; margin: 0 auto; }
+    .hero-eyebrow {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--teal);
       margin-bottom: 0.6rem;
     }
-    h1 {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
-      font-weight: 400;
-      line-height: 1.2;
-      color: var(--ink);
-      margin-bottom: 0.5rem;
+    .hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      color: var(--black);
+      line-height: 1.1;
+      margin-bottom: 0.6rem;
     }
-    .effective {
+    .hero h1 span { color: var(--red); }
+    .hero-date {
       font-size: 0.82rem;
-      color: var(--ink-muted);
-      letter-spacing: 0.04em;
+      color: var(--gray-mid);
     }
 
     /* ── Layout ── */
-    main {
-      max-width: 720px;
+    .content-wrap {
+      max-width: 860px;
       margin: 0 auto;
       padding: 3rem 2rem 5rem;
     }
 
-    /* ── Sections ── */
-    section { margin-bottom: 2.8rem; }
+    .intro-text {
+      font-size: 1.02rem;
+      color: var(--gray-dark);
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--rule);
+      line-height: 1.75;
+    }
+
+    /* ── Section styling ── */
+    section { margin-bottom: 2.5rem; }
 
     h2 {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 0.75rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--red);
+      margin-bottom: 0.9rem;
       padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--rule);
+      border-bottom: 2px solid var(--rule);
       display: flex;
       align-items: center;
       gap: 0.6rem;
     }
-    h2 .num {
-      font-family: 'Source Serif 4', serif;
-      font-weight: 300;
-      font-size: 0.75rem;
-      color: var(--accent);
-      letter-spacing: 0.08em;
-      min-width: 1.4rem;
+    h2::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 1.2em;
+      background: var(--teal);
+      border-radius: 2px;
+      flex-shrink: 0;
     }
 
-    p { margin-bottom: 0.9rem; color: var(--ink-soft); }
+    p {
+      margin-bottom: 0.9rem;
+      color: var(--gray-dark);
+      font-size: 0.97rem;
+    }
     p:last-child { margin-bottom: 0; }
+
+    strong { color: var(--black); font-weight: 600; }
 
     ul {
       list-style: none;
-      margin: 0.4rem 0 0.9rem 0;
+      margin: 0.5rem 0 0.9rem;
       padding: 0;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      overflow: hidden;
     }
     ul li {
-      padding: 0.3rem 0 0.3rem 1.4rem;
-      position: relative;
-      color: var(--ink-soft);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.6rem 1rem;
+      color: var(--gray-dark);
+      font-size: 0.96rem;
+      border-bottom: 1px solid var(--rule);
+      background: var(--white);
     }
+    ul li:last-child { border-bottom: none; }
+    ul li:nth-child(odd) { background: #fafafa; }
     ul li::before {
-      content: '—';
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-      font-weight: 400;
+      content: '';
+      flex-shrink: 0;
+      margin-top: 0.45em;
+      width: 8px;
+      height: 8px;
+      background: var(--teal);
+      border-radius: 50%;
     }
 
-    /* ── Highlight box ── */
-    .highlight {
-      background: var(--accent-bg);
-      border-left: 3px solid var(--accent);
-      padding: 1rem 1.25rem;
-      margin: 1rem 0;
+    /* ── Callout box ── */
+    .callout {
+      background: #f0fafc;
+      border: 1px solid var(--teal);
+      border-left: 4px solid var(--teal);
       border-radius: 0 4px 4px 0;
+      padding: 1rem 1.25rem;
+      margin: 0.75rem 0 1rem;
     }
-    .highlight p {
-      margin: 0;
-      font-size: 0.92rem;
-    }
+    .callout p { margin: 0; font-size: 0.96rem; }
 
     /* ── Contact card ── */
     .contact-card {
-      background: white;
+      background: var(--gray-lite);
       border: 1px solid var(--rule);
       border-radius: 6px;
       padding: 1.25rem 1.5rem;
-      margin-top: 1rem;
+      margin-top: 0.75rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      flex-wrap: wrap;
     }
-    .contact-card strong {
+    .contact-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--red);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-icon svg { width: 22px; height: 22px; fill: white; }
+    .contact-details { flex: 1; }
+    .contact-details strong {
       display: block;
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      color: var(--ink);
-      margin-bottom: 0.5rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 0.35rem;
     }
-    .contact-card a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-    .contact-card a:hover { text-decoration: underline; }
+    .contact-details a { color: var(--red); text-decoration: none; }
+    .contact-details a:hover { text-decoration: underline; }
+    .contact-details p { margin: 0; font-size: 0.93rem; }
 
     /* ── Footer ── */
     footer {
-      text-align: center;
-      padding: 2rem;
+      background: var(--gray-lite);
       border-top: 1px solid var(--rule);
-      font-size: 0.78rem;
-      color: var(--ink-muted);
-      letter-spacing: 0.03em;
+      color: var(--gray-mid);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.8rem;
     }
-    footer::after {
-      content: '';
-      display: block;
-      width: 2rem;
-      height: 2px;
-      background: var(--rule);
-      margin: 1rem auto 0;
+    .footer-logo img { height: 36px; width: auto; margin-bottom: 0.75rem; }
+    footer a { color: var(--teal); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    .footer-links {
+      margin: 0.6rem 0;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .footer-bar {
+      height: 4px;
+      background: linear-gradient(90deg, var(--red) 50%, var(--teal) 50%);
+      margin-top: 1.5rem;
     }
 
     @media (max-width: 600px) {
-      main { padding: 2rem 1.25rem 4rem; }
-      header { padding: 2rem 1.25rem 1.5rem; }
+      .content-wrap { padding: 2rem 1.25rem 3.5rem; }
+      .contact-card { flex-direction: column; gap: 1rem; }
+      .nav-phone { display: none; }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <p class="brand">Zoom Drain — Phoenix, AZ</p>
-  <h1>Privacy Policy</h1>
-  <p class="effective">Effective Date: April 23, 2026 &nbsp;·&nbsp; Last Updated: April 23, 2026</p>
-</header>
+<div class="topbar"></div>
 
-<main>
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#"><img src="/zoom-drain-logo.png" alt="Zoom Drain" /></a>
+    <a class="nav-phone" href="tel:+16025550000">📞 (602) 555-0000</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Zoom Drain Phoenix</p>
+    <h1>Privacy <span>Policy</span></h1>
+    <p class="hero-date">Effective: April 23, 2026 &nbsp;·&nbsp; Last Updated: April 23, 2026</p>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <p class="intro-text">
+    This Privacy Policy describes how Zoom Drain Phoenix ("we," "us," or "our") collects, uses, and
+    protects your personal information when you request services, including through third-party platforms
+    such as Angi's. We are committed to protecting your privacy and handling your data transparently.
+  </p>
 
   <section>
-    <p>
-      This Privacy Policy describes how Zoom Drain Phoenix ("we," "us," or "our") collects,
-      uses, and protects information you provide when requesting services, including information
-      received through third-party lead platforms such as Angi's. We are committed to protecting
-      your privacy and handling your information transparently and responsibly.
-    </p>
-  </section>
-
-  <section>
-    <h2><span class="num">01</span> Information We Collect</h2>
+    <h2>1. Information We Collect</h2>
     <p>We may collect the following categories of personal information:</p>
     <ul>
       <li><strong>Contact information</strong> — name, phone number, and email address</li>
       <li><strong>Service address</strong> — the location where service is requested</li>
       <li><strong>Service details</strong> — descriptions of the plumbing or drain issue you report</li>
       <li><strong>Communication records</strong> — call logs, text messages, and voicemails related to your service request</li>
-      <li><strong>Lead source data</strong> — information about how your request reached us (e.g., submitted via Angi's)</li>
+      <li><strong>Lead source data</strong> — how your request reached us (e.g., submitted via Angi's)</li>
     </ul>
-    <p>
-      We do not collect payment card numbers, Social Security numbers, or other sensitive
-      financial or government-issued identifiers through this service.
-    </p>
+    <p>We do not collect payment card numbers, Social Security numbers, or other sensitive financial identifiers.</p>
   </section>
 
   <section>
-    <h2><span class="num">02</span> How We Use Your Information</h2>
-    <p>We use the information we collect for the following purposes:</p>
+    <h2>2. How We Use Your Information</h2>
+    <p>We use the information we collect to:</p>
     <ul>
-      <li>Contacting you by phone or SMS to respond to your service request</li>
-      <li>Scheduling and confirming appointments</li>
-      <li>Sending service-related updates and follow-up communications</li>
-      <li>Improving our internal response processes</li>
-      <li>Complying with legal obligations</li>
+      <li>Contact you by phone or SMS to respond to your service request</li>
+      <li>Schedule and confirm appointments</li>
+      <li>Send service-related updates and follow-up communications</li>
+      <li>Improve our internal response processes</li>
+      <li>Comply with legal obligations</li>
     </ul>
-    <p>
-      We do not use your information for unrelated marketing purposes without your explicit consent.
-    </p>
+    <p>We do not use your information for unrelated marketing purposes without your explicit consent.</p>
   </section>
 
   <section>
-    <h2><span class="num">03</span> SMS and Telephone Communications</h2>
-    <div class="highlight">
-      <p>
-        By submitting a service request through Angi's or directly to us, you consent to being
-        contacted by Zoom Drain Phoenix via phone call and/or SMS text message at the number
-        you provided, for the purpose of responding to your request.
-      </p>
+    <h2>3. SMS and Telephone Communications</h2>
+    <div class="callout">
+      <p>By submitting a service request through Angi's or directly to us, you consent to being
+      contacted by Zoom Drain Phoenix via phone call and/or SMS at the number you provided,
+      for the purpose of responding to your request.</p>
     </div>
-    <p>
-      SMS messages we send are transactional in nature and directly related to your service
-      request. Message frequency varies based on your request status. Standard message and
-      data rates may apply depending on your carrier.
-    </p>
-    <p>
-      <strong>To opt out of SMS communications</strong>, reply <strong>STOP</strong> to any
-      text message you receive from us. You will receive a single confirmation message and no
-      further SMS communications will be sent. To re-enable SMS, reply <strong>START</strong>.
-      For help, reply <strong>HELP</strong>.
-    </p>
-    <p>
-      Opting out of SMS does not affect our ability to contact you by phone regarding an active
-      service request.
-    </p>
+    <p>SMS messages are transactional and directly related to your service request. Message frequency varies. Standard message and data rates may apply.</p>
+    <p><strong>To opt out of SMS</strong>, reply <strong>STOP</strong> to any message. You will receive one confirmation and no further messages will be sent. Reply <strong>START</strong> to re-enable. Reply <strong>HELP</strong> for assistance.</p>
+    <p>Opting out of SMS does not affect our ability to contact you by phone about an active service request.</p>
   </section>
 
   <section>
-    <h2><span class="num">04</span> How We Share Your Information</h2>
-    <p>
-      We do not sell, rent, or trade your personal information. We may share your information
-      only in the following limited circumstances:
-    </p>
+    <h2>4. How We Share Your Information</h2>
+    <p>We do not sell, rent, or trade your personal information. We may share it only in limited circumstances:</p>
     <ul>
-      <li><strong>Service providers</strong> — we use Twilio to send and receive calls and text messages on our behalf. Twilio processes phone numbers and message content solely to deliver communications.</li>
+      <li><strong>Service providers</strong> — Twilio processes phone numbers to deliver calls and messages on our behalf</li>
       <li><strong>Legal compliance</strong> — if required by law, court order, or government authority</li>
-      <li><strong>Business transfers</strong> — in the event of a merger, acquisition, or sale of our business, your information may transfer to the acquiring entity</li>
+      <li><strong>Business transfers</strong> — in the event of a merger or acquisition</li>
     </ul>
-    <p>
-      Any third-party service providers we work with are contractually required to protect your
-      information and may only use it for the purpose of providing services to us.
-    </p>
+    <p>All third-party providers are contractually required to protect your information and may only use it to deliver services to us.</p>
   </section>
 
   <section>
-    <h2><span class="num">05</span> Data Retention</h2>
-    <p>
-      We retain your contact information and service records for as long as necessary to fulfill
-      the purposes described in this policy, or as required by applicable law. Service request
-      records are typically retained for up to three years for warranty, follow-up, and business
-      record purposes.
-    </p>
-    <p>
-      You may request deletion of your information at any time by contacting us directly (see
-      Section 07). We will honor deletion requests promptly unless retention is required by law.
-    </p>
+    <h2>5. Data Retention</h2>
+    <p>We retain your contact information and service records as long as necessary to fulfill the purposes in this policy or as required by law — typically up to three years for warranty, follow-up, and business record purposes.</p>
+    <p>You may request deletion at any time by contacting us (see Section 7).</p>
   </section>
 
   <section>
-    <h2><span class="num">06</span> Data Security</h2>
-    <p>
-      We take reasonable technical and organizational measures to protect your personal
-      information from unauthorized access, disclosure, or misuse. These measures include
-      encrypted data transmission, access controls, and secure storage practices.
-    </p>
-    <p>
-      No method of electronic transmission or storage is 100% secure. While we strive to use
-      commercially acceptable means to protect your information, we cannot guarantee absolute security.
-    </p>
+    <h2>6. Data Security</h2>
+    <p>We take reasonable technical and organizational measures to protect your information, including encrypted data transmission, access controls, and secure storage. No method of electronic transmission is 100% secure, but we strive to use commercially acceptable protections.</p>
   </section>
 
   <section>
-    <h2><span class="num">07</span> Your Rights</h2>
-    <p>You have the right to:</p>
+    <h2>7. Your Rights</h2>
     <ul>
       <li>Request access to the personal information we hold about you</li>
       <li>Request correction of inaccurate information</li>
-      <li>Request deletion of your information, subject to legal retention requirements</li>
-      <li>Opt out of SMS communications at any time by replying STOP</li>
+      <li>Request deletion, subject to legal retention requirements</li>
+      <li>Opt out of SMS at any time by replying STOP</li>
       <li>File a complaint with a relevant regulatory authority</li>
     </ul>
-    <p>
-      To exercise any of these rights, contact us using the information in Section 08 below.
-      We will respond to all requests within 30 days.
-    </p>
+    <p>We will respond to all requests within 30 days.</p>
   </section>
 
   <section>
-    <h2><span class="num">08</span> Contact Us</h2>
-    <p>
-      If you have questions about this Privacy Policy, wish to exercise your rights, or need to
-      report a concern, please reach out:
-    </p>
+    <h2>8. Contact Us</h2>
+    <p>For questions about this policy or to exercise your rights, please reach out:</p>
     <div class="contact-card">
-      <strong>Zoom Drain Phoenix</strong>
-      <p>
-        Phone: <a href="tel:+16232323120">(623) 232-3120</a><br />
-        Email: <a href="mailto:phoenixeastvalley@zoomdrain.com">phoenixeastvalley@zoomdrain.com</a><br />
-        Phoenix, AZ
-      </p>
+      <div class="contact-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+        </svg>
+      </div>
+      <div class="contact-details">
+        <strong>Zoom Drain Phoenix</strong>
+        <p>
+          Phone: <a href="tel:+16025550000">(602) 555-0000</a><br />
+          Email: <a href="mailto:privacy@zoomdrain-phoenix.com">privacy@zoomdrain-phoenix.com</a><br />
+          Phoenix, AZ
+        </p>
+      </div>
     </div>
   </section>
 
   <section>
-    <h2><span class="num">09</span> Changes to This Policy</h2>
-    <p>
-      We may update this Privacy Policy from time to time. When we do, we will revise the
-      "Last Updated" date at the top of this page. We encourage you to review this policy
-      periodically. Continued use of our services after any changes constitutes acceptance
-      of the updated policy.
-    </p>
+    <h2>9. Changes to This Policy</h2>
+    <p>We may update this Privacy Policy at any time. The "Last Updated" date at the top reflects the most recent revision. Continued use of our services constitutes acceptance of any updated policy.</p>
   </section>
 
-</main>
+</div><!-- /content-wrap -->
 
 <footer>
-  &copy; <span id="yr"></span> Zoom Drain Phoenix &nbsp;·&nbsp; All rights reserved
+  <div class="footer-logo"><img src="/zoom-drain-logo.png" alt="Zoom Drain" /></div>
+  <div class="footer-links">
+    <a href="/terms.html">Terms &amp; Conditions</a>
+    <a href="tel:+16025550000">(602) 555-0000</a>
+    <a href="mailto:privacy@zoomdrain-phoenix.com">privacy@zoomdrain-phoenix.com</a>
+  </div>
+  <p>&copy; <span id="yr"></span> Zoom Drain Phoenix. All rights reserved.</p>
+  <div class="footer-bar"></div>
   <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 </footer>
 
