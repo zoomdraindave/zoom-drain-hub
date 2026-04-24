@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms &amp; Conditions — Zoom Drain Phoenix</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #1a1814;
+      --ink-soft:  #4a4540;
+      --ink-muted: #8a847c;
+      --rule:      #d8d2c8;
+      --bg:        #faf8f4;
+      --accent:    #b84a2e;
+      --accent-bg: #f5ede9;
+    }
+
+    html { font-size: 17px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 300;
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    header {
+      border-bottom: 1px solid var(--rule);
+      padding: 2.5rem 2rem 2rem;
+      text-align: center;
+    }
+    header::before {
+      content: '';
+      display: block;
+      width: 3rem;
+      height: 3px;
+      background: var(--accent);
+      margin: 0 auto 1.5rem;
+    }
+    .brand {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    .effective {
+      font-size: 0.82rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.04em;
+    }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    section { margin-bottom: 2.8rem; }
+
+    h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    h2 .num {
+      font-family: 'Source Serif 4', serif;
+      font-weight: 300;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      min-width: 1.4rem;
+    }
+
+    p { margin-bottom: 0.9rem; color: var(--ink-soft); }
+    p:last-child { margin-bottom: 0; }
+
+    ul {
+      list-style: none;
+      margin: 0.4rem 0 0.9rem 0;
+      padding: 0;
+    }
+    ul li {
+      padding: 0.3rem 0 0.3rem 1.4rem;
+      position: relative;
+      color: var(--ink-soft);
+    }
+    ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* ── Required compliance block — visually prominent ── */
+    .compliance-block {
+      background: white;
+      border: 1px solid var(--rule);
+      border-top: 3px solid var(--accent);
+      border-radius: 0 0 6px 6px;
+      padding: 1.5rem 1.75rem;
+      margin: 1.5rem 0;
+    }
+    .compliance-block .program-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      color: var(--ink);
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .compliance-block p {
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /* ── Keyword pills — STOP / HELP must be bold per Twilio requirement ── */
+    .kw {
+      font-weight: 700;
+      color: var(--ink);
+      background: var(--accent-bg);
+      padding: 0.1em 0.45em;
+      border-radius: 3px;
+      font-size: 0.88em;
+      letter-spacing: 0.04em;
+    }
+
+    .highlight {
+      background: var(--accent-bg);
+      border-left: 3px solid var(--accent);
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .highlight p { margin: 0; font-size: 0.92rem; }
+
+    .contact-card {
+      background: white;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      padding: 1.25rem 1.5rem;
+      margin-top: 1rem;
+    }
+    .contact-card strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    .contact-card a { color: var(--accent); text-decoration: none; }
+    .contact-card a:hover { text-decoration: underline; }
+
+    .policy-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.92rem;
+      margin-top: 0.5rem;
+    }
+    .policy-link:hover { text-decoration: underline; }
+    .policy-link::before { content: '→'; }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--rule);
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.03em;
+    }
+    footer::after {
+      content: '';
+      display: block;
+      width: 2rem;
+      height: 2px;
+      background: var(--rule);
+      margin: 1rem auto 0;
+    }
+
+    @media (max-width: 600px) {
+      main { padding: 2rem 1.25rem 4rem; }
+      header { padding: 2rem 1.25rem 1.5rem; }
+      .compliance-block { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <p class="brand">Zoom Drain — Phoenix, AZ</p>
+  <h1>Terms &amp; Conditions</h1>
+  <p class="effective">Effective Date: April 23, 2026 &nbsp;·&nbsp; Last Updated: April 23, 2026</p>
+</header>
+
+<main>
+
+  <section>
+    <p>
+      These Terms and Conditions govern your use of services provided by Zoom Drain Phoenix,
+      including our SMS messaging program. By submitting a service request or communicating
+      with us via text message, you agree to these terms. Please read them carefully.
+    </p>
+  </section>
+
+  <section>
+    <h2><span class="num">01</span> SMS Messaging Program</h2>
+
+    <div class="compliance-block">
+      <p class="program-name">Zoom Drain Phoenix — Service Communication Program</p>
+
+      <p>
+        <strong>Program description:</strong> Zoom Drain Phoenix uses SMS text messaging to
+        communicate with customers regarding their plumbing and drain service requests. Messages
+        include appointment confirmations, technician dispatch notifications, missed-call follow-ups,
+        and service status updates. All messages are transactional and directly related to your
+        active service request.
+      </p>
+
+      <p>
+        <strong>Message frequency:</strong> Message frequency varies. You will typically receive
+        1–3 messages per service request. We do not send recurring promotional SMS blasts.
+      </p>
+
+      <p>
+        <strong>Message &amp; data rates:</strong> Message and data rates may apply. Charges are
+        determined by your mobile carrier and plan. Zoom Drain Phoenix does not charge separately
+        for SMS communications.
+      </p>
+
+      <p>
+        <strong>To opt out:</strong> Reply <span class="kw">STOP</span> to any message at any
+        time to unsubscribe. You will receive a single confirmation and no further messages will
+        be sent to your number.
+      </p>
+
+      <p>
+        <strong>For help:</strong> Reply <span class="kw">HELP</span> to any message or contact
+        us directly at <a href="tel:+16232323120">(623) 232-3742</a> or
+        <a href="mailto:phoenixeastvalley@zoomdrain.com">phoenixeastvalley@zoomdrain.com</a>.
+      </p>
+
+      <p>
+        Supported carriers include but are not limited to: AT&amp;T, Verizon, T-Mobile, Sprint,
+        US Cellular, and most major US carriers. Carrier support for SMS is not guaranteed for
+        all carriers.
+      </p>
+    </div>
+
+    <a class="policy-link" href="/privacy-policy.html">View our full Privacy Policy</a>
+  </section>
+
+  <section>
+    <h2><span class="num">02</span> Consent to Contact</h2>
+    <p>
+      By submitting a service request — whether directly to Zoom Drain Phoenix or through a
+      third-party platform such as Angi's — you expressly consent to being contacted by
+      Zoom Drain Phoenix at the phone number you provided. This consent covers:
+    </p>
+    <ul>
+      <li>Outbound phone calls from our team or automated systems</li>
+      <li>SMS text messages related to your service request</li>
+      <li>Voicemail messages left on your behalf</li>
+    </ul>
+    <p>
+      Consent to receive SMS messages is not a condition of purchasing any service.
+      You may opt out at any time using the instructions in Section 01.
+    </p>
+  </section>
+
+  <section>
+    <h2><span class="num">03</span> Use of Services</h2>
+    <p>
+      Zoom Drain Phoenix provides residential and commercial plumbing and drain services in
+      the Phoenix, AZ metropolitan area. By requesting a service or quote, you represent that:
+    </p>
+    <ul>
+      <li>You are the property owner or have authority to authorize service at the address provided</li>
+      <li>The contact information you provide is accurate and belongs to you</li>
+      <li>You are 18 years of age or older</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">04</span> Service Estimates and Pricing</h2>
+    <p>
+      Any estimates provided via phone, SMS, or other communication are preliminary and subject
+      to change upon on-site inspection. Final pricing is confirmed before work begins.
+      Zoom Drain Phoenix is not bound by any estimate provided without a signed service agreement.
+    </p>
+  </section>
+
+  <section>
+    <h2><span class="num">05</span> Limitation of Liability</h2>
+    <p>
+      To the fullest extent permitted by law, Zoom Drain Phoenix shall not be liable for any
+      indirect, incidental, or consequential damages arising from delays in service response,
+      communication failures, or SMS delivery issues outside our control, including carrier
+      outages or number portability errors.
+    </p>
+  </section>
+
+  <section>
+    <h2><span class="num">06</span> Changes to These Terms</h2>
+    <p>
+      We may update these Terms and Conditions at any time. The current version will always be
+      available at this URL. The "Last Updated" date at the top of this page reflects the most
+      recent revision. Continued use of our services constitutes acceptance of any updated terms.
+    </p>
+  </section>
+
+  <section>
+    <h2><span class="num">07</span> Contact &amp; Support</h2>
+    <p>
+      For questions about these terms, to opt out of communications, or to request information
+      about your data, contact us:
+    </p>
+    <div class="contact-card">
+      <strong>Zoom Drain Phoenix</strong>
+      <p>
+        Phone: <a href="tel:+16025550000">(602) 555-0000</a><br />
+        Email: <a href="mailto:support@zoomdrain-phoenix.com">support@zoomdrain-phoenix.com</a><br />
+        Phoenix, AZ<br /><br />
+        SMS keywords: Reply <span class="kw">STOP</span> to opt out &nbsp;·&nbsp;
+        Reply <span class="kw">HELP</span> for assistance
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">08</span> Governing Law</h2>
+    <p>
+      These Terms and Conditions are governed by the laws of the State of Arizona, without
+      regard to its conflict of law provisions. Any disputes arising under these terms shall
+      be resolved in the courts of Maricopa County, Arizona.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  &copy; <span id="yr"></span> Zoom Drain Phoenix &nbsp;·&nbsp; All rights reserved
+  &nbsp;·&nbsp; <a href="/privacy-policy.html" style="color:inherit;">Privacy Policy</a>
+  <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</footer>
+
+</body>
+</html>

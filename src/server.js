@@ -1,9 +1,18 @@
+import 'dotenv/config';
+console.log('WEBHOOK_SECRET:', process.env.WEBHOOK_SECRET); // temporary debug line
+import express from 'express';
+
+// ... rest of your imports
 import express from 'express';
 import 'dotenv/config';
 import healthRouter from './routes/health.js';
 import angiRouter from './routes/angi.js';
 import twilioRouter from './routes/twilio.js';
 
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -17,6 +26,8 @@ app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   next();
 });
+
+app.use(express.static(join(__dirname, 'public')));
 
 // Routes
 app.use('/', healthRouter);
