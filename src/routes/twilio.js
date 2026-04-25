@@ -1,53 +1,79 @@
 import { Router } from 'express';
+import twilio from 'twilio';
+import { getLead } from '../services/leadStore.js';
 
 const router = Router();
+const twilioClient = twilio(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
 
-// Twilio calls this when you press a key during the lead call
 router.post('/gather', async (req, res) => {
   const { Digits, CallSid } = req.body;
-  console.log(`Gather response — CallSid: ${CallSid}, Digits: ${Digits}`);
+  console.log(`Gather — CallSid: ${CallSid}, Digits pressed: ${Digits}`);
+
+  const record = getLead(CallSid);
+
+  if (!record) {
+    console.warn(`No lead found for CallSid ${CallSid}`);
+    res.type('text/xml').send(`<?xml version="1.0" encoding="UTF-8"?>
+<Response><Say voice="Polly.Joanna-Neural">Lead data not found. Please check your app.</Say></Response>`);
+    return;
+  }
 
   if (Digits === '1') {
-    // TODO: pull lead from DB by CallSid and bridge the call
-    const twiml = `<?xml version="1.0" encoding="UTF-8"?>
+    console.log(`Connecting to customer: ${record.customerPhone}`);
+    res.type('text/xml').send(`<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Say voice="Polly.Joanna-Neural">Connecting you to the customer now.</Say>
-  <Dial callerId="${process.env.TWILIO_PHONE_NUMBER}">
-    <Number>+16025559999</Number>
+  <Say voice="Polly.Joanna-Neural">Connecting you now. Good luck.</Say>
+  <Dial callerId="${process.env.TWILIO_PHONE_NUMBER}" timeout="30">
+    <Number>${record.customerPhone}</Number>
   </Dial>
-</Response>`;
-    res.type('text/xml').send(twiml);
+</Response>`);
+
+  } else if (Digits === '2') {
+    const { lead, analysis } = record;
+    const smsBody =
+      `Angi Lead: ${lead.contact.name} — ${lead.contact.phone}\n` +
+      `${analysis.job_type} | ${analysis.estimated_value}\n` +
+      `${lead.job.description?.slice(0, 100)}`;
+
+    try {
+      await twilioClient.messages.create({
+        body: smsBody,
+        to: process.env.YOUR_PHONE_NUMBER,
+        from: process.env.TWILIO_PHONE_NUMBER,
+        messagingServiceSid: process.env.MESSAGING_SERVICE_SID,
+      });
+      console.log('SMS summary sent');
+    } catch (err) {
+      console.error('SMS send error:', err.message);
+    }
+
+    res.type('text/xml').send(`<?xml version="1.0" encoding="UTF-8"?>
+<Response><Say voice="Polly.Joanna-Neural">Text sent to your phone. Goodbye.</Say></Response>`);
+
   } else {
-    const twiml = `<?xml version="1.0" encoding="UTF-8"?>
-<Response>
-  <Say voice="Polly.Joanna-Neural">Lead has been logged. Goodbye.</Say>
-</Response>`;
-    res.type('text/xml').send(twiml);
+    res.type('text/xml').send(`<?xml version="1.0" encoding="UTF-8"?>
+<Response><Say voice="Polly.Joanna-Neural">Lead logged. Goodbye.</Say></Response>`);
   }
 });
 
-// Twilio calls this when a call ends — for logging and follow-up
 router.post('/status', async (req, res) => {
   const { CallSid, CallStatus, CallDuration } = req.body;
-  console.log(`Call status update — ${CallSid}: ${CallStatus} (${CallDuration}s)`);
-  // TODO: update lead record in DB
+  console.log(`Call status — ${CallSid}: ${CallStatus} (${CallDuration || 0}s)`);
   res.sendStatus(200);
 });
 
-// Test endpoint — returns sample TwiML so you can verify the XML without a real call
 router.get('/twiml-test', (req, res) => {
-  const twiml = `<?xml version="1.0" encoding="UTF-8"?>
+  res.type('text/xml').send(`<?xml version="1.0" encoding="UTF-8"?>
 <Response>
   <Say voice="Polly.Joanna-Neural">
-    New Angi lead. High urgency. Kitchen sink completely backed up at 4521 East Camelback Road.
-    Customer is John Smith. Estimated job value: 150 to 300 dollars.
-    Press 1 to connect. Press 2 for a text summary. Hang up to skip.
+    New Angi lead. High priority. Kitchen sink backed up near Camelback and 44th.
+    Customer is John Smith. Estimated value 150 to 300 dollars.
+    Press 1 to connect. Press 2 for a text. Hang up to skip.
   </Say>
-  <Gather numDigits="1" action="/twilio/gather" method="POST" timeout="15">
-    <Say voice="Polly.Joanna-Neural">Press 1 to connect now.</Say>
-  </Gather>
-</Response>`;
-  res.type('text/xml').send(twiml);
+</Response>`);
 });
 
 export default router;
