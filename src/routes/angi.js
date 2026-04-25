@@ -1,8 +1,14 @@
 import { Router } from 'express';
+import twilio from 'twilio';
+import { analyzeLead } from '../services/analyzeLead.js';
+import { saveLead } from '../services/leadStore.js';
 
 const router = Router();
+const twilioClient = twilio(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
 
-// Webhook secret validation middleware
 function validateSecret(req, res, next) {
   const secret = req.headers['x-webhook-secret'] || req.query.secret;
   if (secret !== process.env.WEBHOOK_SECRET) {
@@ -12,44 +18,85 @@ function validateSecret(req, res, next) {
   next();
 }
 
-// Real Angi webhook — this is what Angi's will POST to
+async function processLead(lead) {
+  console.log(`Processing lead ${lead.id}...`);
+
+  const analysis = await analyzeLead(lead);
+  console.log(`Lead scored: ${analysis.score}/10, urgency: ${analysis.urgency}`);
+
+  const urgencyLabel = analysis.urgency === 'emergency' ? 'EMERGENCY.' : `${analysis.urgency} priority.`;
+  const speechText = `
+    New Angi lead. ${urgencyLabel}
+    ${analysis.phone_summary}
+    Job type: ${analysis.job_type}. Estimated value: ${analysis.estimated_value}.
+    Press 1 to connect to the customer now.
+    Press 2 to receive a text summary instead.
+    Hang up to skip this lead.
+  `;
+
+  const call = await twilioClient.calls.create({
+    twiml: buildCallTwiml(speechText),
+    to: process.env.YOUR_PHONE_NUMBER,
+    from: process.env.TWILIO_PHONE_NUMBER,
+    statusCallback: `${process.env.SERVER_URL}/twilio/status`,
+    statusCallbackMethod: 'POST',
+  });
+
+  saveLead(call.sid, {
+    lead,
+    analysis,
+    customerPhone: lead.contact?.phone,
+  });
+
+  console.log(`Call initiated: ${call.sid}`);
+}
+
+function buildCallTwiml(speechText) {
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Say voice="Polly.Joanna-Neural">${speechText}</Say>
+  <Gather numDigits="1" action="${process.env.SERVER_URL}/twilio/gather" method="POST" timeout="15">
+    <Say voice="Polly.Joanna-Neural">Press 1 to connect, 2 for a text, or hang up to skip.</Say>
+  </Gather>
+  <Say voice="Polly.Joanna-Neural">No response received. Lead has been logged.</Say>
+</Response>`;
+}
+
+// Real Angi webhook
 router.post('/angi', validateSecret, async (req, res) => {
-  // Always acknowledge immediately
   res.sendStatus(200);
-
-  const lead = req.body;
-  console.log('Angi lead received:', JSON.stringify(lead, null, 2));
-
-  // TODO: wire in Claude + Twilio here (next phase)
-  console.log('Lead queued for processing:', lead?.contact?.name || 'Unknown');
+  try {
+    await processLead(req.body);
+  } catch (err) {
+    console.error('Lead processing error:', err);
+  }
 });
 
-// Test endpoint — simulate an Angi lead without needing a real webhook
+// Test endpoint
 router.post('/angi/test', validateSecret, async (req, res) => {
   const mockLead = {
     id: 'test-' + Date.now(),
     contact: {
-      name: 'John Smith',
-      phone: '6025551234',
+      name: req.body?.contact?.name || 'John Smith',
+      phone: req.body?.contact?.phone || process.env.YOUR_PHONE_NUMBER,
       email: 'john@example.com',
     },
     job: {
-      type: 'Drain Cleaning',
-      description: 'Kitchen sink is completely backed up, water not draining at all. Has been like this for 2 days.',
+      type: req.body?.job?.type || 'Drain Cleaning',
+      description: req.body?.job?.description || 'Kitchen sink completely backed up, standing water. Has been like this for 2 days.',
       address: '4521 E Camelback Rd, Phoenix AZ 85018',
     },
     submitted_at: new Date().toISOString(),
-    // Override with anything from the request body
     ...req.body,
   };
 
-  console.log('Test lead fired:', JSON.stringify(mockLead, null, 2));
-
-  res.json({
-    status: 'ok',
-    message: 'Test lead processed — check your server logs',
-    lead: mockLead,
-  });
+  try {
+    await processLead(mockLead);
+    res.json({ status: 'ok', message: 'Test lead fired — your phone should ring shortly', leadId: mockLead.id });
+  } catch (err) {
+    console.error('Test lead error:', err);
+    res.status(500).json({ status: 'error', message: err.message });
+  }
 });
 
 export default router;
