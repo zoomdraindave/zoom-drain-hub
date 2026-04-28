@@ -18,7 +18,7 @@ Return exactly this shape:
 {
   "urgency": "emergency|high|medium|low",
   "score": <1-10 integer>,
-  "phone_summary": "<1 sentence max, under 15 words, punchy and direct>"
+  "phone_summary": "<1 sentence max, under 15 words, punchy and direct>",
   "job_type": "<short label e.g. drain clog, water heater, leak detection>",
   "estimated_value": "<dollar range e.g. $150-$300>",
   "recommended_action": "call_now|sms_first|schedule_callback",
