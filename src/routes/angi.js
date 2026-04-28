@@ -54,11 +54,12 @@ async function processLead(lead) {
 function buildCallTwiml(speechText) {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Say voice="Polly.Joanna-Neural">${speechText}</Say>
   <Gather numDigits="1" action="${process.env.SERVER_URL}/twilio/gather" method="POST" timeout="15">
-    <Say voice="Polly.Joanna-Neural">Press 1 to connect, 2 for a text, or hang up to skip.</Say>
+    <Say voice="Polly.Joanna-Neural">
+      <prosody rate="fast" pitch="-5%">${speechText}</prosody>
+    </Say>
   </Gather>
-  <Say voice="Polly.Joanna-Neural">No response received. Lead has been logged.</Say>
+  <Say voice="Polly.Joanna-Neural"><prosody rate="fast" pitch="-5%">No response received. Lead has been logged.</prosody></Say>
 </Response>`;
 }
 
