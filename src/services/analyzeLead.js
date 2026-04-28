@@ -4,7 +4,7 @@ const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 export async function analyzeLead(lead) {
   const message = await anthropic.messages.create({
-    model: 'claude-sonnet-4-20250514',
+    model: 'claude-sonnet-4-5',
     max_tokens: 512,
     messages: [{
       role: 'user',
@@ -18,7 +18,7 @@ Return exactly this shape:
 {
   "urgency": "emergency|high|medium|low",
   "score": <1-10 integer>,
-  "phone_summary": "<2 sentences max, natural spoken language, under 30 words total>",
+  "phone_summary": "<1 sentence max, under 15 words, punchy and direct>"
   "job_type": "<short label e.g. drain clog, water heater, leak detection>",
   "estimated_value": "<dollar range e.g. $150-$300>",
   "recommended_action": "call_now|sms_first|schedule_callback",

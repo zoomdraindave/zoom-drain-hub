@@ -2,6 +2,7 @@ import { Router } from 'express';
 import twilio from 'twilio';
 import { analyzeLead } from '../services/analyzeLead.js';
 import { saveLead } from '../services/leadStore.js';
+import { webhookLimiter, testLimiter } from '../middleware/rateLimiter.js';
 
 const router = Router();
 const twilioClient = twilio(
@@ -10,9 +11,9 @@ const twilioClient = twilio(
 );
 
 function validateSecret(req, res, next) {
-  const secret = req.headers['x-webhook-secret'] || req.query.secret;
-  if (secret !== process.env.WEBHOOK_SECRET) {
-    console.warn('Rejected webhook — invalid secret');
+  const apiKey = req.headers['x-api-key'];
+  if (!apiKey || apiKey !== process.env.ANGI_API_KEY) {
+    console.warn(`Rejected webhook — invalid API key from ${req.ip}`);
     return res.status(401).json({ error: 'Unauthorized' });
   }
   next();
@@ -62,7 +63,7 @@ function buildCallTwiml(speechText) {
 }
 
 // Real Angi webhook
-router.post('/angi', validateSecret, async (req, res) => {
+router.post('/angi', webhookLimiter, validateSecret, async (req, res) => {
   res.sendStatus(200);
   try {
     await processLead(req.body);
@@ -72,7 +73,7 @@ router.post('/angi', validateSecret, async (req, res) => {
 });
 
 // Test endpoint
-router.post('/angi/test', validateSecret, async (req, res) => {
+router.post('/angi/test', testLimiter, validateSecret, async (req, res) => {
   const mockLead = {
     id: 'test-' + Date.now(),
     contact: {
