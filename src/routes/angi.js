@@ -56,10 +56,16 @@ function buildCallTwiml(speechText) {
 <Response>
   <Gather numDigits="1" action="${process.env.SERVER_URL}/twilio/gather" method="POST" timeout="15">
     <Say voice="Polly.Joanna-Neural">
-      <prosody rate="fast" pitch="-5%">${speechText}</prosody>
+      <speak>
+        <prosody rate="fast" pitch="-5%">${speechText}</prosody>
+      </speak>
     </Say>
   </Gather>
-  <Say voice="Polly.Joanna-Neural"><prosody rate="fast" pitch="-5%">No response received. Lead has been logged.</prosody></Say>
+  <Say voice="Polly.Joanna-Neural">
+    <speak>
+      <prosody rate="fast" pitch="-5%">No response received. Lead has been logged.</prosody>
+    </speak>
+  </Say>
 </Response>`;
 }
 
