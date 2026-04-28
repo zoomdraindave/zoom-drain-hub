@@ -13,6 +13,8 @@ import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
+app.set('trust proxy', 1); // Trust Railway's reverse proxy
+
 const PORT = process.env.PORT || 3000;
 
 // Parse both JSON and URL-encoded bodies

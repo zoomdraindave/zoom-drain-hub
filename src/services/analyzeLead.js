@@ -27,11 +27,15 @@ Return exactly this shape:
 
 Flags to include if applicable: "after_hours", "commercial", "repeat_customer", "competitor_mentioned".
 For phone_summary: write it as if briefing a plumber verbally. Natural and fast, no full addresses.`
+Important: Return raw JSON only. No markdown, no code fences, no explanation. The first character of your response must be '{'.
     }]
   });
 
   try {
-    return JSON.parse(message.content[0].text);
+    const text = message.content[0].text;
+    // Strip markdown code fences if Claude adds them
+    const cleaned = text.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim();
+    return JSON.parse(cleaned);
   } catch (e) {
     console.error('Claude response was not valid JSON:', message.content[0].text);
     return {
