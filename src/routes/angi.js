@@ -35,7 +35,17 @@ async function processLead(lead) {
     Hang up to skip this lead.
   `;
 
-  const call = await twilioClient.calls.create({
+const twiml = buildCallTwiml(speechText);
+console.log('TwiML being sent:', twiml); // temporary debug
+const call = await twilioClient.calls.create({
+  twiml,
+  to: process.env.YOUR_PHONE_NUMBER,
+  from: process.env.TWILIO_PHONE_NUMBER,
+  statusCallback: `${process.env.SERVER_URL}/twilio/status`,
+  statusCallbackMethod: 'POST',
+});
+
+const call = await twilioClient.calls.create({
     twiml: buildCallTwiml(speechText),
     to: process.env.YOUR_PHONE_NUMBER,
     from: process.env.TWILIO_PHONE_NUMBER,
