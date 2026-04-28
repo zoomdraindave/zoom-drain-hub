@@ -26,8 +26,9 @@ Return exactly this shape:
 }
 
 Flags to include if applicable: "after_hours", "commercial", "repeat_customer", "competitor_mentioned".
-For phone_summary: write it as if briefing a plumber verbally. Natural and fast, no full addresses.`
-Important: Return raw JSON only. No markdown, no code fences, no explanation. The first character of your response must be '{'.
+For phone_summary: write it as if briefing a plumber verbally. Natural and fast, no full addresses.
+
+Important: Return raw JSON only. No markdown, no code fences, no explanation. The first character of your response must be {.`
     }]
   });
 
