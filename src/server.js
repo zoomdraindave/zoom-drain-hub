@@ -24,6 +24,9 @@ app.use(express.urlencoded({ extended: true }));
 // Request logger — shows every hit in your Railway logs
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  if (req.hostname === 'golf.zoomdrain-phxev.com') {
+    return res.redirect(301, 'https://www.zoomdrain.com/phoenix-east-valley/');
+  }
   next();
 });
 
