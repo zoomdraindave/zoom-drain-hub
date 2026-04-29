@@ -5,7 +5,7 @@ const router = Router();
 router.get('/leads', async (req, res) => {
   // Simple auth — same webhook secret
   const secret = req.headers['x-api-key'] || req.query.key;
-  if (secret !== process.env.WEBHOOK_SECRET) {
+  if (secret !== process.env.ANGI_API_KEY) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
