@@ -1,5 +1,4 @@
 import 'dotenv/config';
-console.log('WEBHOOK_SECRET:', process.env.WEBHOOK_SECRET); // temporary debug line
 
 // ... rest of your imports
 import express from 'express';
