@@ -44,12 +44,23 @@ router.get('/status', (req, res) => {
     'TWILIO_ACCOUNT_SID',
     'TWILIO_AUTH_TOKEN',
     'TWILIO_PHONE_NUMBER',
-    'YOUR_PHONE_NUMBER'
+    'YOUR_PHONE_NUMBER',
+    'ANGI_API_KEY',
+    'MESSAGING_SERVICE_SID',
+    'SERVER_URL',
+    'DATABASE_URL',
   ];
 
   const config = {};
   vars.forEach(v => {
-    config[v] = process.env[v] ? '✓ set' : '✗ missing';
+    const val = process.env[v];
+    if (!val) {
+      config[v] = '✗ missing';
+    } else {
+      const last4 = val.slice(-4);
+      const masked = '•'.repeat(Math.min(val.length - 4, 20));
+      config[v] = `✓ ${masked}${last4}`;
+    }
   });
 
   res.json({
