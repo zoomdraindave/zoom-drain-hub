@@ -2,8 +2,8 @@ import { Router } from 'express';
 import twilio from 'twilio';
 import { analyzeLead } from '../services/analyzeLead.js';
 import { saveLead } from '../services/leadStore.js';
-import { webhookLimiter, testLimiter } from '../middleware/rateLimiter.js';
 import { createLead, updateLeadCall } from '../services/database.js';
+import { webhookLimiter, testLimiter } from '../middleware/rateLimiter.js';
 
 const router = Router();
 const twilioClient = twilio(
@@ -20,8 +20,50 @@ function validateSecret(req, res, next) {
   next();
 }
 
-async function processLead(lead) {
-  console.log(`Processing lead ${lead.id}...`);
+// Normalize Angi's payload into a consistent internal format
+function normalizeLead(raw) {
+  return {
+    // Use srOid as primary ID, fall back to leadOid or generated
+    id: String(raw.srOid || raw.leadOid || `lead-${Date.now()}`),
+    leadOid: raw.leadOid,
+    srOid: raw.srOid,
+
+    contact: {
+      name: raw.name || `${raw.firstName || ''} ${raw.lastName || ''}`.trim(),
+      firstName: raw.firstName,
+      lastName: raw.lastName,
+      phone: raw.primaryPhone,
+      secondaryPhone: raw.secondaryPhone,
+      email: raw.email,
+    },
+
+    job: {
+      type: raw.taskName,
+      description: raw.comments,
+      address: raw.address,
+      city: raw.city,
+      state: raw.stateProvince,
+      zip: raw.postalCode,
+      fullAddress: [raw.address, raw.city, raw.stateProvince, raw.postalCode]
+        .filter(Boolean).join(', '),
+    },
+
+    interview: raw.interview || [],
+    matchType: raw.matchType,
+    leadSource: raw.leadSource,
+    leadDescription: raw.leadDescription,
+    fee: raw.fee,
+    automatedContactCompliant: raw.automatedContactCompliant,
+    trustedFormUrl: raw.trustedFormUrl,
+    spCompanyName: raw.spCompanyName,
+    received_at: new Date().toISOString(),
+    raw: raw, // preserve original for database storage
+  };
+}
+
+async function processLead(rawLead) {
+  const lead = normalizeLead(rawLead);
+  console.log(`Processing lead ${lead.id} — ${lead.contact.name} — ${lead.job.type}`);
 
   const analysis = await analyzeLead(lead);
   console.log(`Lead scored: ${analysis.score}/10, urgency: ${analysis.urgency}`);
@@ -60,7 +102,7 @@ async function processLead(lead) {
   saveLead(call.sid, {
     lead,
     analysis,
-    customerPhone: lead.contact?.phone,
+    customerPhone: lead.contact.phone,
   });
 
   console.log(`Call initiated: ${call.sid}`);
@@ -86,27 +128,44 @@ router.post('/angi', webhookLimiter, validateSecret, async (req, res) => {
   }
 });
 
-// Test endpoint
+// Test endpoint — mirrors real Angi payload structure exactly
 router.post('/angi/test', testLimiter, validateSecret, async (req, res) => {
   const mockLead = {
-    id: 'test-' + Date.now(),
-    contact: {
-      name: req.body?.contact?.name || 'John Smith',
-      phone: req.body?.contact?.phone || process.env.YOUR_PHONE_NUMBER,
-      email: 'john@example.com',
-    },
-    job: {
-      type: req.body?.job?.type || 'Drain Cleaning',
-      description: req.body?.job?.description || 'Kitchen sink completely backed up, standing water. Has been like this for 2 days.',
-      address: '4521 E Camelback Rd, Phoenix AZ 85018',
-    },
-    submitted_at: new Date().toISOString(),
+    name: 'John Smith',
+    firstName: 'John',
+    lastName: 'Smith',
+    address: '4521 E Camelback Rd',
+    city: 'Phoenix',
+    stateProvince: 'AZ',
+    postalCode: '85018',
+    primaryPhone: process.env.YOUR_PHONE_NUMBER?.replace('+1', '') || '6025551234',
+    secondaryPhone: null,
+    email: 'john@example.com',
+    srOid: Date.now(),
+    leadOid: Date.now() + 1,
+    fee: 0.0,
+    taskName: 'Drain Cleaning - Clear Blockage',
+    comments: 'Kitchen sink is completely backed up, standing water. Has been like this for 2 days. Tried plunging but no luck.',
+    matchType: 'Lead',
+    leadDescription: 'Standard',
+    leadSource: 'AngiesList',
+    interview: [
+      { question: 'What type of drain needs cleaning?', answer: 'Kitchen sink' },
+      { question: 'Is the drain completely blocked?', answer: 'Yes, completely blocked' },
+      { question: 'When do you need this done?', answer: 'As soon as possible' },
+    ],
+    automatedContactCompliant: true,
+    // Allow overrides from request body
     ...req.body,
   };
 
   try {
     await processLead(mockLead);
-    res.json({ status: 'ok', message: 'Test lead fired — your phone should ring shortly', leadId: mockLead.id });
+    res.json({
+      status: 'ok',
+      message: 'Test lead fired — your phone should ring shortly',
+      leadId: String(mockLead.srOid),
+    });
   } catch (err) {
     console.error('Test lead error:', err);
     res.status(500).json({ status: 'error', message: err.message });

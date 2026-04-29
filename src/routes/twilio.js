@@ -40,7 +40,8 @@ router.post('/gather', async (req, res) => {
     const smsBody =
       `Angi Lead: ${lead.contact.name} — ${lead.contact.phone}\n` +
       `${analysis.job_type} | ${analysis.estimated_value}\n` +
-      `${lead.job.description?.slice(0, 100)}`;
+      `${lead.job.city}, ${lead.job.state}\n` +
+      `${lead.job.description?.slice(0, 120)}`;
 
     try {
       await twilioClient.messages.create({

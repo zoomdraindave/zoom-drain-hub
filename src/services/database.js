@@ -85,14 +85,14 @@ export async function createLead(lead, analysis) {
     lead.contact?.email,
     analysis.job_type,
     lead.job?.description,
-    lead.job?.address,
+    lead.job?.fullAddress,
     analysis.urgency,
     analysis.score,
     analysis.estimated_value,
     analysis.phone_summary,
     analysis.recommended_action,
     analysis.flags || [],
-    JSON.stringify(lead),
+    JSON.stringify(lead.raw || lead),   // store original Angi payload
     JSON.stringify(analysis),
   ]);
   return result.rows[0];
