@@ -3,6 +3,7 @@ import twilio from 'twilio';
 import { analyzeLead } from '../services/analyzeLead.js';
 import { saveLead } from '../services/leadStore.js';
 import { webhookLimiter, testLimiter } from '../middleware/rateLimiter.js';
+import { createLead, updateLeadCall } from '../services/database.js';
 
 const router = Router();
 const twilioClient = twilio(
@@ -25,7 +26,14 @@ async function processLead(lead) {
   const analysis = await analyzeLead(lead);
   console.log(`Lead scored: ${analysis.score}/10, urgency: ${analysis.urgency}`);
 
-  const urgencyLabel = analysis.urgency === 'emergency' ? 'EMERGENCY.' : `${analysis.urgency} priority.`;
+  // Persist to database immediately
+  await createLead(lead, analysis);
+  console.log(`Lead ${lead.id} saved to database`);
+
+  const urgencyLabel = analysis.urgency === 'emergency'
+    ? 'EMERGENCY.'
+    : `${analysis.urgency} priority.`;
+
   const speechText = `
     New Angi lead. ${urgencyLabel}
     ${analysis.phone_summary}
@@ -45,6 +53,10 @@ async function processLead(lead) {
     statusCallbackMethod: 'POST',
   });
 
+  // Update lead with call SID
+  await updateLeadCall(lead.id, call.sid);
+
+  // Also keep in-memory store for fast keypress lookup
   saveLead(call.sid, {
     lead,
     analysis,

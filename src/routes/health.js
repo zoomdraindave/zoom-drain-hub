@@ -1,6 +1,31 @@
 import { Router } from 'express';
+import { getRecentLeads } from '../services/database.js';
 
 const router = Router();
+router.get('/leads', async (req, res) => {
+  // Simple auth — same webhook secret
+  const secret = req.headers['x-api-key'] || req.query.key;
+  if (secret !== process.env.WEBHOOK_SECRET) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  const leads = await getRecentLeads(50);
+  res.json({
+    count: leads.length,
+    leads: leads.map(l => ({
+      id: l.id,
+      received_at: l.received_at,
+      customer: l.customer_name,
+      phone: l.customer_phone,
+      job_type: l.job_type,
+      urgency: l.urgency,
+      score: l.score,
+      status: l.status,
+      estimated_value: l.estimated_value,
+      call_duration: l.call_duration,
+    }))
+  });
+});
 
 // Basic health check — Railway uses this to confirm your app is alive
 router.get('/', (req, res) => {

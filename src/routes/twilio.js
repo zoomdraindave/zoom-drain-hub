@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import twilio from 'twilio';
 import { getLead } from '../services/leadStore.js';
+import { updateLeadStatus, updateCallStatus, logCallEvent } from '../services/database.js';
 
 const router = Router();
 const twilioClient = twilio(
@@ -23,9 +24,12 @@ router.post('/gather', async (req, res) => {
 
   if (Digits === '1') {
     console.log(`Connecting to customer: ${record.customerPhone}`);
+    await updateLeadStatus(CallSid, 'connected');
+    await logCallEvent(record.lead.id, CallSid, 'connected', { digits: '1' });
+
     res.type('text/xml').send(`<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Say voice="Polly.Joanna-Neural">Connecting you now. Good luck.</Say>
+  <Say voice="Polly.Joanna-Neural" rate="fast">Connecting you now. Good luck.</Say>
   <Dial callerId="${process.env.TWILIO_PHONE_NUMBER}" timeout="30">
     <Number>${record.customerPhone}</Number>
   </Dial>
@@ -45,23 +49,35 @@ router.post('/gather', async (req, res) => {
         from: process.env.TWILIO_PHONE_NUMBER,
         messagingServiceSid: process.env.MESSAGING_SERVICE_SID,
       });
+      await updateLeadStatus(CallSid, 'sms_sent');
+      await logCallEvent(lead.id, CallSid, 'sms_sent', { digits: '2' });
       console.log('SMS summary sent');
     } catch (err) {
       console.error('SMS send error:', err.message);
     }
 
     res.type('text/xml').send(`<?xml version="1.0" encoding="UTF-8"?>
-<Response><Say voice="Polly.Joanna-Neural">Text sent to your phone. Goodbye.</Say></Response>`);
+<Response><Say voice="Polly.Joanna-Neural" rate="fast">Text sent to your phone. Goodbye.</Say></Response>`);
 
   } else {
+    await updateLeadStatus(CallSid, 'skipped');
+    await logCallEvent(record.lead.id, CallSid, 'skipped', { digits: Digits });
+
     res.type('text/xml').send(`<?xml version="1.0" encoding="UTF-8"?>
-<Response><Say voice="Polly.Joanna-Neural">Lead logged. Goodbye.</Say></Response>`);
+<Response><Say voice="Polly.Joanna-Neural" rate="fast">Lead logged. Goodbye.</Say></Response>`);
   }
 });
 
 router.post('/status', async (req, res) => {
   const { CallSid, CallStatus, CallDuration } = req.body;
   console.log(`Call status — ${CallSid}: ${CallStatus} (${CallDuration || 0}s)`);
+
+  try {
+    await updateCallStatus(CallSid, CallStatus, CallDuration);
+  } catch (err) {
+    console.error('Error updating call status:', err.message);
+  }
+
   res.sendStatus(200);
 });
 
