@@ -40,15 +40,16 @@ router.get('/', (req, res) => {
 // Detailed status — useful for checking all systems at a glance
 router.get('/status', (req, res) => {
   const vars = [
+    'ANGI_API_KEY',
     'ANTHROPIC_API_KEY',
+    'DATABASE_URL',
+    'MESSAGING_SERVICE_SID',
+    'NODE_ENV',
+    'SERVER_URL',
     'TWILIO_ACCOUNT_SID',
     'TWILIO_AUTH_TOKEN',
     'TWILIO_PHONE_NUMBER',
     'YOUR_PHONE_NUMBER',
-    'ANGI_API_KEY',
-    'MESSAGING_SERVICE_SID',
-    'SERVER_URL',
-    'DATABASE_URL',
   ];
 
   const config = {};
