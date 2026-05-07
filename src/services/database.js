@@ -1,3 +1,4 @@
+import { RESTAURANT_SCHEMA_SQL } from './restaurantDb.js';
 import pkg from 'pg';
 const { Pool } = pkg;
 
@@ -7,8 +8,6 @@ const pool = new Pool({
     ? { rejectUnauthorized: false }
     : false,
 });
-
-import { RESTAURANT_SCHEMA_SQL } from './restaurantDb.js';
 
 // Create tables if they don't exist
 export async function initDatabase() {
