@@ -202,7 +202,7 @@ router.post('/webhook/register', async (req, res) => {
     const hooks = existing?.Results || existing || [];
     
     if (Array.isArray(hooks)) {
-      const alreadyRegistered = hooks.find(h => h?.Url === webhookUrl);
+      const alreadyRegistered = hooks.find(h => h?.EndpointUrl === webhookUrl || h?.Url === webhookUrl);
       if (alreadyRegistered) {
         return res.json({
           message: 'Webhook already registered',
@@ -214,7 +214,7 @@ router.post('/webhook/register', async (req, res) => {
 
     // Register the webhook
     const result = await callLacrm('CreateWebhook', {
-      Url: webhookUrl,
+      EndpointUrl: webhookUrl,
       EventTypes: ['PipelineItemStatus.Create', 'PipelineItemStatus.Update'],
       Scope: 'Account',
     });
