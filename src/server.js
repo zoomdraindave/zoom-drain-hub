@@ -6,11 +6,11 @@ import { initDatabase } from './services/database.js';
 import healthRouter from './routes/health.js';
 import angiRouter from './routes/angi.js';
 import twilioRouter from './routes/twilio.js';
+import restaurantRouter from './routes/restaurants.js';
+import restaurantFollowupRouter, { startDigestCron } from './routes/restaurantFollowup.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
-app.set('trust proxy', 1); // Trust Railway's reverse proxy
-
 const PORT = process.env.PORT || 3000;
 
 app.set('trust proxy', 1);
@@ -31,9 +31,12 @@ app.use((req, res, next) => {
   next();
 });
 
+// Routes
 app.use('/', healthRouter);
 app.use('/webhooks', angiRouter);
 app.use('/twilio', twilioRouter);
+app.use('/restaurants', restaurantRouter);
+app.use('/restaurants', restaurantFollowupRouter);
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found', path: req.path });
@@ -44,6 +47,9 @@ initDatabase()
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Zoom Drain Hub running on port ${PORT}`);
+
+      // Start the weekly digest cron
+      startDigestCron();
     });
   })
   .catch(err => {

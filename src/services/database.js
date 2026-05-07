@@ -8,6 +8,8 @@ const pool = new Pool({
     : false,
 });
 
+import { RESTAURANT_SCHEMA_SQL } from './restaurantDb.js';
+
 // Create tables if they don't exist
 export async function initDatabase() {
   await pool.query(`
@@ -58,6 +60,10 @@ export async function initDatabase() {
       created_at  TIMESTAMPTZ DEFAULT NOW()
     );
   `);
+
+  // Restaurant follow-up tables
+  await pool.query(RESTAURANT_SCHEMA_SQL);
+
   console.log('Database initialized');
 }
 
