@@ -35,8 +35,10 @@ app.use((req, res, next) => {
 app.use('/', healthRouter);
 app.use('/webhooks', angiRouter);
 app.use('/twilio', twilioRouter);
-app.use('/restaurants', restaurantRouter);
+// Follow-up router MUST come before restaurant router — the restaurant
+// router has a blanket auth middleware that would block LACRM webhooks
 app.use('/restaurants', restaurantFollowupRouter);
+app.use('/restaurants', restaurantRouter);
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found', path: req.path });
