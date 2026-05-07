@@ -109,69 +109,74 @@ router.post('/webhook/pipeline', async (req, res) => {
 
   try {
     const payload = req.body;
-    console.log('[Restaurant Webhook] Pipeline event received:', JSON.stringify(payload).slice(0, 300));
+    console.log('[Restaurant Webhook] Event received:', JSON.stringify(payload).slice(0, 500));
 
-    // LACRM webhook payload format:
-    // { UserId, TriggeringEvent, PipelineItemId, ContactId, StatusId, ... }
     const triggeringEvent = payload.TriggeringEvent || '';
     if (!triggeringEvent.startsWith('PipelineItemStatus')) {
       console.log(`[Restaurant Webhook] Ignoring non-pipeline event: ${triggeringEvent}`);
       return;
     }
 
-    // Extract pipeline item details from the payload
-    // LACRM may nest the data or send it flat
-    const contactId      = payload.ContactId || '';
-    const pipelineItemId = payload.PipelineItemId || '';
-    const newStatusId    = payload.StatusId || '';
-
-    if (!contactId) {
-      console.warn('[Restaurant Webhook] No ContactId in payload');
+    // LACRM sends: { UserId, TriggeringEvent, PipelineItems: [{ PipelineItemId, ... }] }
+    const pipelineItems = payload.PipelineItems || [];
+    if (!Array.isArray(pipelineItems) || pipelineItems.length === 0) {
+      console.warn('[Restaurant Webhook] No PipelineItems in payload');
       return;
     }
 
-    // Get contact details from LACRM
-    const contact = await callLacrm('GetContact', { ContactId: contactId });
-    if (!contact || contact.error) {
-      console.error('[Restaurant Webhook] Could not fetch contact:', contact?.error);
-      return;
+    // Process each pipeline item in the event
+    for (const item of pipelineItems) {
+      const pipelineItemId = item.PipelineItemId || '';
+      const contactId      = item.ContactId || '';
+      const statusId       = item.StatusId || '';
+
+      // If ContactId isn't in the webhook payload, fetch the full pipeline item
+      let resolvedContactId = contactId;
+      if (!resolvedContactId && pipelineItemId) {
+        const fullItem = await callLacrm('GetPipelineItem', { PipelineItemId: pipelineItemId });
+        resolvedContactId = fullItem?.ContactId || '';
+      }
+
+      if (!resolvedContactId) {
+        console.warn(`[Restaurant Webhook] No ContactId for pipeline item ${pipelineItemId}`);
+        continue;
+      }
+
+      // Get contact details from LACRM
+      const contact = await callLacrm('GetContact', { ContactId: resolvedContactId });
+      if (!contact || contact.error) {
+        console.error('[Restaurant Webhook] Could not fetch contact:', contact?.error);
+        continue;
+      }
+
+      const companyName = contact['Company Name'] || contact.CompanyName || 'Unknown';
+      const phone       = extractPhone(contact);
+      const newStage    = statusIdToName(statusId);
+
+      console.log(`[Restaurant Webhook] ${companyName}: → ${newStage}`);
+
+      // Log the event
+      const event = await logPipelineEvent({
+        contactId: resolvedContactId,
+        companyName,
+        oldStatus: 'unknown',
+        newStatus: newStage,
+        pipelineItemId,
+      });
+
+      // Route to the appropriate follow-up handler
+      const actions = await handleStageChange(newStage, {
+        contactId: resolvedContactId,
+        companyName,
+        phone,
+        contact,
+        pipelineItemId,
+        oldStage: 'unknown',
+      });
+
+      await markEventProcessed(event.id, actions);
+      console.log(`[Restaurant Webhook] ${companyName}: ${actions.length} actions taken`);
     }
-
-    const companyName = contact['Company Name'] || contact.CompanyName || 'Unknown';
-    const phone       = extractPhone(contact);
-    const newStage    = statusIdToName(newStatusId);
-
-    // Try to get old status from the pipeline item
-    let oldStage = 'unknown';
-    if (pipelineItemId) {
-      // We don't have the old status in the webhook payload,
-      // but we can check our event log for the previous state
-      // For now, just log the new state
-    }
-
-    console.log(`[Restaurant Webhook] ${companyName}: → ${newStage}`);
-
-    // Log the event
-    const event = await logPipelineEvent({
-      contactId,
-      companyName,
-      oldStatus: oldStage,
-      newStatus: newStage,
-      pipelineItemId,
-    });
-
-    // Route to the appropriate follow-up handler
-    const actions = await handleStageChange(newStage, {
-      contactId,
-      companyName,
-      phone,
-      contact,
-      pipelineItemId,
-      oldStage,
-    });
-
-    await markEventProcessed(event.id, actions);
-    console.log(`[Restaurant Webhook] ${companyName}: ${actions.length} actions taken`);
 
   } catch (err) {
     console.error('[Restaurant Webhook] Error:', err);
@@ -215,8 +220,8 @@ router.post('/webhook/register', async (req, res) => {
     // Register the webhook
     const result = await callLacrm('CreateWebhook', {
       EndpointUrl: webhookUrl,
-      EventTypes: ['PipelineItemStatus.Create', 'PipelineItemStatus.Update'],
-      Scope: 'Account',
+      Events: ['PipelineItemStatus.Create', 'PipelineItemStatus.Update'],
+      WebhookScope: 'Account',
     });
 
     if (result?.error) {
