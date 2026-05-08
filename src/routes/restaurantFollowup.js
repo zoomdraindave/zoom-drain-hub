@@ -27,7 +27,6 @@
  */
 
 import { Router } from 'express';
-import twilio from 'twilio';
 import Anthropic from '@anthropic-ai/sdk';
 import {
   callLacrm,
@@ -43,7 +42,22 @@ import {
   getTasksThisWeek,
   getOverdueTasks,
   completeTask,
+  queueForApproval,
+  getPendingApprovals,
+  getApprovalById,
+  approveQueueItem,
+  rejectQueueItem,
+  getQueueStats,
 } from '../services/restaurantDb.js';
+
+// Auto-send mode: when false, outbound messages are queued for approval.
+// Set via env var or toggle endpoint. Start in manual (queue) mode.
+let autoSendMode = process.env.RESTAURANT_AUTO_SEND === 'true';
+
+import {
+  sendInternalMessage,
+  sendExternalSms,
+} from '../services/messaging.js';
 
 const router = Router();
 
@@ -71,11 +85,8 @@ function statusIdToName(statusId) {
   return 'unknown';
 }
 
-// ── Twilio + Claude clients ──────────────────────────────────────────────────
-
-function getTwilioClient() {
-  return twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-}
+// Twilio + Claude clients are now in services/messaging.js
+// Only getAnthropicClient remains here for Claude email drafts
 
 function getAnthropicClient() {
   return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
@@ -267,16 +278,16 @@ router.get('/webhook/list', async (req, res) => {
 // Stage → Action Router
 // =============================================================================
 
-async function handleStageChange(newStage, ctx) {
+async function handleStageChange(newStage, ctx, dryRun = false) {
   const actions = [];
 
   switch (newStage) {
     case 'dropin_completed':
-      actions.push(...await onDropInCompleted(ctx));
+      actions.push(...await onDropInCompleted(ctx, dryRun));
       break;
 
     case 'followup_in_progress':
-      actions.push(...await onFollowUpInProgress(ctx));
+      actions.push(...await onFollowUpInProgress(ctx, dryRun));
       break;
 
     case 'walkthrough_scheduled':
@@ -319,15 +330,21 @@ async function handleStageChange(newStage, ctx) {
 // → Create "Follow-up call" task in LACRM due in 5 days
 // → Schedule check-in in our DB
 
-async function onDropInCompleted(ctx) {
+async function onDropInCompleted(ctx, dryRun = false) {
   const actions = [];
 
-  // 1. Send thank-you text
-  const textResult = await sendThankYouText(ctx);
+  // 1. Send/queue thank-you text
+  const textResult = await sendThankYouText(ctx, dryRun);
   if (textResult) actions.push(textResult);
 
   // 2. Create follow-up call task in LACRM
   const dueDate = addDays(new Date(), 5);
+
+  if (dryRun) {
+    actions.push({ type: 'lacrm_task', dryRun: true, name: `Follow-up call — ${ctx.companyName}`, dueDate: formatDate(dueDate) });
+    return actions;
+  }
+
   const taskResult = await createLacrmTask(ctx, {
     name: `Follow-up call — ${ctx.companyName}`,
     dueDate: formatDate(dueDate),
@@ -351,15 +368,21 @@ async function onDropInCompleted(ctx) {
 // → Draft value-add email via Claude
 // → Create "Check-in call" task due in 30 days
 
-async function onFollowUpInProgress(ctx) {
+async function onFollowUpInProgress(ctx, dryRun = false) {
   const actions = [];
 
   // 1. Draft a value-add email using Claude
-  const emailResult = await draftValueAddEmail(ctx);
+  const emailResult = await draftValueAddEmail(ctx, dryRun);
   if (emailResult) actions.push(emailResult);
 
   // 2. Create 30-day check-in task
   const dueDate = addDays(new Date(), 30);
+
+  if (dryRun) {
+    actions.push({ type: 'lacrm_task', dryRun: true, name: `30-day check-in — ${ctx.companyName}`, dueDate: formatDate(dueDate) });
+    return actions;
+  }
+
   const taskResult = await createLacrmTask(ctx, {
     name: `30-day check-in — ${ctx.companyName}`,
     dueDate: formatDate(dueDate),
@@ -387,12 +410,9 @@ async function onWalkthroughScheduled(ctx) {
 
   // Send Dave a reminder
   try {
-    const client = getTwilioClient();
-    await client.messages.create({
-      body: `📋 Walk-through scheduled: ${ctx.companyName}. Remember camera, flashlight, and proposal template.`,
-      to: process.env.YOUR_PHONE_NUMBER,
-      from: process.env.TWILIO_PHONE_NUMBER,
-    });
+    await sendInternalMessage(
+      `📋 Walk-through scheduled: ${ctx.companyName}. Remember camera, flashlight, and proposal template.`
+    );
     const action = await logFollowupAction({
       contactId: ctx.contactId,
       companyName: ctx.companyName,
@@ -466,12 +486,9 @@ async function onWon(ctx) {
   const actions = [];
 
   try {
-    const client = getTwilioClient();
-    await client.messages.create({
-      body: `🎉 NEW ACCOUNT WON: ${ctx.companyName}! Time to schedule the first service visit.`,
-      to: process.env.YOUR_PHONE_NUMBER,
-      from: process.env.TWILIO_PHONE_NUMBER,
-    });
+    await sendInternalMessage(
+      `🎉 NEW ACCOUNT WON: ${ctx.companyName}! Time to schedule the first service visit.`
+    );
     await logFollowupAction({
       contactId: ctx.contactId,
       companyName: ctx.companyName,
@@ -554,14 +571,14 @@ async function onNurture(ctx) {
 // Action Helpers
 // =============================================================================
 
-async function sendThankYouText(ctx) {
+async function sendThankYouText(ctx, dryRun = false) {
   const phone = ctx.phone;
   if (!phone) {
     console.log(`[Followup] No phone for ${ctx.companyName} — skipping thank-you text`);
     return null;
   }
 
-  // Get enrichment data for personalization
+  // Build personalized message
   let talkingPoint = '';
   const contact = ctx.contact;
   if (contact) {
@@ -573,44 +590,55 @@ async function sendThankYouText(ctx) {
 
   const message = `Hi! This is Dave from Zoom Drain. Great meeting you today at ${ctx.companyName}.${talkingPoint} I'd love to chat more about keeping your drains in top shape. My direct line: ${process.env.TWILIO_PHONE_NUMBER}. Have a great day!`;
 
-  try {
-    const client = getTwilioClient();
-    await client.messages.create({
-      body: message,
-      to: phone,
-      from: process.env.TWILIO_PHONE_NUMBER,
-    });
-
-    const action = await logFollowupAction({
-      contactId: ctx.contactId,
-      companyName: ctx.companyName,
-      actionType: 'sms_thankyou',
-      actionDetail: `Thank-you text sent to ${phone}`,
-      triggeredBy: 'webhook',
-      metadata: { phone, messagePreview: message.slice(0, 100) },
-    });
-
-    console.log(`[Followup] Thank-you text sent to ${ctx.companyName} at ${phone}`);
-    return { type: 'sms_thankyou', success: true, phone };
-  } catch (err) {
-    console.error(`[Followup] Thank-you text failed for ${ctx.companyName}:`, err.message);
-    await logFollowupAction({
-      contactId: ctx.contactId,
-      companyName: ctx.companyName,
-      actionType: 'sms_thankyou',
-      actionDetail: `Failed: ${err.message}`,
-      status: 'failed',
-      triggeredBy: 'webhook',
-    });
-    return { type: 'sms_thankyou', success: false, error: err.message };
+  if (dryRun) {
+    console.log(`[Followup DRY RUN] Would queue thank-you text to ${phone}: ${message.slice(0, 80)}...`);
+    return { type: 'sms_thankyou', dryRun: true, phone, messagePreview: message.slice(0, 100) };
   }
+
+  if (autoSendMode) {
+    // Auto-send directly
+    try {
+      await sendExternalSms(phone, message);
+      await logFollowupAction({
+        contactId: ctx.contactId, companyName: ctx.companyName,
+        actionType: 'sms_thankyou', actionDetail: `Auto-sent to ${phone}`,
+        triggeredBy: 'webhook', metadata: { phone, messagePreview: message.slice(0, 100) },
+      });
+      console.log(`[Followup] Thank-you text auto-sent to ${ctx.companyName} at ${phone}`);
+      return { type: 'sms_thankyou', success: true, phone, mode: 'auto' };
+    } catch (err) {
+      console.error(`[Followup] Thank-you text failed:`, err.message);
+      return { type: 'sms_thankyou', success: false, error: err.message };
+    }
+  }
+
+  // Queue for approval
+  const queued = await queueForApproval({
+    contactId: ctx.contactId,
+    companyName: ctx.companyName,
+    actionType: 'sms_thankyou',
+    channel: 'sms',
+    recipient: phone,
+    body: message,
+    triggeredBy: 'webhook',
+  });
+
+  // Notify Dave via text that there's something to approve
+  try {
+    await sendInternalMessage(
+      `📋 Queued #${queued.id}: Thank-you text to ${ctx.companyName} (${phone})\n\n"${message.slice(0, 120)}..."\n\nReply APPROVE ${queued.id} or REJECT ${queued.id}`
+    );
+  } catch (err) {
+    console.error('[Followup] Could not notify Dave of queued item:', err.message);
+  }
+
+  console.log(`[Followup] Thank-you text queued (#${queued.id}) for ${ctx.companyName}`);
+  return { type: 'sms_thankyou', success: true, queued: true, queueId: queued.id, phone };
 }
 
-async function draftValueAddEmail(ctx) {
+async function draftValueAddEmail(ctx, dryRun = false) {
   try {
     const claude = getAnthropicClient();
-
-    // Get enrichment data
     const cuisineType = ctx.contact?.['Cuisine Type'] || 'restaurant';
     const season = getSeason();
 
@@ -633,24 +661,40 @@ Return raw JSON only. No markdown.`,
     const text = response.content[0].text.replace(/```json\s*/gi, '').replace(/```\s*/gi, '').trim();
     const email = JSON.parse(text);
 
-    // Log the draft — Dave reviews before sending
-    const action = await logFollowupAction({
+    if (dryRun) {
+      console.log(`[Followup DRY RUN] Would queue email for ${ctx.companyName}: "${email.subject}"`);
+      return { type: 'email_draft', dryRun: true, subject: email.subject, bodyPreview: email.body.slice(0, 100) };
+    }
+
+    // Queue the email draft for approval
+    const queued = await queueForApproval({
       contactId: ctx.contactId,
       companyName: ctx.companyName,
       actionType: 'email_draft',
-      actionDetail: `Subject: ${email.subject}`,
+      channel: 'email',
+      subject: email.subject,
+      body: email.body,
       triggeredBy: 'webhook',
-      metadata: { subject: email.subject, body: email.body },
+      metadata: { cuisineType, season },
     });
 
-    // Also add as a LACRM note so Dave can see it
+    // Save as LACRM note for reference
     await callLacrm('CreateNote', {
       ContactId: ctx.contactId,
-      Note: `📧 DRAFT EMAIL (review before sending)\n\nSubject: ${email.subject}\n\n${email.body}`,
+      Note: `📧 DRAFT EMAIL (Queue #${queued.id} — awaiting approval)\n\nSubject: ${email.subject}\n\n${email.body}`,
     });
 
-    console.log(`[Followup] Email drafted for ${ctx.companyName}: "${email.subject}"`);
-    return { type: 'email_draft', success: true, subject: email.subject };
+    // Notify Dave
+    try {
+      await sendInternalMessage(
+        `📧 Queued #${queued.id}: Email draft for ${ctx.companyName}\nSubject: ${email.subject}\n\nReview on dashboard or reply APPROVE ${queued.id}`
+      );
+    } catch (err) {
+      console.error('[Followup] Could not notify Dave of email draft:', err.message);
+    }
+
+    console.log(`[Followup] Email draft queued (#${queued.id}) for ${ctx.companyName}: "${email.subject}"`);
+    return { type: 'email_draft', success: true, queued: true, queueId: queued.id, subject: email.subject };
   } catch (err) {
     console.error(`[Followup] Email draft failed for ${ctx.companyName}:`, err.message);
     return { type: 'email_draft', success: false, error: err.message };
@@ -699,9 +743,9 @@ router.post('/followup/test', async (req, res) => {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  const { contactId, stage } = req.body;
+  const { contactId, stage, dryRun } = req.body;
   if (!contactId || !stage) {
-    return res.status(400).json({ error: 'contactId and stage are required' });
+    return res.status(400).json({ error: 'contactId and stage are required. Add dryRun: true for safe testing.' });
   }
 
   try {
@@ -720,11 +764,34 @@ router.post('/followup/test', async (req, res) => {
       contact,
       pipelineItemId: '',
       oldStage: 'unknown',
-    });
+    }, !!dryRun);
 
-    res.json({ companyName, stage, actions });
+    res.json({ companyName, stage, dryRun: !!dryRun, autoSendMode, actions });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+// =============================================================================
+// POST /followup/mode
+// Toggle auto-send mode on/off
+// =============================================================================
+
+router.post('/followup/mode', async (req, res) => {
+  const key = req.headers['x-api-key'] || req.query.key;
+  if (!key || key !== process.env.ANGI_API_KEY) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  const { mode } = req.body;
+  if (mode === 'auto') {
+    autoSendMode = true;
+    res.json({ message: '⚠️ Auto-send mode ENABLED. Texts will be sent without approval.', autoSendMode });
+  } else if (mode === 'manual') {
+    autoSendMode = false;
+    res.json({ message: '✅ Manual mode ENABLED. All outbound messages require approval.', autoSendMode });
+  } else {
+    res.json({ currentMode: autoSendMode ? 'auto' : 'manual', autoSendMode, hint: 'POST with {"mode": "auto"} or {"mode": "manual"}' });
   }
 });
 
@@ -854,12 +921,7 @@ async function buildAndSendDigest() {
 
   // Send via Twilio
   try {
-    const client = getTwilioClient();
-    await client.messages.create({
-      body: message,
-      to: process.env.YOUR_PHONE_NUMBER,
-      from: process.env.TWILIO_PHONE_NUMBER,
-    });
+    await sendInternalMessage( message);
     console.log('[Digest] Weekly digest sent');
   } catch (err) {
     console.error('[Digest] Failed to send:', err.message);

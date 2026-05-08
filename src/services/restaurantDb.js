@@ -56,6 +56,23 @@ export const RESTAURANT_SCHEMA_SQL = `
     metadata        JSONB DEFAULT '{}'
   );
 
+  -- Approval queue (messages waiting for Dave's review)
+  CREATE TABLE IF NOT EXISTS restaurant_approval_queue (
+    id              SERIAL PRIMARY KEY,
+    contact_id      TEXT NOT NULL,
+    company_name    TEXT,
+    action_type     TEXT NOT NULL,
+    channel         TEXT NOT NULL,
+    recipient       TEXT,
+    subject         TEXT,
+    body            TEXT NOT NULL,
+    status          TEXT DEFAULT 'pending',
+    created_at      TIMESTAMPTZ DEFAULT NOW(),
+    reviewed_at     TIMESTAMPTZ,
+    triggered_by    TEXT,
+    metadata        JSONB DEFAULT '{}'
+  );
+
   -- Create indexes for common queries
   CREATE INDEX IF NOT EXISTS idx_pipeline_events_contact
     ON restaurant_pipeline_events(contact_id);
@@ -67,6 +84,8 @@ export const RESTAURANT_SCHEMA_SQL = `
     ON restaurant_scheduled_tasks(due_date, status);
   CREATE INDEX IF NOT EXISTS idx_scheduled_tasks_contact
     ON restaurant_scheduled_tasks(contact_id);
+  CREATE INDEX IF NOT EXISTS idx_approval_queue_status
+    ON restaurant_approval_queue(status, created_at DESC);
 `;
 
 // ── Pipeline Events ──────────────────────────────────────────────────────────
@@ -185,6 +204,76 @@ export async function completeTask(taskId) {
     SET status = 'completed', completed_at = NOW()
     WHERE id = $1
   `, [taskId]);
+}
+
+// ── Approval Queue ───────────────────────────────────────────────────────────
+
+export async function queueForApproval(item) {
+  const { rows } = await pool.query(`
+    INSERT INTO restaurant_approval_queue
+      (contact_id, company_name, action_type, channel, recipient, subject, body, triggered_by, metadata)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    RETURNING *
+  `, [
+    item.contactId,
+    item.companyName || '',
+    item.actionType,
+    item.channel || 'sms',
+    item.recipient || '',
+    item.subject || '',
+    item.body,
+    item.triggeredBy || 'webhook',
+    JSON.stringify(item.metadata || {}),
+  ]);
+  return rows[0];
+}
+
+export async function getPendingApprovals(limit = 20) {
+  const { rows } = await pool.query(`
+    SELECT * FROM restaurant_approval_queue
+    WHERE status = 'pending'
+    ORDER BY created_at ASC LIMIT $1
+  `, [limit]);
+  return rows;
+}
+
+export async function getApprovalById(id) {
+  const { rows } = await pool.query(`
+    SELECT * FROM restaurant_approval_queue WHERE id = $1
+  `, [id]);
+  return rows[0] || null;
+}
+
+export async function approveQueueItem(id) {
+  const { rows } = await pool.query(`
+    UPDATE restaurant_approval_queue
+    SET status = 'approved', reviewed_at = NOW()
+    WHERE id = $1 AND status = 'pending'
+    RETURNING *
+  `, [id]);
+  return rows[0] || null;
+}
+
+export async function rejectQueueItem(id) {
+  const { rows } = await pool.query(`
+    UPDATE restaurant_approval_queue
+    SET status = 'rejected', reviewed_at = NOW()
+    WHERE id = $1 AND status = 'pending'
+    RETURNING *
+  `, [id]);
+  return rows[0] || null;
+}
+
+export async function getQueueStats() {
+  const { rows: [stats] } = await pool.query(`
+    SELECT
+      COUNT(*) FILTER (WHERE status = 'pending')  AS pending,
+      COUNT(*) FILTER (WHERE status = 'approved')  AS approved,
+      COUNT(*) FILTER (WHERE status = 'rejected')  AS rejected,
+      COUNT(*) AS total
+    FROM restaurant_approval_queue
+  `);
+  return stats;
 }
 
 // ── Dashboard Stats ──────────────────────────────────────────────────────────

@@ -8,6 +8,7 @@ import angiRouter from './routes/angi.js';
 import twilioRouter from './routes/twilio.js';
 import restaurantRouter from './routes/restaurants.js';
 import restaurantFollowupRouter, { startDigestCron } from './routes/restaurantFollowup.js';
+import restaurantCommandsRouter from './routes/restaurantCommands.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -35,9 +36,10 @@ app.use((req, res, next) => {
 app.use('/', healthRouter);
 app.use('/webhooks', angiRouter);
 app.use('/twilio', twilioRouter);
-// Follow-up router MUST come before restaurant router — the restaurant
-// router has a blanket auth middleware that would block LACRM webhooks
+// Follow-up and SMS routers MUST come before restaurant router — the restaurant
+// router has a blanket auth middleware that would block LACRM webhooks and Twilio SMS
 app.use('/restaurants', restaurantFollowupRouter);
+app.use('/restaurants', restaurantCommandsRouter);
 app.use('/restaurants', restaurantRouter);
 
 app.use((req, res) => {
