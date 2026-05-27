@@ -87,12 +87,17 @@ async function processLead(rawLead) {
 
   const twiml = buildCallTwiml(speechText);
   console.log('TwiML being sent:', twiml); // temporary debug
+
   const call = await twilioClient.calls.create({
-    twiml,
+    twiml: twiml,
     to: process.env.YOUR_PHONE_NUMBER,
     from: process.env.TWILIO_PHONE_NUMBER,
     statusCallback: `${process.env.SERVER_URL}/twilio/status`,
     statusCallbackMethod: 'POST',
+    machineDetection: 'DetectMessageEnd',
+    asyncAmd: 'true',
+    asyncAmdStatusCallback: `${process.env.SERVER_URL}/twilio/amd-status`,
+    asyncAmdStatusCallbackMethod: 'POST',
   });
 
   // Update lead with call SID
@@ -112,6 +117,7 @@ function buildCallTwiml(speechText) {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
   <Gather numDigits="1" action="${process.env.SERVER_URL}/twilio/gather" method="POST" timeout="15">
+    <Pause length="1"/>
     <Say voice="Polly.Joanna-Neural" rate="fast">${speechText}</Say>
   </Gather>
   <Say voice="Polly.Joanna-Neural" rate="fast">No response received. Lead has been logged.</Say>
