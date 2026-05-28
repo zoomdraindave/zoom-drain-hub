@@ -68,28 +68,11 @@ async function processLead(rawLead) {
   const analysis = await analyzeLead(lead);
   console.log(`Lead scored: ${analysis.score}/10, urgency: ${analysis.urgency}`);
 
-  // Persist to database immediately
   await createLead(lead, analysis);
   console.log(`Lead ${lead.id} saved to database`);
 
-  const urgencyLabel = analysis.urgency === 'emergency'
-    ? 'EMERGENCY.'
-    : `${analysis.urgency} priority.`;
-
-  const speechText = `
-    New Angi lead. ${urgencyLabel}
-    ${analysis.phone_summary}
-    Job type: ${analysis.job_type}. Estimated value: ${analysis.estimated_value}.
-    Press 1 to connect to the customer now.
-    Press 2 to receive a text summary instead.
-    Hang up to skip this lead.
-  `;
-
-  const twiml = buildCallTwiml(speechText);
-  console.log('TwiML being sent:', twiml); // temporary debug
-
   const call = await twilioClient.calls.create({
-    twiml: twiml,
+    twiml: buildCallTwiml(),
     to: process.env.YOUR_PHONE_NUMBER,
     from: process.env.TWILIO_PHONE_NUMBER,
     statusCallback: `${process.env.SERVER_URL}/twilio/status`,
@@ -99,6 +82,26 @@ async function processLead(rawLead) {
     asyncAmdStatusCallback: `${process.env.SERVER_URL}/twilio/amd-status`,
     asyncAmdStatusCallbackMethod: 'POST',
   });
+
+  await updateLeadCall(lead.id, call.sid);
+
+  saveLead(call.sid, {
+    lead,
+    analysis,
+    customerPhone: lead.contact.phone,
+  });
+
+  console.log(`Call initiated: ${call.sid}`);
+}
+
+function buildCallTwiml() {
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Gather numDigits="1" action="${process.env.SERVER_URL}/twilio/answer-confirm" method="POST" timeout="30">
+    <Say voice="Polly.Joanna-Neural" rate="fast">Zoom Drain. Press any key for lead details.</Say>
+  </Gather>
+</Response>`;
+}
 
   // Update lead with call SID
   await updateLeadCall(lead.id, call.sid);
@@ -114,13 +117,12 @@ async function processLead(rawLead) {
 }
 
 function buildCallTwiml(speechText) {
+  // Store speech text for retrieval after answer confirmation
   return `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Gather numDigits="1" action="${process.env.SERVER_URL}/twilio/gather" method="POST" timeout="15">
-    <Pause length="1"/>
-    <Say voice="Polly.Joanna-Neural" rate="fast">${speechText}</Say>
+  <Gather numDigits="1" action="${process.env.SERVER_URL}/twilio/answer-confirm" method="POST" timeout="30">
+    <Say voice="Polly.Joanna-Neural" rate="fast">Zoom Drain. Press any key for lead details.</Say>
   </Gather>
-  <Say voice="Polly.Joanna-Neural" rate="fast">No response received. Lead has been logged.</Say>
 </Response>`;
 }
 

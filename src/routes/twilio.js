@@ -107,4 +107,39 @@ router.post('/amd-status', async (req, res) => {
   res.sendStatus(200);
 });
 
+router.post('/answer-confirm', async (req, res) => {
+  const { CallSid } = req.body;
+  console.log(`Answer confirmed — CallSid: ${CallSid}`);
+
+  const record = getLead(CallSid);
+
+  if (!record) {
+    res.type('text/xml').send(`<?xml version="1.0" encoding="UTF-8"?>
+<Response><Say voice="Polly.Joanna-Neural">Lead data not found.</Say></Response>`);
+    return;
+  }
+
+  const { analysis } = record;
+  const urgencyLabel = analysis.urgency === 'emergency'
+    ? 'EMERGENCY.'
+    : `${analysis.urgency} priority.`;
+
+  const speechText = `
+    New Angi lead. ${urgencyLabel}
+    ${analysis.phone_summary}
+    Job type: ${analysis.job_type}. Estimated value: ${analysis.estimated_value}.
+    Press 1 to connect to the customer now.
+    Press 2 to receive a text summary instead.
+    Hang up to skip this lead.
+  `;
+
+  res.type('text/xml').send(`<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Gather numDigits="1" action="${process.env.SERVER_URL}/twilio/gather" method="POST" timeout="15">
+    <Say voice="Polly.Joanna-Neural" rate="fast">${speechText}</Say>
+  </Gather>
+  <Say voice="Polly.Joanna-Neural" rate="fast">No response received. Lead has been logged.</Say>
+</Response>`);
+});
+
 export default router;
