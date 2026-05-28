@@ -103,29 +103,6 @@ function buildCallTwiml() {
 </Response>`;
 }
 
-  // Update lead with call SID
-  await updateLeadCall(lead.id, call.sid);
-
-  // Also keep in-memory store for fast keypress lookup
-  saveLead(call.sid, {
-    lead,
-    analysis,
-    customerPhone: lead.contact.phone,
-  });
-
-  console.log(`Call initiated: ${call.sid}`);
-}
-
-function buildCallTwiml(speechText) {
-  // Store speech text for retrieval after answer confirmation
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<Response>
-  <Gather numDigits="1" action="${process.env.SERVER_URL}/twilio/answer-confirm" method="POST" timeout="30">
-    <Say voice="Polly.Joanna-Neural" rate="fast">Zoom Drain. Press any key for lead details.</Say>
-  </Gather>
-</Response>`;
-}
-
 // Real Angi webhook
 router.post('/angi', webhookLimiter, validateSecret, async (req, res) => {
   res.sendStatus(200);
