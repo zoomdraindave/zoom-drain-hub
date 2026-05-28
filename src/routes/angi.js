@@ -77,10 +77,6 @@ async function processLead(rawLead) {
     from: process.env.TWILIO_PHONE_NUMBER,
     statusCallback: `${process.env.SERVER_URL}/twilio/status`,
     statusCallbackMethod: 'POST',
-    machineDetection: 'DetectMessageEnd',
-    asyncAmd: 'true',
-    asyncAmdStatusCallback: `${process.env.SERVER_URL}/twilio/amd-status`,
-    asyncAmdStatusCallbackMethod: 'POST',
   });
 
   await updateLeadCall(lead.id, call.sid);
