@@ -93,20 +93,6 @@ router.get('/twiml-test', (req, res) => {
 </Response>`);
 });
 
-router.post('/amd-status', async (req, res) => {
-  const { CallSid, AnsweredBy } = req.body;
-  console.log(`AMD result — CallSid: ${CallSid}, AnsweredBy: ${AnsweredBy}`);
-
-  if (AnsweredBy === 'machine_start' || AnsweredBy === 'machine_end_beep') {
-    // Voicemail detected — hang up silently
-    await twilioClient.calls(CallSid).update({ status: 'completed' });
-    console.log(`Voicemail detected for ${CallSid} — call ended`);
-  }
-  // If AnsweredBy === 'human', do nothing — TwiML continues normally
-
-  res.sendStatus(200);
-});
-
 router.post('/answer-confirm', async (req, res) => {
   const { CallSid } = req.body;
   console.log(`Answer confirmed — CallSid: ${CallSid}`);
