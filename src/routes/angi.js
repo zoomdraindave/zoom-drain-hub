@@ -107,7 +107,7 @@ function buildCallTwiml(speechText) {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
   <Gather numDigits="1" action="${process.env.SERVER_URL}/twilio/gather" method="POST" timeout="15">
-    <Pause length="2"/>
+    <Pause length="5"/>
     <Say voice="Polly.Joanna-Neural" rate="fast">${speechText}</Say>
   </Gather>
   <Say voice="Polly.Joanna-Neural" rate="fast">No response received. Lead has been logged.</Say>

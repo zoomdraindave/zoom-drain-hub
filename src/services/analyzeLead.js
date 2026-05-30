@@ -8,13 +8,18 @@ export async function analyzeLead(lead) {
     ? lead.interview.map(q => `  Q: ${q.question}\n  A: ${q.answer}`).join('\n')
     : 'No interview data';
 
+  // Build estimate text if present (Thumbtack provides this, Angi's does not)
+  const estimateText = lead.estimate?.total
+    ? `- Customer estimate: ${lead.estimate.total}${lead.leadPrice ? `. Lead price paid: ${lead.leadPrice}` : ''}`
+    : '';
+
   const message = await anthropic.messages.create({
     model: 'claude-sonnet-4-5',
     max_tokens: 512,
     messages: [{
       role: 'user',
       content: `You are a dispatcher for Zoom Drain, a drain and plumbing company in Phoenix AZ.
-Analyze this Angi's lead and respond with valid JSON only — no markdown, no explanation.
+Analyze this lead and respond with valid JSON only — no markdown, no explanation.
 
 Lead details:
 - Customer: ${lead.contact.name}
@@ -22,7 +27,7 @@ Lead details:
 - Location: ${lead.job.city}, ${lead.job.state}
 - Comments: ${lead.job.description}
 - Lead source: ${lead.leadSource}
-- Match type: ${lead.matchType}
+- Match type: ${lead.matchType}${estimateText ? `\n${estimateText}` : ''}
 
 Customer interview answers:
 ${interviewText}
@@ -58,9 +63,9 @@ Important: Return raw JSON only. The first character of your response must be {.
     return {
       urgency: 'unknown',
       score: 5,
-      phone_summary: 'New Angi lead received. Details unclear — check your app.',
+      phone_summary: 'New lead received. Details unclear — check your app.',
       job_type: lead.job.type || 'unknown',
-      estimated_value: 'unknown',
+      estimated_value: lead.estimate?.total || 'unknown',
       recommended_action: 'call_now',
       flags: [],
     };
