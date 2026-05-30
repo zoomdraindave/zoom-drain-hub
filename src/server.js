@@ -5,6 +5,7 @@ import { dirname, join } from 'path';
 import { initDatabase } from './services/database.js';
 import healthRouter from './routes/health.js';
 import angiRouter from './routes/angi.js';
+import thumbtackRouter from './routes/thumbtack.js';
 import twilioRouter from './routes/twilio.js';
 import restaurantRouter from './routes/restaurants.js';
 import restaurantFollowupRouter, { startDigestCron } from './routes/restaurantFollowup.js';
@@ -35,6 +36,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/', healthRouter);
 app.use('/webhooks', angiRouter);
+app.use('/webhooks', thumbtackRouter);
 app.use('/twilio', twilioRouter);
 // Follow-up and SMS routers MUST come before restaurant router — the restaurant
 // router has a blanket auth middleware that would block LACRM webhooks and Twilio SMS

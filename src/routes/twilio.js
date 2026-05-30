@@ -105,13 +105,14 @@ router.post('/answer-confirm', async (req, res) => {
     return;
   }
 
-  const { analysis } = record;
+  const { analysis, lead } = record;
+  const source = lead.leadSource === 'Thumbtack' ? 'Thumbtack' : 'Angi';
   const urgencyLabel = analysis.urgency === 'emergency'
     ? 'EMERGENCY.'
     : `${analysis.urgency} priority.`;
 
   const speechText = `
-    New Angi lead. ${urgencyLabel}
+    New ${source} lead. ${urgencyLabel}
     ${analysis.phone_summary}
     Job type: ${analysis.job_type}. Estimated value: ${analysis.estimated_value}.
     Press 1 to connect to the customer now.

@@ -71,20 +71,21 @@ export async function initDatabase() {
 export async function createLead(lead, analysis) {
   const result = await pool.query(`
     INSERT INTO leads (
-      id, customer_name, customer_phone, customer_email,
+      id, source, customer_name, customer_phone, customer_email,
       job_type, job_description, job_address,
       urgency, score, estimated_value, phone_summary,
       recommended_action, flags,
       raw_payload, raw_analysis
     ) VALUES (
-      $1, $2, $3, $4, $5, $6, $7,
-      $8, $9, $10, $11, $12, $13,
-      $14, $15
+      $1, $2, $3, $4, $5, $6, $7, $8,
+      $9, $10, $11, $12, $13, $14,
+      $15, $16
     )
     ON CONFLICT (id) DO NOTHING
     RETURNING *
   `, [
     lead.id,
+    lead.leadSource?.toLowerCase() || 'angi',
     lead.contact?.name,
     lead.contact?.phone,
     lead.contact?.email,
@@ -97,7 +98,7 @@ export async function createLead(lead, analysis) {
     analysis.phone_summary,
     analysis.recommended_action,
     analysis.flags || [],
-    JSON.stringify(lead.raw || lead),   // store original Angi payload
+    JSON.stringify(lead.raw || lead),
     JSON.stringify(analysis),
   ]);
   return result.rows[0];
