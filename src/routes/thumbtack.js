@@ -103,7 +103,7 @@ function buildCallTwiml() {
 
 // Live Thumbtack webhook
 router.post('/thumbtack', webhookLimiter, validateThumbtackSignature, async (req, res) => {
-  console.log('[Thumbtack] Raw payload:', JSON.stringify(req.body, null, 2));
+  console.log('[Thumbtack] Raw payload:\n', JSON.stringify(req.body));
   res.sendStatus(200);
   try {
     await processLead(req.body);
