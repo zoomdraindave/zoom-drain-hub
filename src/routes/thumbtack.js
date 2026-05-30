@@ -24,41 +24,59 @@ function validateThumbtackSignature(req, res, next) {
 }
 
 // Normalize Thumbtack's payload to the same internal format as Angi's
-// NOTE: Update field mappings once you receive real payload examples from Thumbtack
 function normalizeLead(raw) {
-  // Thumbtack's negotiation/lead payload structure
-  const customer = raw.customer || raw.contact || {};
-  const request = raw.request || raw.service || {};
+  // Real Thumbtack payload wraps everything under attributes.data
+  const data = raw.attributes?.data || raw.data || raw;
+  const customer = data.customer || {};
+  const request = data.request || {};
+  const location = request.location || {};
+  const category = request.category || {};
+  const estimate = data.estimate || {};
 
   return {
-    id: String(raw.negotiationID || raw.leadID || raw.id || `tt-${Date.now()}`),
+    id: String(data.negotiationID || `tt-${Date.now()}`),
 
     contact: {
-      name: customer.name || `${customer.firstName || ''} ${customer.lastName || ''}`.trim(),
+      name: `${customer.firstName || ''} ${customer.lastName || ''}`.trim(),
       firstName: customer.firstName,
       lastName: customer.lastName,
-      phone: customer.phone || customer.phoneNumber,
-      email: customer.email,
+      phone: customer.phone,
+      email: customer.email || null,
     },
 
     job: {
-      type: request.category || request.serviceType || raw.category,
-      description: request.description || raw.description || raw.details,
-      address: customer.address || raw.location?.address,
-      city: customer.city || raw.location?.city,
-      state: customer.state || raw.location?.state,
-      zip: customer.zip || customer.zipCode || raw.location?.zipCode,
+      type: category.name || request.description,
+      description: request.description,
+      address: [location.address1, location.address2].filter(Boolean).join(' '),
+      city: location.city,
+      state: location.state,
+      zip: location.zipCode,
       fullAddress: [
-        customer.address || raw.location?.address,
-        customer.city || raw.location?.city,
-        customer.state || raw.location?.state,
-        customer.zip || raw.location?.zipCode,
+        location.address1,
+        location.address2,
+        location.city,
+        location.state,
+        location.zipCode,
       ].filter(Boolean).join(', '),
     },
 
-    interview: raw.questions || raw.details?.questions || [],
+    // Map details array to same interview format as Angi's
+    interview: (request.details || []).map(d => ({
+      question: d.question,
+      answer: d.answer,
+    })),
+
+    estimate: {
+      type: estimate.type,
+      total: estimate.total,
+      pricePerUnit: estimate.pricePerUnit,
+    },
+
+    leadPrice: data.leadPrice,
     leadSource: 'Thumbtack',
-    matchType: raw.matchType || 'Lead',
+    matchType: data.status || 'Lead',
+    eventType: raw.attributes?.event?.eventType,
+    webhookID: raw.attributes?.event?.webhookID,
     received_at: new Date().toISOString(),
     raw,
   };
