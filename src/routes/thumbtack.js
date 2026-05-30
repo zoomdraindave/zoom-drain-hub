@@ -13,7 +13,7 @@ const twilioClient = twilio(
 
 // Thumbtack uses HMAC signature validation rather than a simple API key
 // They send an X-Thumbtack-Signature header with each request
-function validateThumbтackSignature(req, res, next) {
+function validateThumbtackSignature(req, res, next) {
   // Simple API key check for now — update to HMAC once you have credentials
   const apiKey = req.headers['x-api-key'];
   if (!apiKey || apiKey !== process.env.THUMBTACK_API_KEY) {
@@ -102,7 +102,8 @@ function buildCallTwiml() {
 }
 
 // Live Thumbtack webhook
-router.post('/thumbtack', webhookLimiter, validateThumbтackSignature, async (req, res) => {
+router.post('/thumbtack', webhookLimiter, validateThumbtackSignature, async (req, res) => {
+  console.log('[Thumbtack] Raw payload:', JSON.stringify(req.body, null, 2));
   res.sendStatus(200);
   try {
     await processLead(req.body);
@@ -112,7 +113,7 @@ router.post('/thumbtack', webhookLimiter, validateThumbтackSignature, async (re
 });
 
 // Test endpoint
-router.post('/thumbtack/test', testLimiter, validateThumbтackSignature, async (req, res) => {
+router.post('/thumbtack/test', testLimiter, validateThumbtackSignature, async (req, res) => {
   const mockLead = {
     negotiationID: `tt-test-${Date.now()}`,
     customer: {
