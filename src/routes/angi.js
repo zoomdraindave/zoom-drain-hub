@@ -116,6 +116,7 @@ function buildCallTwiml(speechText) {
 
 // Real Angi webhook
 router.post('/angi', webhookLimiter, validateSecret, async (req, res) => {
+  console.log('[Angi] Raw payload:\n', JSON.stringify(req.body));
   res.sendStatus(200);
   try {
     await processLead(req.body);
