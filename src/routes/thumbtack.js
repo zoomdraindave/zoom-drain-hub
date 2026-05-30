@@ -91,8 +91,21 @@ async function processLead(rawLead) {
 
   await createLead(lead, analysis);
 
+  const urgencyLabel = analysis.urgency === 'emergency'
+    ? 'EMERGENCY.'
+    : `${analysis.urgency} priority.`;
+
+  const speechText = `
+    New Thumbtack lead. ${urgencyLabel}
+    ${analysis.phone_summary}
+    Job type: ${analysis.job_type}. Estimated value: ${analysis.estimated_value}.
+    Press 1 to connect to the customer now.
+    Press 2 to receive a text summary instead.
+    Hang up to skip this lead.
+  `;
+
   const call = await twilioClient.calls.create({
-    twiml: buildCallTwiml(),
+    twiml: buildCallTwiml(speechText),
     to: process.env.YOUR_PHONE_NUMBER,
     from: process.env.TWILIO_PHONE_NUMBER,
     statusCallback: `${process.env.SERVER_URL}/twilio/status`,
@@ -110,12 +123,14 @@ async function processLead(rawLead) {
   console.log(`[Thumbtack] Call initiated: ${call.sid}`);
 }
 
-function buildCallTwiml() {
+function buildCallTwiml(speechText) {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Gather numDigits="1" action="${process.env.SERVER_URL}/twilio/answer-confirm" method="POST" timeout="30">
-    <Say voice="Polly.Joanna-Neural" rate="fast">Zoom Drain. Press any key for lead details.</Say>
+  <Gather numDigits="1" action="${process.env.SERVER_URL}/twilio/gather" method="POST" timeout="15">
+    <Pause length="2"/>
+    <Say voice="Polly.Joanna-Neural" rate="fast">${speechText}</Say>
   </Gather>
+  <Say voice="Polly.Joanna-Neural" rate="fast">No response received. Lead has been logged.</Say>
 </Response>`;
 }
 
