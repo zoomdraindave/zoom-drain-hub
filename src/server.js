@@ -3,6 +3,7 @@ import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { initDatabase } from './services/database.js';
+import { initAssetDatabase, seedAuthorizedPhones } from './services/assetDb.js';
 import healthRouter from './routes/health.js';
 import angiRouter from './routes/angi.js';
 import thumbtackRouter from './routes/thumbtack.js';
@@ -10,6 +11,7 @@ import twilioRouter from './routes/twilio.js';
 import restaurantRouter from './routes/restaurants.js';
 import restaurantFollowupRouter, { startDigestCron } from './routes/restaurantFollowup.js';
 import restaurantCommandsRouter from './routes/restaurantCommands.js';
+import assetsRouter from './routes/assets.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -43,13 +45,15 @@ app.use('/twilio', twilioRouter);
 app.use('/restaurants', restaurantFollowupRouter);
 app.use('/restaurants', restaurantCommandsRouter);
 app.use('/restaurants', restaurantRouter);
+app.use('/asset', assetsRouter);
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found', path: req.path });
 });
 
 // Initialize database then start server
-initDatabase()
+Promise.all([initDatabase(), initAssetDatabase()])
+  .then(() => seedAuthorizedPhones())
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Zoom Drain Hub running on port ${PORT}`);
