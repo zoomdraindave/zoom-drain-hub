@@ -29,12 +29,18 @@ router.get('/leads', async (req, res) => {
 
 // Basic health check — Railway uses this to confirm your app is alive
 router.get('/', (req, res) => {
-  res.json({
-    status: 'ok',
-    service: 'Zoom Drain Automation Hub',
-    timestamp: new Date().toISOString(),
-    uptime_seconds: Math.floor(process.uptime()),
-  });
+  res.send(`
+    <html>
+      <head><title>Zoom Drain Phoenix East Valley</title></head>
+      <body>
+        <h1>Zoom Drain Phoenix East Valley</h1>
+        <p>Drain &amp; Sewer Experts serving the East Valley region of Phoenix, AZ.</p>
+        <p>Phone: (623) 232-3120</p>
+        <p><a href="/privacy-policy.html">Privacy Policy</a> |
+           <a href="/terms.html">Terms &amp; Conditions</a></p>
+      </body>
+    </html>
+  `);
 });
 
 // Detailed status — useful for checking all systems at a glance
