@@ -3,7 +3,6 @@ import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { initDatabase } from './services/database.js';
-import { initAssetDatabase, seedAuthorizedPhones } from './services/assetDb.js';
 import healthRouter from './routes/health.js';
 import angiRouter from './routes/angi.js';
 import thumbtackRouter from './routes/thumbtack.js';
@@ -52,8 +51,7 @@ app.use((req, res) => {
 });
 
 // Initialize database then start server
-Promise.all([initDatabase(), initAssetDatabase()])
-  .then(() => seedAuthorizedPhones())
+initDatabase()
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Zoom Drain Hub running on port ${PORT}`);
