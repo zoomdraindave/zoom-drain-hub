@@ -23,7 +23,6 @@
   }
 
   * { box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -42,13 +41,9 @@
 
   a { color: var(--teal-deep); text-decoration: none; }
   a:hover { text-decoration: underline; }
-  a:focus-visible, button:focus-visible {
-    outline: 2px solid var(--teal);
-    outline-offset: 2px;
-  }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 
-  /* ───────────────────────── Header ───────────────────────── */
-
+  /* ── Header ── */
   .site-header {
     background: var(--navy);
     color: #fff;
@@ -58,9 +53,8 @@
     z-index: 50;
     box-shadow: 0 1px 0 rgba(0,0,0,0.08);
   }
-
   .site-header .inner {
-    max-width: 1180px;
+    max-width: 1100px;
     margin: 0 auto;
     display: flex;
     align-items: baseline;
@@ -68,79 +62,34 @@
     gap: 16px;
     flex-wrap: wrap;
   }
-
-  .brand {
-    font-family: var(--sans);
-  }
-
-  .brand .program {
-    font-size: 13px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--teal);
-    font-weight: 600;
-  }
-
-  .brand h1 {
-    font-family: var(--serif);
-    font-size: 24px;
-    font-weight: 700;
-    margin: 4px 0 0;
-    color: #fff;
-  }
-
-  .brand .company {
-    font-size: 13px;
-    color: #c9dbe3;
-    margin-top: 4px;
-  }
-
-  .header-actions {
-    font-family: var(--sans);
-    font-size: 13px;
-  }
-
-  .print-btn {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.35);
-    color: #fff;
-    padding: 8px 14px;
-    border-radius: 4px;
-    font-family: var(--sans);
-    font-size: 13px;
-    cursor: pointer;
-  }
+  .brand .program { font-family: var(--sans); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); font-weight: 600; }
+  .brand h1 { font-family: var(--serif); font-size: 22px; font-weight: 700; margin: 4px 0 0; color: #fff; }
+  .brand .company { font-size: 13px; color: #c9dbe3; margin-top: 4px; font-family: var(--sans); }
+  .print-btn { background: transparent; border: 1px solid rgba(255,255,255,0.35); color: #fff; padding: 8px 14px; border-radius: 4px; font-family: var(--sans); font-size: 13px; cursor: pointer; }
   .print-btn:hover { background: rgba(255,255,255,0.08); border-color: var(--teal); }
 
-  /* ───────────────────────── Mobile TOC strip ───────────────────────── */
-
+  /* ── Mobile TOC strip ── */
   .toc-strip {
     display: none;
     background: var(--sidebar-bg);
     border-bottom: 1px solid var(--line);
     position: sticky;
-    top: 78px;
+    top: 72px;
     z-index: 40;
     overflow-x: auto;
     white-space: nowrap;
     padding: 10px 14px;
     font-family: var(--sans);
   }
-  .toc-strip a {
-    display: inline-block;
-    margin-right: 18px;
-    font-size: 13px;
-    color: var(--navy-soft);
-  }
+  .toc-strip a { display: inline-block; margin-right: 18px; font-size: 13px; color: var(--navy-soft); }
   .toc-strip a.active { color: var(--teal-deep); font-weight: 700; }
 
-  /* ───────────────────────── Layout ───────────────────────── */
-
+  /* ── Layout ── */
   .layout {
-    max-width: 1180px;
+    max-width: 1100px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 260px 1fr;
+    grid-template-columns: 230px 1fr;
     gap: 48px;
     padding: 36px 28px 80px;
     align-items: start;
@@ -148,143 +97,45 @@
 
   nav.toc {
     position: sticky;
-    top: 100px;
+    top: 94px;
     background: var(--sidebar-bg);
     border: 1px solid var(--line);
     border-radius: 6px;
     padding: 18px 18px 22px;
     font-family: var(--sans);
-    max-height: calc(100vh - 130px);
+    max-height: calc(100vh - 120px);
     overflow-y: auto;
   }
-
-  nav.toc h2 {
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    margin: 0 0 10px;
-    font-weight: 700;
-  }
-
+  nav.toc h2 { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 10px; font-weight: 700; }
   nav.toc ul { list-style: none; margin: 0; padding: 0; }
-  nav.toc li { margin: 0; }
-  nav.toc a {
-    display: block;
-    padding: 6px 8px;
-    border-left: 2px solid transparent;
-    font-size: 13.5px;
-    color: var(--ink-soft);
-    border-radius: 0 4px 4px 0;
-  }
+  nav.toc a { display: block; padding: 6px 8px; border-left: 2px solid transparent; font-size: 13px; color: var(--ink-soft); border-radius: 0 4px 4px 0; }
   nav.toc a:hover { background: var(--teal-tint); text-decoration: none; }
-  nav.toc a.active {
-    border-left-color: var(--teal);
-    background: var(--teal-tint);
-    color: var(--teal-deep);
-    font-weight: 700;
-  }
-  nav.toc .toc-divider {
-    margin: 14px 0 8px;
-    border-top: 1px solid var(--line);
-  }
+  nav.toc a.active { border-left-color: var(--teal); background: var(--teal-tint); color: var(--teal-deep); font-weight: 700; }
+  nav.toc .toc-divider { margin: 12px 0 8px; border-top: 1px solid var(--line); }
 
-  /* ───────────────────────── Main content ───────────────────────── */
-
+  /* ── Main ── */
   main { min-width: 0; }
 
-  .doc-intro {
-    margin-bottom: 36px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--line);
-  }
-  .doc-intro p {
-    color: var(--ink-soft);
-    font-size: 15.5px;
-    max-width: 640px;
-  }
+  .doc-intro { margin-bottom: 36px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+  .doc-intro p { color: var(--ink-soft); font-size: 15.5px; max-width: 640px; margin: 0; }
 
-  section.legal-section {
-    margin-bottom: 46px;
-    padding-top: 6px;
-  }
+  section.legal-section { margin-bottom: 44px; padding-top: 4px; }
 
-  .section-eyebrow {
-    font-family: var(--sans);
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--teal-deep);
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
+  .section-eyebrow { font-family: var(--sans); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal-deep); font-weight: 700; margin-bottom: 4px; }
 
-  section.legal-section h2 {
-    font-family: var(--serif);
-    color: var(--navy);
-    font-size: 25px;
-    margin: 0 0 18px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--teal-tint);
-  }
-
-  section.legal-section h3 {
-    font-family: var(--sans);
-    color: var(--navy-soft);
-    font-size: 15px;
-    font-weight: 700;
-    margin: 24px 0 8px;
-  }
+  section.legal-section h2 { font-family: var(--serif); color: var(--navy); font-size: 24px; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 2px solid var(--teal-tint); }
 
   .clause { margin: 0 0 14px; }
-  .clause .num {
-    font-family: var(--sans);
-    font-weight: 700;
-    color: var(--navy);
-  }
+  .clause .num { font-family: var(--sans); font-weight: 700; color: var(--navy); }
   .clause .label { font-weight: 700; }
 
   dl.definitions { margin: 0; }
   dl.definitions .def-row { margin-bottom: 12px; }
-  dl.definitions dt {
-    display: inline;
-    font-weight: 700;
-    font-style: italic;
-  }
-  dl.definitions dd {
-    display: inline;
-    margin: 0;
-  }
+  dl.definitions dt { display: inline; font-weight: 700; font-style: italic; }
+  dl.definitions dd { display: inline; margin: 0; }
 
-  ul.legal-list, ol.legal-list-lettered {
-    margin: 8px 0 14px;
-    padding-left: 26px;
-  }
-  ul.legal-list li, ol.legal-list-lettered li { margin-bottom: 8px; }
-  ol.legal-list-lettered { list-style-type: lower-alpha; }
-
-  .formula-box {
-    background: var(--teal-tint);
-    border: 1px solid #c7e8ec;
-    border-left: 4px solid var(--teal);
-    border-radius: 4px;
-    padding: 14px 18px;
-    margin: 10px 0 16px;
-    font-family: var(--sans);
-  }
-  .formula-box .equation {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 6px;
-  }
-  .formula-box .where,
-  .formula-box .example {
-    font-size: 14px;
-    color: var(--ink-soft);
-    margin: 4px 0 0;
-  }
-  .formula-box .example { font-style: italic; }
+  ul.legal-list { margin: 8px 0 14px; padding-left: 26px; }
+  ul.legal-list li { margin-bottom: 8px; }
 
   .notice-box {
     background: var(--red-tint);
@@ -294,18 +145,10 @@
     padding: 16px 20px;
     margin: 14px 0 20px;
   }
-  .notice-box p {
-    margin: 0 0 8px;
-    font-weight: 700;
-    color: #8a0c20;
-    font-size: 14.5px;
-    letter-spacing: 0.01em;
-  }
+  .notice-box p { margin: 0 0 8px; font-weight: 700; color: #8a0c20; font-size: 14.5px; letter-spacing: 0.01em; }
   .notice-box p:last-child { margin-bottom: 0; }
-  .notice-box.subtle {
-    background: #fff8f5;
-    border-left-color: #d98a4a;
-  }
+
+  .notice-box.subtle { background: #fff8f5; border-left-color: #d98a4a; }
   .notice-box.subtle p { color: #8a4a16; }
 
   .allcaps-block {
@@ -320,117 +163,78 @@
     margin: 12px 0 18px;
   }
 
-  /* Tables (Schedules) */
-  .table-wrap { overflow-x: auto; margin: 14px 0 26px; }
-  table.schedule-table {
-    width: 100%;
-    border-collapse: collapse;
+  .info-box {
+    background: var(--teal-tint);
+    border: 1px solid #c7e8ec;
+    border-left: 4px solid var(--teal);
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin: 10px 0 16px;
     font-family: var(--sans);
     font-size: 14px;
-    min-width: 480px;
-  }
-  table.schedule-table caption {
-    text-align: left;
-    font-family: var(--serif);
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 10px;
-  }
-  table.schedule-table th {
-    background: var(--navy);
-    color: #fff;
-    text-align: left;
-    padding: 10px 12px;
-    font-weight: 600;
-    font-size: 13px;
-  }
-  table.schedule-table td {
-    padding: 9px 12px;
-    border-bottom: 1px solid var(--line);
-    color: var(--ink);
-  }
-  table.schedule-table tbody tr:nth-child(even) { background: #f7faf9; }
-  table.schedule-table td.num, table.schedule-table th.num { text-align: right; }
-  table.schedule-table .placeholder { color: var(--red); font-weight: 700; }
-
-  .plan-note {
-    font-size: 14px;
     color: var(--ink-soft);
-    font-style: italic;
-    margin: -6px 0 14px;
   }
 
-  .schedule-divider {
-    margin: 50px 0 40px;
-    border: none;
-    border-top: 1px dashed var(--line);
-  }
+  .schedule-divider { margin: 44px 0 36px; border: none; border-top: 1px dashed var(--line); }
 
   footer.site-footer {
     background: var(--navy);
     color: #c9dbe3;
     font-family: var(--sans);
     font-size: 13px;
-    padding: 30px 28px;
+    padding: 28px;
     margin-top: 40px;
   }
-  footer.site-footer .inner {
-    max-width: 1180px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
+  footer.site-footer .inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
   footer.site-footer a { color: var(--teal); }
   footer.site-footer .legal-name { color: #fff; font-weight: 600; margin-bottom: 4px; }
 
   .back-to-top {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--teal);
-    color: #fff;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--teal); color: #fff;
+    width: 42px; height: 42px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+    opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
     font-family: var(--sans);
   }
   .back-to-top.visible { opacity: 1; pointer-events: auto; }
   .back-to-top:hover { background: var(--teal-deep); }
 
-  /* ───────────────────────── Responsive ───────────────────────── */
-
-  @media (max-width: 880px) {
+  /* ── Responsive ── */
+  @media (max-width: 820px) {
     .layout { grid-template-columns: 1fr; padding-top: 0; }
     nav.toc { display: none; }
     .toc-strip { display: block; }
     body { font-size: 16px; }
-    section.legal-section h2 { font-size: 21px; }
+    section.legal-section h2 { font-size: 20px; }
   }
 
-  /* ───────────────────────── Print ───────────────────────── */
-
+  /* ── Print ── */
+  .print-title-block { display: none; }
   @media print {
     .site-header, .toc-strip, nav.toc, .back-to-top, .header-actions { display: none !important; }
     .layout { grid-template-columns: 1fr; padding: 0; }
     body { background: #fff; font-size: 12px; }
-    .notice-box, .formula-box, .allcaps-block { break-inside: avoid; }
-    section.legal-section { break-inside: avoid-page; }
+    .notice-box, .allcaps-block, .info-box { break-inside: avoid; }
+    .section-eyebrow { break-after: avoid; }
+    section.legal-section h2 { break-after: avoid; }
+    p.clause { break-inside: avoid; }
     a { color: var(--ink); text-decoration: none; }
+    .print-title-block { display: block !important; padding: 0 0 18px; margin-bottom: 24px; border-bottom: 3px solid var(--navy); }
+    .print-title-block .program { font-family: var(--sans); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal-deep); font-weight: 700; }
+    .print-title-block h1 { font-family: var(--serif); font-size: 24px; color: var(--navy); margin: 4px 0 6px; }
+    .print-title-block .company { font-family: var(--sans); font-size: 11px; color: var(--ink-soft); }
   }
 </style>
 </head>
 <body>
+
+<div class="print-title-block">
+  <div class="program">Restaurant Plumbing Care Program</div>
+  <h1>Terms and Conditions</h1>
+  <div class="company">SEV Home Services Inc., dba Zoom Drain Phoenix East Valley &nbsp;·&nbsp; 162 W Boxelder Pl, Ste 4, Chandler, AZ 85225 &nbsp;·&nbsp; (623) 232-3120 &nbsp;·&nbsp; phoenixeastvalley@zoomdrain.com</div>
+</div>
 
 <header class="site-header">
   <div class="inner">
@@ -456,18 +260,16 @@
   <a href="#sec8">8. Records</a>
   <a href="#sec9">9. Scheduling</a>
   <a href="#sec10">10. Access</a>
-  <a href="#sec11">11. Payment Auth</a>
-  <a href="#sec12">12. Discounts</a>
-  <a href="#sec13">13. ZoomBio Unit</a>
-  <a href="#sec14">14. Warranties</a>
-  <a href="#sec15">15. Compliance</a>
+  <a href="#sec11">11. Equipment</a>
+  <a href="#sec12">12. Compliance</a>
+  <a href="#sec13">13. Payment Auth</a>
+  <a href="#sec14">14. Discounts</a>
+  <a href="#sec15">15. Warranties</a>
   <a href="#sec16">16. Liability</a>
   <a href="#sec17">17. Force Majeure</a>
   <a href="#sec18">18. Arbitration</a>
   <a href="#sec19">19. Governing Law</a>
   <a href="#sec20">20. General</a>
-  <a href="#schedA">Schedule A</a>
-  <a href="#schedB">Schedule B</a>
 </nav>
 
 <div class="layout">
@@ -479,35 +281,29 @@
       <li><a href="#sec2" data-toc>2 — Agreement Term</a></li>
       <li><a href="#sec3" data-toc>3 — Fees &amp; Payment</a></li>
       <li><a href="#sec4" data-toc>4 — Price Adjustments</a></li>
-      <li><a href="#sec5" data-toc>5 — Cancellation &amp; Non-Renewal</a></li>
+      <li><a href="#sec5" data-toc>5 — Cancellation</a></li>
       <li><a href="#sec6" data-toc>6 — Early Termination</a></li>
-      <li><a href="#sec7" data-toc>7 — Description of Services</a></li>
-      <li><a href="#sec8" data-toc>8 — Documentation &amp; Records</a></li>
-      <li><a href="#sec9" data-toc>9 — Scheduling &amp; Delivery</a></li>
+      <li><a href="#sec7" data-toc>7 — Services</a></li>
+      <li><a href="#sec8" data-toc>8 — Records</a></li>
+      <li><a href="#sec9" data-toc>9 — Scheduling</a></li>
       <li><a href="#sec10" data-toc>10 — Access Requirements</a></li>
-      <li><a href="#sec11" data-toc>11 — Payment Authorization</a></li>
-      <li><a href="#sec12" data-toc>12 — Plumbing Discounts</a></li>
-      <li><a href="#sec13" data-toc>13 — ZoomBio Dosing Unit</a></li>
-      <li><a href="#sec14" data-toc>14 — Reps &amp; Warranties</a></li>
-      <li><a href="#sec15" data-toc>15 — Regulatory Compliance</a></li>
+      <li><a href="#sec11" data-toc>11 — Company Equipment</a></li>
+      <li><a href="#sec12" data-toc>12 — Regulatory Compliance</a></li>
+      <li><a href="#sec13" data-toc>13 — Payment Authorization</a></li>
+      <li><a href="#sec14" data-toc>14 — Member Discounts</a></li>
+      <li><a href="#sec15" data-toc>15 — Reps &amp; Warranties</a></li>
       <li><a href="#sec16" data-toc>16 — Liability &amp; Indemnification</a></li>
       <li><a href="#sec17" data-toc>17 — Force Majeure</a></li>
       <li><a href="#sec18" data-toc>18 — Binding Arbitration</a></li>
-      <li><a href="#sec19" data-toc>19 — Governing Law &amp; Venue</a></li>
+      <li><a href="#sec19" data-toc>19 — Governing Law</a></li>
       <li><a href="#sec20" data-toc>20 — General Provisions</a></li>
-    </ul>
-    <div class="toc-divider"></div>
-    <h2>Schedules</h2>
-    <ul>
-      <li><a href="#schedA" data-toc>Schedule A — Plan Details</a></li>
-      <li><a href="#schedB" data-toc>Schedule B — Retail Rates</a></li>
     </ul>
   </nav>
 
   <main>
 
     <div class="doc-intro">
-      <p>This page sets out the full Terms and Conditions governing membership in the Restaurant Plumbing Care Program. It is referenced and incorporated by the Membership Agreement signed at enrollment. If anything on this page conflicts with a signed Membership Agreement, the signed agreement controls.</p>
+      <p>These Terms and Conditions govern all Restaurant Plumbing Care Program memberships with SEV Home Services Inc., dba Zoom Drain Phoenix East Valley. They are incorporated by reference into the Membership Agreement signed at enrollment. If anything here conflicts with a signed Membership Agreement, the signed agreement controls. Specific plan details, service inclusions, and current pricing are set forth in the Membership Agreement and any accompanying schedules.</p>
     </div>
 
     <!-- ============================================================ -->
@@ -516,26 +312,21 @@
     <section class="legal-section" id="sec1">
       <div class="section-eyebrow">Section 1</div>
       <h2>Definitions</h2>
-      <p>As used in this Agreement, the following terms have the meanings set forth below:</p>
       <dl class="definitions">
-        <div class="def-row"><dt>1.1 &ldquo;Agreement&rdquo;</dt><dd> means this Restaurant Plumbing Care Program Membership Agreement, including all Schedules attached hereto, as may be amended in accordance with the terms hereof.</dd></div>
+        <div class="def-row"><dt>1.1 &ldquo;Agreement&rdquo;</dt><dd> means the Restaurant Plumbing Care Program Membership Agreement executed by both parties, incorporating these Terms and Conditions.</dd></div>
         <div class="def-row"><dt>1.2 &ldquo;Annual Term&rdquo;</dt><dd> means a period of twelve (12) consecutive calendar months beginning on the Effective Date or any Renewal Date.</dd></div>
         <div class="def-row"><dt>1.3 &ldquo;Company&rdquo;</dt><dd> means SEV Home Services Inc., an Arizona corporation, doing business as Zoom Drain Phoenix East Valley, with its principal place of business at 162 W Boxelder Pl, Ste 4, Chandler, AZ 85225.</dd></div>
-        <div class="def-row"><dt>1.4 &ldquo;Early Termination Date&rdquo;</dt><dd> means the date thirty (30) days after Member delivers a valid written notice of early cancellation to the Company during an Annual Term.</dd></div>
-        <div class="def-row"><dt>1.5 &ldquo;Effective Date&rdquo;</dt><dd> means the date this Agreement is executed by both parties.</dd></div>
-        <div class="def-row"><dt>1.6 &ldquo;FOG&rdquo;</dt><dd> means fats, oils, and grease.</dd></div>
-        <div class="def-row"><dt>1.7 &ldquo;GGI&rdquo;</dt><dd> means a gravity grease interceptor — an outdoor, in-ground grease interceptor unit, typically 500, 750, or 1,000 gallons.</dd></div>
-        <div class="def-row"><dt>1.8 &ldquo;HGI&rdquo;</dt><dd> means a hydromechanical grease interceptor — an indoor under-sink or floor-mounted grease trap unit.</dd></div>
-        <div class="def-row"><dt>1.9 &ldquo;Member&rdquo;</dt><dd> means the business entity identified in the Member Information section of this Agreement, and its authorized representatives.</dd></div>
-        <div class="def-row"><dt>1.10 &ldquo;Member Payment Method&rdquo;</dt><dd> means the credit card or ACH bank account on file with the Company as authorized by Member for recurring billing.</dd></div>
-        <div class="def-row"><dt>1.11 &ldquo;Membership Fee&rdquo;</dt><dd> means the monthly recurring charge for the selected Membership Plan as set forth in the Membership Plan Selection section of this Agreement.</dd></div>
-        <div class="def-row"><dt>1.12 &ldquo;Membership Plan&rdquo;</dt><dd> means the specific service plan selected by Member as identified in the Membership Plan Selection section of this Agreement.</dd></div>
-        <div class="def-row"><dt>1.13 &ldquo;Normal Service Hours&rdquo;</dt><dd> means 7:00 AM to 3:00 PM, Monday through Friday, excluding Company-recognized holidays.</dd></div>
-        <div class="def-row"><dt>1.14 &ldquo;Payment Date&rdquo;</dt><dd> means the same day of the month as the Effective Date in each subsequent month, on which the Membership Fee is automatically charged.</dd></div>
-        <div class="def-row"><dt>1.15 &ldquo;Renewal Date&rdquo;</dt><dd> means the first day following the expiration of any Annual Term on which a new Annual Term automatically commences.</dd></div>
-        <div class="def-row"><dt>1.16 &ldquo;Retail Price&rdquo;</dt><dd> means the standard non-member price for each service as set forth in Schedule B of this Agreement.</dd></div>
-        <div class="def-row"><dt>1.17 &ldquo;Service Visit&rdquo;</dt><dd> means a scheduled visit to Member's premises to perform grease interceptor services as specified in the applicable Membership Plan.</dd></div>
-        <div class="def-row"><dt>1.18 &ldquo;ZoomBio Dosing Unit&rdquo;</dt><dd> means the wall-mounted automatic biological treatment dispensing unit installed at no charge under the GGI Premier plan.</dd></div>
+        <div class="def-row"><dt>1.4 &ldquo;Effective Date&rdquo;</dt><dd> means the date the Membership Agreement is executed by both parties.</dd></div>
+        <div class="def-row"><dt>1.5 &ldquo;FOG&rdquo;</dt><dd> means fats, oils, and grease.</dd></div>
+        <div class="def-row"><dt>1.6 &ldquo;Member&rdquo;</dt><dd> means the business entity identified in the Membership Agreement, and its authorized representatives.</dd></div>
+        <div class="def-row"><dt>1.7 &ldquo;Member Payment Method&rdquo;</dt><dd> means the credit card or ACH bank account on file with the Company as authorized by Member for recurring billing.</dd></div>
+        <div class="def-row"><dt>1.8 &ldquo;Membership Fee&rdquo;</dt><dd> means the recurring monthly charge for the selected Membership Plan as set forth in the Membership Agreement.</dd></div>
+        <div class="def-row"><dt>1.9 &ldquo;Membership Plan&rdquo;</dt><dd> means the specific service plan selected by Member as identified in the Membership Agreement.</dd></div>
+        <div class="def-row"><dt>1.10 &ldquo;Normal Service Hours&rdquo;</dt><dd> means 7:00 AM to 3:00 PM, Monday through Friday, excluding Company-recognized holidays.</dd></div>
+        <div class="def-row"><dt>1.11 &ldquo;Payment Date&rdquo;</dt><dd> means the same day of the month as the Effective Date in each subsequent month, on which the Membership Fee is automatically charged.</dd></div>
+        <div class="def-row"><dt>1.12 &ldquo;Renewal Date&rdquo;</dt><dd> means the first day following the expiration of any Annual Term on which a new Annual Term automatically commences.</dd></div>
+        <div class="def-row"><dt>1.13 &ldquo;Retail Price&rdquo;</dt><dd> means the Company's standard non-member price for a given service at the time that service is performed, as published by the Company from time to time.</dd></div>
+        <div class="def-row"><dt>1.14 &ldquo;Service Visit&rdquo;</dt><dd> means a scheduled visit to Member's premises to perform grease interceptor or other plumbing services as specified in the Membership Plan.</dd></div>
       </dl>
     </section>
 
@@ -546,43 +337,37 @@
       <div class="section-eyebrow">Section 2</div>
       <h2>Agreement Term</h2>
 
-      <p class="clause"><span class="num">2.1</span> <span class="label">Initial Term.</span> This Agreement shall commence on the Effective Date and shall remain in effect for an initial Annual Term of twelve (12) months (the &ldquo;Initial Term&rdquo;).</p>
+      <p class="clause"><span class="num">2.1</span> <span class="label">Initial Term.</span> This Agreement commences on the Effective Date and remains in effect for an initial Annual Term of twelve (12) months.</p>
 
       <p class="clause"><span class="num">2.2</span> <span class="label">Automatic Renewal.</span></p>
       <div class="notice-box">
-        <p>AUTO-RENEWAL: UPON EXPIRATION OF THE INITIAL TERM OR ANY RENEWAL TERM, THIS AGREEMENT WILL AUTOMATICALLY RENEW FOR SUCCESSIVE ONE-YEAR TERMS (EACH A &ldquo;RENEWAL TERM&rdquo;) UNDER THE THEN-CURRENT PRICING AND TERMS UNLESS MEMBER PROVIDES WRITTEN NOTICE OF NON-RENEWAL AT LEAST THIRTY (30) DAYS PRIOR TO THE END OF THE THEN-CURRENT TERM, OR AS OTHERWISE PROVIDED IN SECTION 4.3 (PRICE INCREASES).</p>
+        <p>AUTO-RENEWAL: THIS AGREEMENT WILL AUTOMATICALLY RENEW FOR SUCCESSIVE ONE-YEAR TERMS UNDER THE THEN-CURRENT PRICING AND TERMS UNLESS MEMBER PROVIDES WRITTEN NOTICE OF NON-RENEWAL AT LEAST THIRTY (30) DAYS PRIOR TO THE END OF THE THEN-CURRENT TERM, OR AS OTHERWISE PROVIDED IN SECTION 4.</p>
       </div>
-      <p>Each Renewal Term shall be subject to the same terms and conditions set forth herein, subject to any price adjustment permitted under Section 4. Member's continued payment of the Membership Fee following the Renewal Date shall constitute affirmative acceptance of the renewed term.</p>
+      <p>Member's continued payment of the Membership Fee following any Renewal Date constitutes affirmative acceptance of the renewed term.</p>
     </section>
 
     <!-- ============================================================ -->
-    <!-- SECTION 3 — MEMBERSHIP FEES AND PAYMENT -->
+    <!-- SECTION 3 — FEES AND PAYMENT -->
     <!-- ============================================================ -->
     <section class="legal-section" id="sec3">
       <div class="section-eyebrow">Section 3</div>
       <h2>Membership Fees and Payment</h2>
 
-      <p class="clause"><span class="num">3.1</span> <span class="label">Monthly Billing in Advance.</span> The Membership Fee shall be charged to the Member Payment Method on the Payment Date of each month, in advance of services scheduled for that month. Member expressly authorizes Company to charge the Member Payment Method for the Membership Fee and any other amounts due under this Agreement.</p>
+      <p class="clause"><span class="num">3.1</span> <span class="label">Monthly Billing in Advance.</span> The Membership Fee is charged to the Member Payment Method on the Payment Date of each month, in advance of services scheduled for that month. Member expressly authorizes Company to charge the Member Payment Method for the Membership Fee and any other amounts due under this Agreement.</p>
 
-      <p class="clause"><span class="num">3.2</span> <span class="label">Authorized Payment Methods.</span> Member authorizes Company to charge either: (a) a credit or debit card on file, or (b) an ACH bank account on file, as designated by Member at enrollment. Member agrees to maintain a valid, active payment method on file at all times during the term of this Agreement and to update payment information promptly upon any change.</p>
+      <p class="clause"><span class="num">3.2</span> <span class="label">Authorized Payment Methods.</span> Member authorizes Company to charge either a credit or debit card on file, or an ACH bank account on file, as designated at enrollment. Member agrees to maintain a valid payment method on file at all times and to update payment information promptly upon any change.</p>
 
       <p class="clause"><span class="num">3.3</span> <span class="label">Failed Payments.</span> If a Membership Fee payment fails:</p>
       <ul class="legal-list">
-        <li>Company will notify Member of the failed payment and attempt to process the charge up to three (3) additional times over a period of ten (10) business days using the Member Payment Method on file.</li>
-        <li>Service will be suspended beginning on the date of the failed payment and will not resume until payment is successfully collected.</li>
-        <li>If payment is not successfully collected after three (3) attempts within the ten (10) business day window, Company reserves the right to cancel Member's membership immediately.</li>
-        <li>Upon cancellation for non-payment, any amounts previously paid to Company are forfeited and shall not be refunded. Member remains responsible for any Early Termination amounts due under Section 6 as if Member had voluntarily cancelled the Agreement.</li>
-        <li>Company is not liable for any regulatory violations, health code deficiencies, or service disruptions arising from service suspension due to Member's failure to maintain a valid payment method.</li>
+        <li>Company will notify Member and attempt to process the charge up to three (3) additional times over ten (10) business days.</li>
+        <li>Service will be suspended from the date of the failed payment and will not resume until payment is successfully collected.</li>
+        <li>If payment is not resolved after three (3) attempts, Company may cancel the membership immediately. Any amounts previously paid are forfeited and non-refundable. Member remains responsible for any Early Termination Fee under Section 6.</li>
+        <li>Company is not liable for regulatory violations or service disruptions arising from suspension due to Member's failure to maintain a valid payment method.</li>
       </ul>
 
-      <p class="clause"><span class="num">3.4</span> <span class="label">Reinstatement After Non-Payment Cancellation.</span> If Member's membership is cancelled due to non-payment, Member may reinstate the membership within thirty (30) days of cancellation by paying all outstanding balances in full and providing a valid payment method. Reinstatement within thirty (30) days will be at the same pricing as the cancelled agreement. If Member does not reinstate within thirty (30) days, Member must execute a new Membership Agreement at the then-current pricing for new members, and a new Initial Term will commence.</p>
+      <p class="clause"><span class="num">3.4</span> <span class="label">Reinstatement.</span> If cancelled for non-payment, Member may reinstate within thirty (30) days by paying all outstanding balances and providing a valid payment method at the same pricing as the cancelled agreement. After thirty (30) days, Member must execute a new Membership Agreement at then-current pricing, and a new Initial Term commences.</p>
 
-      <p class="clause"><span class="num">3.5</span> <span class="label">Surcharges.</span> The following surcharges may apply and will be billed separately:</p>
-      <ul class="legal-list">
-        <li>Access Surcharge: See Section 10.2.</li>
-        <li>After-Hours Surcharge: See Section 9.3.</li>
-        <li>Confined Space Entry: When Member's grease interceptor requires confined space entry procedures under OSHA standards, a surcharge will apply as quoted in advance.</li>
-      </ul>
+      <p class="clause"><span class="num">3.5</span> <span class="label">Surcharges.</span> Certain conditions may result in additional charges billed separately from the Membership Fee, including but not limited to: access surcharges (Section 10), after-hours service surcharges (Section 9.3), and confined space entry surcharges. Applicable surcharge rates are published by Company and may be updated from time to time.</p>
     </section>
 
     <!-- ============================================================ -->
@@ -592,18 +377,13 @@
       <div class="section-eyebrow">Section 4</div>
       <h2>Price Adjustments</h2>
 
-      <p class="clause"><span class="num">4.1</span> <span class="label">Annual Price Adjustment Cap.</span> Company reserves the right to increase the Membership Fee upon renewal of any Annual Term by an amount not to exceed ten percent (10%) of the then-current Membership Fee (the &ldquo;Annual Adjustment Cap&rdquo;). For the avoidance of doubt, Company may elect not to increase the Membership Fee at any given renewal, and increases are not cumulative across years in which no increase was taken.</p>
+      <p class="clause"><span class="num">4.1</span> <span class="label">Annual Price Adjustment Cap.</span> Company may increase the Membership Fee upon renewal of any Annual Term by an amount not to exceed ten percent (10%) of the then-current Membership Fee. Company may elect not to increase the Membership Fee at any given renewal.</p>
 
-      <p class="clause"><span class="num">4.2</span> <span class="label">Notice of Price Increase.</span> Company shall provide Member with written notice of any price increase no less than forty-five (45) days prior to the Renewal Date on which the new pricing will take effect (&ldquo;Price Increase Notice&rdquo;). The Price Increase Notice shall state: (a) the current Membership Fee; (b) the new Membership Fee; and (c) the Renewal Date on which the new pricing will take effect.</p>
+      <p class="clause"><span class="num">4.2</span> <span class="label">Notice of Price Increase.</span> Company will provide Member with written notice of any price increase no less than forty-five (45) days prior to the Renewal Date on which the new pricing takes effect. The notice will state the current Membership Fee, the new Membership Fee, and the applicable Renewal Date.</p>
 
-      <p class="clause"><span class="num">4.3</span> <span class="label">Member's Right to Cancel Upon Price Increase.</span> If Member does not wish to renew at the increased price, Member may cancel this Agreement by providing written notice to Company at any time prior to the Renewal Date following receipt of a Price Increase Notice. In this event:</p>
-      <ul class="legal-list">
-        <li>The thirty (30) day early cancellation notice requirement under Section 6 does not apply to a cancellation made in response to a Price Increase Notice.</li>
-        <li>Member's cancellation will take effect at the end of the then-current Annual Term.</li>
-        <li>If Company provides a Price Increase Notice with less than thirty (30) days before the Renewal Date, Member may cancel with less than thirty (30) days' notice and the cancellation shall be effective as of the Renewal Date without triggering Early Termination fees under Section 6.</li>
-      </ul>
+      <p class="clause"><span class="num">4.3</span> <span class="label">Member's Right to Cancel Upon Price Increase.</span> If Member does not wish to renew at the increased price, Member may cancel by providing written notice any time before the Renewal Date. The thirty (30) day early cancellation notice requirement under Section 6 does not apply. If Company provides less than thirty (30) days' notice of a price increase, Member may cancel with correspondingly less notice, effective as of the Renewal Date, without triggering Early Termination fees.</p>
 
-      <p class="clause"><span class="num">4.4</span> <span class="label">Failure to Cancel.</span> If Member does not cancel prior to the Renewal Date following receipt of a Price Increase Notice, Member's continued payment of the Membership Fee at the new rate shall constitute acceptance of the price increase.</p>
+      <p class="clause"><span class="num">4.4</span> <span class="label">Acceptance of New Price.</span> If Member does not cancel before the Renewal Date, continued payment at the new rate constitutes acceptance of the price increase.</p>
     </section>
 
     <!-- ============================================================ -->
@@ -613,246 +393,193 @@
       <div class="section-eyebrow">Section 5</div>
       <h2>Cancellation and Non-Renewal</h2>
 
-      <p class="clause"><span class="num">5.1</span> <span class="label">Non-Renewal at End of Term.</span> Member may elect not to renew this Agreement at the end of any Annual Term by providing written notice to Company at least thirty (30) days prior to the applicable Renewal Date. Non-renewal under this Section does not constitute early termination and no Early Termination Fee applies.</p>
+      <p class="clause"><span class="num">5.1</span> <span class="label">Non-Renewal.</span> Member may elect not to renew this Agreement at the end of any Annual Term by providing written notice at least thirty (30) days prior to the applicable Renewal Date. Non-renewal does not constitute early termination and no Early Termination Fee applies.</p>
 
-      <p class="clause"><span class="num">5.2</span> <span class="label">Cancellation by Company.</span> Company may cancel this Agreement at any time upon thirty (30) days' written notice to Member, or immediately upon: (a) Member's failure to remedy a material breach within ten (10) days of written notice; (b) non-payment as described in Section 3.3; or (c) Member's failure to provide safe, unencumbered access to grease interceptor equipment on a repeated basis as described in Section 10.</p>
+      <p class="clause"><span class="num">5.2</span> <span class="label">Cancellation by Company.</span> Company may cancel this Agreement upon thirty (30) days' written notice to Member, or immediately upon: (a) Member's failure to remedy a material breach within ten (10) days of written notice; (b) non-payment as described in Section 3.3; or (c) Member's repeated failure to provide adequate access as described in Section 10.</p>
     </section>
 
     <!-- ============================================================ -->
-    <!-- SECTION 6 — EARLY TERMINATION BY MEMBER -->
+    <!-- SECTION 6 — EARLY TERMINATION -->
     <!-- ============================================================ -->
     <section class="legal-section" id="sec6">
       <div class="section-eyebrow">Section 6</div>
       <h2>Early Termination by Member</h2>
 
-      <p class="clause"><span class="num">6.1</span> <span class="label">Early Termination Notice.</span> Member may cancel this Agreement prior to the expiration of the then-current Annual Term by providing thirty (30) days' advance written notice to Company (&ldquo;Early Termination Notice&rdquo;). Cancellation will become effective thirty (30) days after Company receives the Early Termination Notice (the &ldquo;Early Termination Date&rdquo;).</p>
+      <p class="clause"><span class="num">6.1</span> <span class="label">Early Termination Notice.</span> Member may cancel this Agreement before the end of the then-current Annual Term by providing thirty (30) days' advance written notice to Company. Cancellation takes effect thirty (30) days after Company receives that notice.</p>
 
-      <p class="clause"><span class="num">6.2</span> <span class="label">Service During Notice Period.</span> Because Membership Fees are billed in advance, service shall continue through the Early Termination Date. If Member has not yet received a scheduled Service Visit for a billing period already paid, Company will complete that Service Visit prior to the Early Termination Date. Company is under no obligation to issue any refund for Membership Fees paid for the notice period.</p>
+      <p class="clause"><span class="num">6.2</span> <span class="label">Service During Notice Period.</span> Because Membership Fees are billed in advance, service continues through the end of the notice period. If Member has paid for a service that has not yet been delivered, Company will use commercially reasonable efforts to deliver that service before the cancellation date. Company is not obligated to refund Membership Fees paid for the notice period.</p>
 
-      <p class="clause"><span class="num">6.3</span> <span class="label">Early Termination Fee — General Principle.</span> Upon early termination, Member shall pay Company an Early Termination Fee equal to the positive difference, if any, between: (a) the aggregate Retail Price of all services received by Member since the commencement of the then-current Annual Term; and (b) the aggregate Membership Fees paid by Member since the commencement of the then-current Annual Term. If the aggregate Retail Price of services received is equal to or less than the Membership Fees paid, no Early Termination Fee is owed.</p>
+      <p class="clause"><span class="num">6.3</span> <span class="label">Early Termination Fee.</span> Upon early termination, Member shall pay Company an Early Termination Fee equal to the positive difference, if any, between: (a) the aggregate Retail Price of all services received by Member since the commencement of the then-current Annual Term; and (b) the aggregate Membership Fees paid by Member since the commencement of the then-current Annual Term. If services received at Retail Price equal or are less than Membership Fees paid, no Early Termination Fee is owed.</p>
 
-      <p class="clause"><span class="num">6.4</span> <span class="label">Early Termination Fee — Plan-Specific Calculations.</span> The following rules apply to services received that include high-value bundled components:</p>
-
-      <h3>6.4(a) Annual Line Jetting (HGI Biweekly/Monthly Care &amp; GGI Professional)</h3>
-      <p>Annual line jetting is a bundled service with a Retail Price of $768.00. If Member has received the annual jetting service prior to the Early Termination Date, the Early Termination Fee for jetting alone shall be calculated as:</p>
-      <div class="formula-box">
-        <div class="equation">Jetting ETF = ( (12 − N) / 12 ) × $768.00</div>
-        <p class="where">Where N = the number of complete months Member has paid Membership Fees in the then-current Annual Term.</p>
-        <p class="example">Example: Member paid 7 months and has received jetting. Jetting ETF = (5/12) × $768 = $320.00.</p>
+      <div class="info-box">
+        <strong>How the Early Termination Fee works:</strong> The Membership Plan is priced to deliver long-term value — members effectively prepay for high-value services (such as inspections and line jetting) spread across the Annual Term. If a member cancels after receiving services whose Retail Price exceeds what they have paid in Membership Fees, the difference is due. Company will provide a written calculation within five (5) business days of receiving an Early Termination notice.
       </div>
 
-      <h3>6.4(b) Quarterly Line Jetting (GGI Premier — 4x per year)</h3>
-      <p>GGI Premier includes quarterly jetting (4 visits per year) with a Retail Price of $768.00 per jetting visit. For each jetting visit received in the then-current Annual Term, the Early Termination Fee for that visit shall be calculated as:</p>
-      <div class="formula-box">
-        <div class="equation">Per-Jetting ETF = ( (3 − M) / 3 ) × $768.00</div>
-        <p class="where">Where M = the number of complete months of the current jetting cycle (3-month period) for which Member has paid.</p>
-        <p class="example">Example: Member is in Month 2 of their second jetting cycle and has received the second jetting. M=2. ETF = (1/3) × $768 = $256.00.</p>
-      </div>
+      <p class="clause"><span class="num">6.4</span> <span class="label">Payment of Fee.</span> Early Termination Fees are due and payable on the effective cancellation date.</p>
 
-      <h3>6.4(c) Camera Inspection</h3>
-      <p>Camera inspection is a bundled service with a Retail Price of $500.00. If Member has received a camera inspection during the then-current Annual Term, the Early Termination Fee for the camera inspection shall be calculated as:</p>
-      <div class="formula-box">
-        <div class="equation">Camera ETF = ( (12 − N) / 12 ) × $500.00</div>
-        <p class="where">Where N = the number of complete months Member has paid Membership Fees in the then-current Annual Term.</p>
-        <p class="example">For GGI Premier (biannual cameras), this calculation applies independently to each camera inspection received.</p>
-      </div>
-
-      <h3>6.4(d) Grease Trap / Interceptor Pump-Out Services</h3>
-      <p>For plans where Member has received one or more pump-out service visits but has not yet paid sufficient Membership Fees to cover the Retail Price of those visits, the Early Termination Fee shall equal the positive difference between the Retail Price of all pump-out visits received and the total Membership Fees attributable to pump-out services paid. Retail Prices for pump-out services are set forth in Schedule B.</p>
-
-      <h3>6.4(e) Partially Paid Quarterly or Bi-Monthly Service Cycles</h3>
-      <p>For Member on a quarterly (4x/year) or bi-monthly (6x/year) plan, where Member has paid for a portion of a service cycle but has not yet received the scheduled service, Member has the following options:</p>
-      <ol class="legal-list-lettered">
-        <li><strong>Option A:</strong> Receive the scheduled service early, prior to the Early Termination Date, and pay the Early Termination Fee equal to the positive difference between the Retail Price of that service and the amount of Membership Fees attributable to that cycle paid to date.</li>
-        <li><strong>Option B:</strong> Forfeit the Membership Fees paid for the current incomplete service cycle. No refund will be issued for forfeited amounts under this option.</li>
-      </ol>
-
-      <p class="clause"><span class="num">6.5</span> <span class="label">Total Early Termination Fee.</span> The total Early Termination Fee is the sum of all applicable per-service calculations under Section 6.4. Company shall provide Member with a written Early Termination Fee calculation within five (5) business days of receiving the Early Termination Notice. Early Termination Fees are due and payable on the Early Termination Date.</p>
-
-      <p class="clause"><span class="num">6.6</span> <span class="label">No Refunds.</span> Except as expressly provided in Section 4.3 (cancellation following inadequate notice of price increase), Membership Fees paid are non-refundable.</p>
+      <p class="clause"><span class="num">6.5</span> <span class="label">No Refunds.</span> Except as provided in Section 4.3, Membership Fees paid are non-refundable.</p>
     </section>
 
     <!-- ============================================================ -->
-    <!-- SECTION 7 — DESCRIPTION OF SERVICES -->
+    <!-- SECTION 7 — SERVICES -->
     <!-- ============================================================ -->
     <section class="legal-section" id="sec7">
       <div class="section-eyebrow">Section 7</div>
       <h2>Description of Services</h2>
 
-      <p class="clause"><span class="num">7.1</span> <span class="label">Scope of Services.</span> Company agrees to perform the grease interceptor maintenance and plumbing services specified in Member's selected Membership Plan as described in the Membership Plan Selection section and Schedule A of this Agreement. Services are limited to those expressly described. Services not listed in the Membership Plan or Schedule A are available at Retail Prices.</p>
+      <p class="clause"><span class="num">7.1</span> <span class="label">Scope.</span> Company will perform the grease interceptor maintenance and plumbing services specified in Member's Membership Plan. Services are limited to those described in the Membership Agreement. Services not included in the Membership Plan are available at Retail Prices.</p>
 
-      <p class="clause"><span class="num">7.2</span> <span class="label">Service Inclusions — All Tiers.</span> Every Service Visit at every plan tier includes: (a) complete pump-out and physical scrape; (b) baffle and flow control device inspection; (c) clean-water flow test before departure; (d) dated service report with technician signature; (e) waste manifest for regulatory records; and (f) photo documentation of condition before and after service.</p>
+      <p class="clause"><span class="num">7.2</span> <span class="label">Standard Service Inclusions.</span> Unless otherwise specified in the Membership Agreement, every Service Visit includes a complete pump-out and physical scrape of the grease interceptor, a baffle and flow control device inspection, a clean-water flow test, a dated service report with technician signature, a waste manifest for regulatory records, and photo documentation of condition before and after service.</p>
 
-      <p class="clause"><span class="num">7.3</span> <span class="label">FOG Compliance Documentation.</span> Company will provide written service documentation at each visit consistent with the requirements of applicable municipal FOG ordinances for Member's service location. Member is responsible for retaining and submitting such documentation to regulatory authorities as required by law. See Section 15.</p>
+      <p class="clause"><span class="num">7.3</span> <span class="label">FOG Compliance Documentation.</span> Company will provide service documentation consistent with applicable municipal FOG ordinance requirements for Member's service location. Member is responsible for retaining and submitting that documentation to regulatory authorities as required.</p>
 
-      <p class="clause"><span class="num">7.4</span> <span class="label">ZoomBio Biological Treatment.</span> Plans that include ZoomBio treatment will receive a biological grease-digesting treatment applied at each Service Visit (and via automatic dosing unit for GGI Premier). ZoomBio is intended to reduce FOG accumulation between service visits and control odors. ZoomBio treatment is used as a supplement to physical cleaning and does not replace the scheduled pump-out service. Company makes no guarantee that ZoomBio will eliminate FOG accumulation or ensure regulatory compliance on its own.</p>
+      <p class="clause"><span class="num">7.4</span> <span class="label">Biological Treatment.</span> Where the Membership Plan includes biological grease-digesting treatment, that treatment is applied as a supplement to physical cleaning and does not replace scheduled pump-out service. Company makes no guarantee that biological treatment alone will eliminate FOG accumulation or ensure regulatory compliance.</p>
 
-      <p class="clause"><span class="num">7.5</span> <span class="label">Additional Services.</span> Services outside the scope of Member's Membership Plan (including but not limited to emergency plumbing, drain line repairs, additional camera inspections beyond those included, and pipe jetting beyond included allotments) are available to Members at the applicable discounted rate specified in the Membership Plan, applied to the then-current Retail Price for such services. Additional services must be separately authorized by Member at time of service.</p>
+      <p class="clause"><span class="num">7.5</span> <span class="label">Condition of Equipment.</span> Services are performed on Member's existing grease interceptor equipment. Company will notify Member of material deficiencies or conditions discovered during a Service Visit. Company is not responsible for pre-existing deficiencies or regulatory non-compliance arising from conditions prior to enrollment.</p>
 
-      <p class="clause"><span class="num">7.6</span> <span class="label">Condition of Equipment.</span> Services are performed on Member's existing grease interceptor equipment. Company will notify Member of any material deficiencies, damage, or conditions discovered during a Service Visit that may affect the performance of the grease interceptor or Member's regulatory compliance. Company is not responsible for pre-existing deficiencies, equipment failures, or regulatory non-compliance arising from the condition of Member's equipment prior to enrollment.</p>
+      <p class="clause"><span class="num">7.6</span> <span class="label">Waste Hauling and Disposal.</span> Company is a licensed waste hauler and permitted disposal facility. All waste collected from Member's grease interceptor will be transported and disposed of by Company in compliance with applicable state and local regulations. Member bears no liability for waste disposal once collected by Company during a Service Visit.</p>
 
-      <p class="clause"><span class="num">7.7</span> <span class="label">Waste Hauling and Disposal.</span> Company is a licensed waste hauler and permitted disposal facility. All waste collected from Member's grease interceptor will be transported and disposed of by Company in compliance with applicable state and local regulations. Member shall have no liability for waste disposal once it has been collected by Company during a Service Visit.</p>
+      <p class="clause"><span class="num">7.7</span> <span class="label">Plan Modifications.</span> Company reserves the right to modify, update, or restructure Membership Plan offerings from time to time. Such changes do not affect the terms of any active Membership Agreement until renewal. At renewal, any plan changes take effect as part of the then-current terms, subject to Member's right to cancel under Sections 4.3 and 5.1.</p>
     </section>
 
     <!-- ============================================================ -->
-    <!-- SECTION 8 — DOCUMENTATION AND RECORDS -->
+    <!-- SECTION 8 — RECORDS -->
     <!-- ============================================================ -->
     <section class="legal-section" id="sec8">
       <div class="section-eyebrow">Section 8</div>
       <h2>Documentation and Records</h2>
 
-      <p class="clause"><span class="num">8.1</span> <span class="label">Service Records.</span> Company will provide Member with a service report following each Service Visit. Service reports will be delivered electronically to the email address on file unless Member requests an alternative delivery method.</p>
+      <p class="clause"><span class="num">8.1</span> <span class="label">Service Records.</span> Company will provide Member with a service report following each Service Visit, delivered electronically to the email address on file or made available through Company's electronic recordkeeping platform (currently accessible via the QR code affixed to Member's grease interceptor), unless Member requests an alternative delivery method.</p>
 
-      <p class="clause"><span class="num">8.2</span> <span class="label">Waste Manifests.</span> Company will provide Member with a waste manifest for all waste collected from Member's grease interceptor following each Service Visit. Waste manifests will be delivered electronically — including through Company's electronic recordkeeping platform, currently accessible via the QR code affixed to Member's grease interceptor — to the email address on file, or made available for retrieval at the service location, unless Member requests an alternative delivery method. Member is responsible for retaining all waste manifests as required by applicable municipal, county, and state regulations.</p>
+      <p class="clause"><span class="num">8.2</span> <span class="label">Waste Manifests.</span> Company will provide a waste manifest for all waste collected at each Service Visit. Manifests will be delivered electronically — including through Company's electronic recordkeeping platform, currently accessible via the QR code affixed to Member's grease interceptor — to the email address on file, or made available for retrieval at the service location, unless Member requests an alternative delivery method.</p>
 
-      <p class="clause"><span class="num">8.3</span> <span class="label">Member's Recordkeeping Obligations.</span> Member is solely responsible for maintaining, organizing, and submitting all service records, waste manifests, and compliance documentation required by any applicable governmental authority. Company's provision of documentation under this Section does not relieve Member of its independent recordkeeping obligations under applicable law.</p>
+      <p class="clause"><span class="num">8.3</span> <span class="label">Member's Recordkeeping Obligations.</span> Member is solely responsible for maintaining, organizing, and submitting all service records, waste manifests, and compliance documentation required by any applicable governmental authority. Company's provision of documentation does not relieve Member of independent recordkeeping obligations under applicable law.</p>
     </section>
 
     <!-- ============================================================ -->
-    <!-- SECTION 9 — SCHEDULING AND SERVICE DELIVERY -->
+    <!-- SECTION 9 — SCHEDULING -->
     <!-- ============================================================ -->
     <section class="legal-section" id="sec9">
       <div class="section-eyebrow">Section 9</div>
       <h2>Scheduling and Service Delivery</h2>
 
-      <p class="clause"><span class="num">9.1</span> <span class="label">Route-Optimized Scheduling.</span> Company schedules Service Visits using a route-density model designed to maximize geographic efficiency and minimize operational costs. This approach allows Company to maintain competitive Membership pricing. By entering into this Agreement, Member acknowledges and accepts that: (a) Company does not guarantee service on any specific day of the week or at any specific time of day; (b) scheduled service windows may change from visit to visit based on route optimization; and (c) Company will make commercially reasonable efforts to schedule services at times that minimize disruption to Member's food service operations.</p>
+      <p class="clause"><span class="num">9.1</span> <span class="label">Route-Optimized Scheduling.</span> Company schedules Service Visits using a route-density model to maximize geographic efficiency and control operational costs, which allows Company to maintain competitive Membership pricing. Member acknowledges and accepts that: (a) Company does not guarantee service on any specific day of the week or at any specific time of day; (b) scheduled service windows may change from visit to visit; and (c) Company will make commercially reasonable efforts to schedule services at times that minimize disruption to Member's food service operations.</p>
 
-      <p class="clause"><span class="num">9.2</span> <span class="label">Advance Notice.</span> Company will provide Member with at least twenty-four (24) hours' advance notice of a scheduled Service Visit. Notice will be delivered to Member's email or phone number on file. Member is responsible for ensuring contact information on file is current.</p>
+      <p class="clause"><span class="num">9.2</span> <span class="label">Advance Notice.</span> Company will provide Member with at least twenty-four (24) hours' advance notice of each scheduled Service Visit, delivered to Member's email or phone number on file. Member is responsible for keeping contact information current.</p>
 
-      <p class="clause"><span class="num">9.3</span> <span class="label">After-Hours Service.</span> Company's Normal Service Hours are 7:00 AM to 3:00 PM, Monday through Friday, excluding Company-recognized holidays. Service requested or required outside of Normal Service Hours is subject to the following after-hours surcharges, which will be billed in addition to the Membership Fee:</p>
+      <p class="clause"><span class="num">9.3</span> <span class="label">After-Hours Service.</span> Normal Service Hours are 7:00 AM to 3:00 PM, Monday through Friday, excluding Company-recognized holidays. Service requested or required outside Normal Service Hours is subject to after-hours surcharges as published by Company. Surcharge rates are stated in the Membership Agreement or current rate schedule. Emergency after-hours response is available to Members on a priority basis, subject to technician availability.</p>
 
-      <div class="table-wrap">
-        <table class="schedule-table">
-          <thead>
-            <tr><th>Service Type</th><th>Condition</th><th>Surcharge</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Scheduled After-Hours</td><td>Advance scheduling outside Normal Service Hours at Member's request (non-emergency)</td><td class="num">$50.00 per visit</td></tr>
-            <tr><td>Emergency After-Hours</td><td>Unscheduled or same-day urgent service outside Normal Service Hours</td><td class="num">$100.00 per visit</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p>After-hours surcharges are in addition to any applicable service charges. Emergency after-hours response is available to Members on a priority basis, subject to technician availability.</p>
+      <p class="clause"><span class="num">9.4</span> <span class="label">Priority Scheduling.</span> Where a Membership Plan includes priority scheduling as a stated benefit, Company will use commercially reasonable efforts to fulfill service requests within the timeframe specified in the Membership Agreement. If Company is unable to fulfill a priority scheduling commitment within the specified timeframe for reasons not attributable to Member's availability, access constraints, or force majeure, Company will apply a service credit to Member's next billing cycle. The credit amount will be specified in the Membership Agreement and is Member's sole remedy for scheduling delays.</p>
 
-      <p class="clause"><span class="num">9.4</span> <span class="label">Priority Scheduling — GGI Premier Plan.</span> Members enrolled in the GGI Premier Plan are entitled to priority scheduling with next-business-day service response as a standard commitment, subject to the following:</p>
-      <ul class="legal-list">
-        <li>Company will use commercially reasonable efforts to schedule and perform GGI Premier Service Visits within one (1) business day of Member's service request.</li>
-        <li>In the event that next-business-day scheduling is not available due to capacity constraints, Company will schedule the service within two (2) business days of the request.</li>
-        <li>If Company is unable to schedule and perform service within three (3) business days of a Member request, for reasons not attributable to Member's own availability, access constraints, or force majeure conditions, Company will apply a service credit equal to one (1) month's Membership Fee to Member's next billing cycle. This credit is Member's sole remedy for scheduling delays.</li>
-        <li>Priority scheduling does not guarantee a specific time of day and remains subject to Section 9.1 (route-optimized scheduling).</li>
-      </ul>
+      <p class="clause"><span class="num">9.5</span> <span class="label">Rescheduling.</span> Company may reschedule a Service Visit with twenty-four (24) hours' notice due to operational, weather, or staffing conditions. Member may request rescheduling with at least twenty-four (24) hours' advance notice. A rescheduled visit counts as a service occurrence for the applicable billing period.</p>
 
-      <p class="clause"><span class="num">9.5</span> <span class="label">Rescheduling.</span> Company reserves the right to reschedule a Service Visit with twenty-four (24) hours' notice to Member due to operational, weather, or staffing conditions. Member may request rescheduling of a Service Visit with at least twenty-four (24) hours' advance notice to Company. Rescheduling does not affect the annual service count for the applicable Membership Plan; a rescheduled visit counts as a service visit occurrence for that service cycle.</p>
-
-      <p class="clause"><span class="num">9.6</span> <span class="label">Service Disruption Acknowledgment.</span> Member acknowledges that grease interceptor maintenance may temporarily generate odors typical of grease trap servicing. Company will take reasonable measures to minimize disruption during service but cannot guarantee a completely odor-free service process. Member is responsible for informing its staff and patrons as necessary.</p>
+      <p class="clause"><span class="num">9.6</span> <span class="label">Service Disruption Acknowledgment.</span> Member acknowledges that grease interceptor maintenance may temporarily generate odors. Company will take reasonable steps to minimize disruption but cannot guarantee an odor-free service process. Member is responsible for informing its staff and patrons as necessary.</p>
     </section>
 
     <!-- ============================================================ -->
-    <!-- SECTION 10 — ACCESS REQUIREMENTS -->
+    <!-- SECTION 10 — ACCESS -->
     <!-- ============================================================ -->
     <section class="legal-section" id="sec10">
       <div class="section-eyebrow">Section 10</div>
       <h2>Access Requirements</h2>
 
-      <p class="clause"><span class="num">10.1</span> <span class="label">Member's Obligation to Provide Access.</span> Member agrees to provide Company's technicians with safe, free, and unencumbered access to all grease interceptors and associated equipment to be serviced under this Agreement upon each scheduled Service Visit. &ldquo;Unencumbered access&rdquo; means that the grease interceptor lid, access port, and surrounding area shall be clear of obstructions including but not limited to: stored inventory, equipment, furniture, cooking appliances, refuse containers, and any other materials that would require removal or relocation to access the grease interceptor. Member is responsible for ensuring that access conditions are maintained at all times and are ready for service at the time of each scheduled Service Visit.</p>
+      <p class="clause"><span class="num">10.1</span> <span class="label">Member's Obligation.</span> Member agrees to provide Company's technicians with safe, free, and unencumbered access to all grease interceptors and associated equipment at each scheduled Service Visit. Access means the grease interceptor lid, access port, and surrounding area are clear of obstructions — including stored inventory, equipment, appliances, refuse containers, or any other materials — so that the interceptor can be serviced without removal or relocation of items by Company's technicians.</p>
 
-      <p class="clause"><span class="num">10.2</span> <span class="label">Access Surcharge.</span> In the event that Company technicians arrive at Member's premises for a scheduled Service Visit and encounter obstructions that require effort to clear before the grease interceptor can be serviced, Company reserves the right to charge an access surcharge at the rate of $275.00 per hour (prorated to the nearest fifteen (15) minute increment) for the time spent by Company's technicians to clear such obstructions (&ldquo;Access Surcharge&rdquo;). The Access Surcharge applies only to minor obstructions that Company elects to clear at its discretion. Company is not obligated to clear obstructions and may elect to cancel the Service Visit under Section 10.3.</p>
+      <p class="clause"><span class="num">10.2</span> <span class="label">Access Surcharge.</span> If technicians arrive and encounter obstructions that Company elects to clear, Company may charge an access surcharge at the published hourly rate, prorated to the nearest fifteen (15) minutes, for the time spent clearing those obstructions. Company is not obligated to clear obstructions and may cancel the Service Visit under Section 10.3 instead.</p>
 
       <div class="notice-box subtle">
-        <p>IMPORTANT: THE ACCESS SURCHARGE DOES NOT APPLY TO, AND COMPANY'S TECHNICIANS ARE NOT AUTHORIZED TO PERFORM, HEAVY LIFTING OR MOVEMENT OF HEAVY EQUIPMENT, COOKING APPLIANCES, OR STRUCTURAL COMPONENTS. IF ACCESS REQUIRES HEAVY LIFTING OR MOVEMENT OF HEAVY EQUIPMENT, MEMBER MUST CLEAR SUCH OBSTRUCTIONS PRIOR TO THE SERVICE VISIT, AND COMPANY MAY CANCEL THE SERVICE VISIT UNDER SECTION 10.3.</p>
+        <p>Company's technicians are not authorized to perform heavy lifting or move heavy equipment, cooking appliances, or structural components. If access requires such effort, Member must clear the area before the visit. Company may cancel the Service Visit if it cannot be safely performed.</p>
       </div>
 
-      <p class="clause"><span class="num">10.3</span> <span class="label">Right to Cancel Service Visit.</span> Company reserves the right to cancel a Service Visit without penalty if, upon arrival, Company's technicians reasonably determine that: (a) access to the grease interceptor cannot be obtained without unreasonable effort or safety risk; (b) access requires heavy lifting or movement of heavy equipment beyond the scope of Company's service; or (c) site conditions create an unsafe working environment for Company's technicians. A cancelled Service Visit under this Section shall count as a scheduled service occurrence for the applicable billing period, and no Membership Fee credit or refund will be issued for a cancelled Service Visit attributable to Member's failure to provide adequate access.</p>
+      <p class="clause"><span class="num">10.3</span> <span class="label">Right to Cancel Service Visit.</span> Company may cancel a Service Visit without penalty if technicians reasonably determine that access cannot be safely or reasonably obtained. A cancelled visit under this Section counts as a scheduled service occurrence for the billing period, and no credit or refund will be issued.</p>
 
-      <p class="clause"><span class="num">10.4</span> <span class="label">Repeated Access Failures.</span> If Member fails to provide adequate access on two (2) or more occasions within any twelve (12) month period, Company may treat such failure as a material breach of this Agreement and may terminate the Agreement under Section 5.2.</p>
+      <p class="clause"><span class="num">10.4</span> <span class="label">Repeated Access Failures.</span> Two (2) or more access failures within any twelve (12) month period may be treated as a material breach and grounds for termination under Section 5.2.</p>
 
-      <p class="clause"><span class="num">10.5</span> <span class="label">Safety Requirements.</span> Member represents that its premises comply with applicable safety regulations and that no known hazardous conditions exist at the service location that would endanger Company's technicians. Member shall promptly notify Company of any known or suspected hazardous conditions prior to a scheduled Service Visit.</p>
+      <p class="clause"><span class="num">10.5</span> <span class="label">Safety.</span> Member represents that its premises comply with applicable safety regulations and that no known hazardous conditions exist at the service location. Member shall notify Company of any known or suspected hazardous conditions before a scheduled visit.</p>
     </section>
 
     <!-- ============================================================ -->
-    <!-- SECTION 11 — PAYMENT AUTHORIZATION -->
+    <!-- SECTION 11 — COMPANY EQUIPMENT -->
     <!-- ============================================================ -->
     <section class="legal-section" id="sec11">
       <div class="section-eyebrow">Section 11</div>
-      <h2>Payment Authorization and Electronic Transactions</h2>
+      <h2>Company-Installed Equipment</h2>
 
-      <p class="clause"><span class="num">11.1</span> <span class="label">Recurring Charge Authorization.</span> By executing this Agreement, Member expressly authorizes Company to charge the Member Payment Method on a recurring monthly basis for: (a) the Membership Fee; and (b) any other amounts due under this Agreement, including Early Termination Fees, Access Surcharges, after-hours surcharges, and any other charges described herein. This authorization remains in effect until the Agreement is terminated and all outstanding balances are paid in full.</p>
+      <p class="clause"><span class="num">11.1</span> <span class="label">Ownership.</span> Where a Membership Plan includes installation of Company-owned equipment at Member's premises at no charge (such as automatic dosing units or similar devices), that equipment remains the property of Company at all times.</p>
 
-      <p class="clause"><span class="num">11.2</span> <span class="label">Electronic Signatures.</span> Member acknowledges that this Agreement may be executed electronically through Company's service management platform (currently ServiceTitan) or other electronic signature platform. Member agrees that an electronic signature is legally equivalent to a handwritten signature and that this Agreement is binding upon electronic execution. Member authorizes Company to transmit this Agreement and any related documents electronically.</p>
+      <p class="clause"><span class="num">11.2</span> <span class="label">Member Obligations.</span> Member shall not tamper with, modify, relocate, or remove Company-installed equipment. Member shall promptly notify Company of any malfunction, damage, or displacement.</p>
 
-      <p class="clause"><span class="num">11.3</span> <span class="label">Payment Method Updates.</span> Member agrees to provide Company with updated payment information at least five (5) business days prior to the next Payment Date in the event that the Member Payment Method expires, is cancelled, or otherwise becomes invalid. Company will make commercially reasonable efforts to notify Member of a declined payment before suspending service.</p>
+      <p class="clause"><span class="num">11.3</span> <span class="label">Upon Termination.</span> Upon termination of any Membership Plan that includes Company-installed equipment, Member shall elect one of the following within ten (10) business days:</p>
+      <ul class="legal-list">
+        <li><strong>Removal:</strong> Company will remove the equipment within a reasonable time. A removal and restocking fee at the then-current published rate will be charged to Member's account.</li>
+        <li><strong>Purchase:</strong> Member may elect to purchase the equipment at a prorated value based on the time remaining in the Annual Term, calculated at the then-current published equipment retail value. Member must elect this option in writing before the termination date.</li>
+      </ul>
+      <p>If Member does not elect an option within ten (10) business days, Company will default to removal and charge the applicable fee.</p>
     </section>
 
     <!-- ============================================================ -->
-    <!-- SECTION 12 — MEMBER PLUMBING SERVICE DISCOUNTS -->
+    <!-- SECTION 12 — REGULATORY COMPLIANCE -->
     <!-- ============================================================ -->
     <section class="legal-section" id="sec12">
       <div class="section-eyebrow">Section 12</div>
-      <h2>Member Plumbing Service Discounts</h2>
+      <h2>Regulatory Compliance</h2>
 
-      <p class="clause"><span class="num">12.1</span> <span class="label">Discount Applicability.</span> The plumbing service discount applicable to Member's Membership Plan (as specified in the Membership Plan Selection section) applies to non-membership plumbing services performed by Company at Member's service location(s) during the term of this Agreement. The discount will be applied to Company's then-current Retail Prices at the time of service.</p>
+      <p class="clause"><span class="num">12.1</span> <span class="label">Member's Responsibility.</span> Member is solely responsible for understanding and complying with all applicable municipal, county, state, and federal regulations governing grease interceptor maintenance, service frequency, waste disposal, and FOG management for Member's specific service location and establishment type. Company's provision of services does not constitute legal or regulatory advice and does not guarantee that Member is in compliance with any applicable regulation.</p>
 
-      <p class="clause"><span class="num">12.2</span> <span class="label">Exclusions.</span> Member discounts do not apply to: (a) Membership Fees or services included within the Membership Plan; (b) services performed by third-party subcontractors; (c) materials, equipment, or permit fees; (d) emergency or after-hours surcharges; or (e) any service Company expressly designates as excluded from the discount program. Company reserves the right to modify excluded service categories upon thirty (30) days' written notice to Member.</p>
+      <p class="clause"><span class="num">12.2</span> <span class="label">Plan Selection.</span> Member is responsible for independently verifying that the selected Membership Plan meets the minimum service frequency required for Member's location and establishment type. Company may advise based on its experience but does not warrant that such advice reflects current regulatory requirements for Member's specific situation. Required service frequency varies by municipality and is subject to change without notice to Company.</p>
 
-      <p class="clause"><span class="num">12.3</span> <span class="label">Non-Transferable.</span> Member discounts are non-transferable and apply only to the service location(s) identified in this Agreement. Discounts may not be combined with other promotional pricing.</p>
+      <p class="clause"><span class="num">12.3</span> <span class="label">Indemnification for Non-Compliant Plan Selection.</span> If a Member's selected plan proves inadequate to meet applicable regulatory requirements — whether due to Member's misrepresentation, failure to verify requirements, or a post-enrollment regulatory change — Member agrees to indemnify, defend, and hold harmless Company from any claims, fines, penalties, or liabilities arising from that non-compliance.</p>
+
+      <p class="clause"><span class="num">12.4</span> <span class="label">Plan Modification for Compliance.</span> If Company reasonably determines that Member's current plan does not meet applicable regulatory requirements, Company will notify Member in writing. Member has thirty (30) days to upgrade to a compliant plan. If Member does not upgrade, Company may upgrade Member to a compliant plan at the applicable pricing, or terminate this Agreement.</p>
     </section>
 
     <!-- ============================================================ -->
-    <!-- SECTION 13 — ZoomBio DOSING UNIT -->
+    <!-- SECTION 13 — PAYMENT AUTHORIZATION -->
     <!-- ============================================================ -->
     <section class="legal-section" id="sec13">
-      <div class="section-eyebrow">Section 13 · GGI Premier Plan Only</div>
-      <h2>ZoomBio Dosing Unit</h2>
+      <div class="section-eyebrow">Section 13</div>
+      <h2>Payment Authorization and Electronic Transactions</h2>
 
-      <p class="clause"><span class="num">13.1</span> <span class="label">Installation at No Charge.</span> GGI Premier Plan Members will receive installation of one (1) ZoomBio automatic dosing unit at no charge, typically at or following the first scheduled Service Visit. The ZoomBio Dosing Unit remains the property of Company at all times.</p>
+      <p class="clause"><span class="num">13.1</span> <span class="label">Recurring Charge Authorization.</span> By executing the Membership Agreement, Member expressly authorizes Company to charge the Member Payment Method on a recurring monthly basis for the Membership Fee and any other amounts due under this Agreement, including Early Termination Fees, access surcharges, after-hours surcharges, and equipment charges. This authorization remains in effect until the Agreement is terminated and all outstanding balances are paid.</p>
 
-      <p class="clause"><span class="num">13.2</span> <span class="label">Maintenance.</span> Company is responsible for maintaining and refilling the ZoomBio Dosing Unit as part of the GGI Premier service. Member shall not tamper with, modify, relocate, or remove the ZoomBio Dosing Unit. Member shall promptly notify Company of any malfunction, damage, or displacement of the unit.</p>
+      <p class="clause"><span class="num">13.2</span> <span class="label">Electronic Signatures.</span> This Agreement may be executed electronically. Member agrees that an electronic signature is legally equivalent to a handwritten signature and that the Agreement is binding upon electronic execution.</p>
 
-      <p class="clause"><span class="num">13.3</span> <span class="label">Upon Termination.</span> Upon termination of a GGI Premier Plan membership for any reason, Member shall elect one of the following options with respect to the ZoomBio Dosing Unit:</p>
-      <ul class="legal-list">
-        <li><strong>Option A — Removal:</strong> Company will remove the ZoomBio Dosing Unit within a reasonable time after the termination date. A removal and restocking fee of $150.00 will be charged to Member's account.</li>
-        <li><strong>Option B — Purchase:</strong> Member may elect to purchase the ZoomBio Dosing Unit at a prorated value. The prorated purchase price shall be calculated as: ( (12 − N) / 12 ) × $383.50, where N equals the number of complete months Member was enrolled in the GGI Premier Plan during the then-current Annual Term. Member must elect this option in writing prior to the Early Termination Date or termination date.</li>
-      </ul>
-      <p>If Member does not elect an option within ten (10) business days following termination, Company will default to Option A and charge the removal and restocking fee.</p>
+      <p class="clause"><span class="num">13.3</span> <span class="label">Payment Method Updates.</span> Member agrees to provide updated payment information at least five (5) business days before the next Payment Date if the Member Payment Method expires, is cancelled, or becomes invalid.</p>
     </section>
 
     <!-- ============================================================ -->
-    <!-- SECTION 14 — REPRESENTATIONS AND WARRANTIES -->
+    <!-- SECTION 14 — MEMBER DISCOUNTS -->
     <!-- ============================================================ -->
     <section class="legal-section" id="sec14">
       <div class="section-eyebrow">Section 14</div>
+      <h2>Member Service Discounts</h2>
+
+      <p class="clause"><span class="num">14.1</span> <span class="label">Applicability.</span> Where a Membership Plan includes a discount on additional plumbing or grease services, that discount applies to non-membership services performed by Company at Member's service location during the term of this Agreement, at the discount rate specified in the Membership Agreement. The discount is applied to Company's then-current Retail Prices at the time of service.</p>
+
+      <p class="clause"><span class="num">14.2</span> <span class="label">Exclusions.</span> Discounts do not apply to: (a) the Membership Fee itself or services included in the Membership Plan; (b) services performed by third-party subcontractors; (c) materials, equipment, or permit fees; (d) surcharges of any kind; or (e) services Company expressly excludes from the discount program. Company may modify excluded categories upon thirty (30) days' written notice.</p>
+
+      <p class="clause"><span class="num">14.3</span> <span class="label">Non-Transferable.</span> Discounts apply only to the service location(s) identified in the Membership Agreement and may not be combined with other promotional pricing.</p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 15 — REPRESENTATIONS AND WARRANTIES -->
+    <!-- ============================================================ -->
+    <section class="legal-section" id="sec15">
+      <div class="section-eyebrow">Section 15</div>
       <h2>Representations and Warranties</h2>
 
-      <p class="clause"><span class="num">14.1</span> <span class="label">Company Representations.</span> Company represents and warrants that: (a) it is duly licensed to perform grease interceptor and plumbing services in Arizona; (b) it is a licensed waste hauler and permitted disposal facility in compliance with applicable state and local regulations; and (c) it will perform services in a workmanlike manner consistent with industry standards.</p>
+      <p class="clause"><span class="num">15.1</span> <span class="label">Company Representations.</span> Company represents and warrants that: (a) it is duly licensed to perform grease interceptor and plumbing services in Arizona; (b) it is a licensed waste hauler and permitted disposal facility in compliance with applicable regulations; and (c) it will perform services in a workmanlike manner consistent with industry standards.</p>
 
-      <p class="clause"><span class="num">14.2</span> <span class="label">Member Representations.</span> Member represents and warrants that: (a) Member has full legal authority to enter into this Agreement and to authorize the recurring charges described herein; (b) if Member is a corporation, LLC, or other business entity, the individual executing this Agreement is authorized to bind the entity; (c) Member's grease interceptor is legally installed and Member holds all necessary permits and authorizations for its operation; and (d) Member will promptly inform Company of any change in its service location, municipal jurisdiction, or grease interceptor equipment.</p>
+      <p class="clause"><span class="num">15.2</span> <span class="label">Member Representations.</span> Member represents and warrants that: (a) Member has full legal authority to enter into this Agreement and authorize recurring charges; (b) if Member is a business entity, the individual executing the Agreement is authorized to bind that entity; (c) Member's grease interceptor is legally installed and Member holds all necessary permits for its operation; and (d) Member will promptly inform Company of any change in service location, municipal jurisdiction, or grease interceptor equipment.</p>
 
-      <p class="clause"><span class="num">14.3</span> <span class="label">Disclaimer of Warranties.</span></p>
+      <p class="clause"><span class="num">15.3</span> <span class="label">Disclaimer of Warranties.</span></p>
       <div class="allcaps-block">
-        COMPANY'S SERVICES ARE PROVIDED &ldquo;AS IS&rdquo; AND &ldquo;AS AVAILABLE.&rdquo; EXCEPT AS EXPRESSLY SET FORTH IN SECTION 14.1, COMPANY MAKES NO WARRANTY, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR REGULATORY COMPLIANCE OUTCOME. COMPANY DOES NOT WARRANT OR GUARANTEE THAT: (a) MEMBER'S GREASE INTERCEPTOR WILL PASS ANY HEALTH DEPARTMENT OR MUNICIPAL INSPECTION; (b) MEMBER WILL ACHIEVE OR MAINTAIN REGULATORY COMPLIANCE; OR (c) MEMBER'S DRAINAGE SYSTEMS WILL REMAIN FREE FROM BLOCKAGE OR BACKUP BETWEEN SERVICE VISITS. MAINTENANCE OF REGULATORY COMPLIANCE IS SOLELY MEMBER'S RESPONSIBILITY.
+        EXCEPT AS EXPRESSLY SET FORTH IN SECTION 15.1, COMPANY MAKES NO WARRANTY, EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR REGULATORY COMPLIANCE OUTCOME. COMPANY DOES NOT WARRANT THAT MEMBER'S GREASE INTERCEPTOR WILL PASS ANY INSPECTION, THAT MEMBER WILL ACHIEVE OR MAINTAIN REGULATORY COMPLIANCE, OR THAT MEMBER'S DRAINAGE SYSTEMS WILL REMAIN FREE FROM BLOCKAGE BETWEEN SERVICE VISITS. MAINTENANCE OF REGULATORY COMPLIANCE IS SOLELY MEMBER'S RESPONSIBILITY.
       </div>
     </section>
 
     <!-- ============================================================ -->
-    <!-- SECTION 15 — REGULATORY COMPLIANCE -->
-    <!-- ============================================================ -->
-    <section class="legal-section" id="sec15">
-      <div class="section-eyebrow">Section 15</div>
-      <h2>Regulatory Compliance</h2>
-
-      <p class="clause"><span class="num">15.1</span> <span class="label">Member's Compliance Responsibility.</span> Member is solely responsible for understanding and complying with all applicable municipal, county, state, and federal regulations governing grease interceptor maintenance, service frequency, waste disposal, and FOG management for Member's specific service location and establishment type. Company's provision of services does not constitute legal, regulatory, or compliance advice, and does not guarantee that Member is in compliance with any applicable regulation.</p>
-
-      <p class="clause"><span class="num">15.2</span> <span class="label">Service Frequency Requirements by Municipality.</span> Required grease interceptor service frequency varies by municipality and may be determined by establishment type, interceptor size, and local FOG ordinance. Restaurants in Phoenix and Tempe are generally required by municipal code to receive monthly HGI service; quarterly service may be permitted in Mesa, Chandler, and Gilbert for qualifying low-FOG operations. These requirements are subject to change by the applicable municipality without notice to Company.</p>
-
-      <p class="clause"><span class="num">15.3</span> <span class="label">Member's Obligation to Verify.</span> Member is responsible for independently verifying with the applicable municipal authority that the Membership Plan selected provides the minimum required service frequency for Member's establishment and location. Company may advise Member on typical requirements based on its experience but does not warrant that such advice reflects current regulatory requirements for Member's specific situation.</p>
-
-      <p class="clause"><span class="num">15.4</span> <span class="label">Indemnification for Non-Compliant Plan Selection.</span> If Member selects a Membership Plan with a service frequency that is inadequate to meet the regulatory requirements of Member's municipality or establishment type — whether due to Member's misrepresentation, Member's failure to verify requirements, or a change in regulatory requirements after enrollment — Member agrees to indemnify, defend, and hold harmless Company from and against any and all claims, fines, penalties, costs, or liabilities arising from such non-compliance. Company shall not be liable for any regulatory violations arising from Member's selection of an inadequate service frequency.</p>
-
-      <p class="clause"><span class="num">15.5</span> <span class="label">Plan Modification for Compliance.</span> If Company reasonably determines, based on conditions observed at a Service Visit or based on updated regulatory information, that Member's current Membership Plan does not satisfy applicable service frequency requirements for Member's location, Company will notify Member in writing. Member shall have thirty (30) days to upgrade to a compliant plan. If Member fails to upgrade within thirty (30) days, Company reserves the right to upgrade Member to the appropriate compliant plan at the applicable pricing, or to terminate this Agreement.</p>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- SECTION 16 — LIMITATION OF LIABILITY -->
+    <!-- SECTION 16 — LIABILITY AND INDEMNIFICATION -->
     <!-- ============================================================ -->
     <section class="legal-section" id="sec16">
       <div class="section-eyebrow">Section 16</div>
@@ -860,12 +587,12 @@
 
       <p class="clause"><span class="num">16.1</span> <span class="label">Limitation of Liability.</span></p>
       <div class="allcaps-block">
-        IN NO EVENT SHALL COMPANY BE LIABLE TO MEMBER FOR ANY INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL, EXEMPLARY, OR PUNITIVE DAMAGES ARISING OUT OF OR RELATED TO THIS AGREEMENT OR THE SERVICES PROVIDED HEREUNDER, INCLUDING WITHOUT LIMITATION LOST PROFITS, LOSS OF BUSINESS, REGULATORY FINES, OR DAMAGE TO MEMBER'S REPUTATION, EVEN IF COMPANY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. COMPANY'S TOTAL CUMULATIVE LIABILITY TO MEMBER FOR ANY CLAIM ARISING OUT OF OR RELATED TO THIS AGREEMENT SHALL NOT EXCEED THE TOTAL MEMBERSHIP FEES PAID BY MEMBER IN THE TWELVE (12) MONTH PERIOD IMMEDIATELY PRECEDING THE EVENT GIVING RISE TO THE CLAIM.
+        IN NO EVENT SHALL COMPANY BE LIABLE FOR ANY INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL, OR PUNITIVE DAMAGES ARISING OUT OF OR RELATED TO THIS AGREEMENT OR THE SERVICES PROVIDED, INCLUDING LOST PROFITS, LOSS OF BUSINESS, REGULATORY FINES, OR REPUTATIONAL DAMAGE. COMPANY'S TOTAL CUMULATIVE LIABILITY SHALL NOT EXCEED THE TOTAL MEMBERSHIP FEES PAID BY MEMBER IN THE TWELVE (12) MONTHS PRECEDING THE EVENT GIVING RISE TO THE CLAIM.
       </div>
 
-      <p class="clause"><span class="num">16.2</span> <span class="label">Member Indemnification.</span> Member agrees to indemnify, defend, and hold harmless Company and its officers, directors, employees, agents, and subcontractors from and against any and all third-party claims, damages, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or related to: (a) Member's failure to provide safe and adequate access to grease interceptor equipment; (b) Member's failure to disclose known hazardous conditions at the service location; (c) pre-existing damage to, or defective condition of, Member's grease interceptor or drainage systems; (d) Member's selection of an inadequate service frequency as described in Section 15; (e) Member's violation of any applicable law or regulation; or (f) any personal injury or property damage occurring on Member's premises not caused by Company's negligence.</p>
+      <p class="clause"><span class="num">16.2</span> <span class="label">Member Indemnification.</span> Member agrees to indemnify, defend, and hold harmless Company and its officers, employees, agents, and subcontractors from and against any third-party claims arising out of or related to: (a) Member's failure to provide safe access to equipment; (b) Member's failure to disclose known hazardous conditions; (c) pre-existing damage to or defective condition of Member's grease interceptor or drainage systems; (d) Member's selection of an inadequate service frequency; (e) Member's violation of any applicable law or regulation; or (f) personal injury or property damage on Member's premises not caused by Company's negligence.</p>
 
-      <p class="clause"><span class="num">16.3</span> <span class="label">Company Indemnification.</span> Company agrees to indemnify, defend, and hold harmless Member from and against any third-party claims arising from Company's gross negligence or willful misconduct in the performance of services under this Agreement.</p>
+      <p class="clause"><span class="num">16.3</span> <span class="label">Company Indemnification.</span> Company agrees to indemnify, defend, and hold harmless Member from third-party claims arising from Company's gross negligence or willful misconduct in performing services under this Agreement.</p>
     </section>
 
     <!-- ============================================================ -->
@@ -874,7 +601,7 @@
     <section class="legal-section" id="sec17">
       <div class="section-eyebrow">Section 17</div>
       <h2>Force Majeure</h2>
-      <p>Neither party shall be liable to the other for any delay or failure to perform its obligations under this Agreement to the extent such delay or failure is caused by circumstances beyond the reasonable control of the affected party, including but not limited to: acts of God, natural disasters, extreme weather events, governmental actions, pandemics or public health emergencies, supply chain disruptions, labor shortages or strikes, or civil unrest (&ldquo;Force Majeure Event&rdquo;). The affected party shall promptly notify the other party of a Force Majeure Event and shall resume performance as soon as reasonably practicable. A Force Majeure Event does not excuse Member's obligation to pay Membership Fees for periods during which services were otherwise available.</p>
+      <p>Neither party is liable for delay or failure to perform due to circumstances beyond its reasonable control, including acts of God, natural disasters, governmental actions, pandemics, supply chain disruptions, labor shortages, or civil unrest. The affected party shall promptly notify the other and resume performance as soon as practicable. A Force Majeure Event does not excuse Member's obligation to pay Membership Fees for periods when services were otherwise available.</p>
     </section>
 
     <!-- ============================================================ -->
@@ -885,33 +612,29 @@
       <h2>Binding Arbitration</h2>
 
       <div class="notice-box">
-        <p>IMPORTANT — PLEASE READ CAREFULLY: THIS SECTION REQUIRES BINDING ARBITRATION OF DISPUTES.</p>
-        <p>BY SIGNING THIS AGREEMENT, YOU WAIVE YOUR RIGHT TO A JURY TRIAL AND YOUR RIGHT TO BRING A CLASS ACTION OR REPRESENTATIVE ACTION AGAINST COMPANY.</p>
+        <p>IMPORTANT: THIS SECTION REQUIRES BINDING ARBITRATION OF DISPUTES. BY SIGNING THE MEMBERSHIP AGREEMENT, YOU WAIVE YOUR RIGHT TO A JURY TRIAL AND YOUR RIGHT TO BRING A CLASS ACTION AGAINST COMPANY.</p>
       </div>
 
-      <p class="clause"><span class="num">18.1</span> <span class="label">Agreement to Arbitrate.</span> Any dispute, claim, or controversy arising out of or relating to this Agreement, or the breach, termination, enforcement, interpretation, or validity thereof, including the determination of the scope or applicability of this agreement to arbitrate, shall be determined exclusively by binding arbitration in Maricopa County, Arizona, before a single neutral arbitrator. This arbitration agreement is governed by the Federal Arbitration Act (9 U.S.C. § 1 et seq.).</p>
+      <p class="clause"><span class="num">18.1</span> <span class="label">Agreement to Arbitrate.</span> Any dispute arising out of or relating to this Agreement shall be determined exclusively by binding arbitration in Maricopa County, Arizona, before a single neutral arbitrator, governed by the Federal Arbitration Act (9 U.S.C. § 1 et seq.).</p>
 
-      <p class="clause"><span class="num">18.2</span> <span class="label">Arbitration Rules and Procedures.</span> The arbitration shall be administered by a recognized arbitration organization (such as the American Arbitration Association (&ldquo;AAA&rdquo;) under its Commercial Arbitration Rules, or JAMS under its Comprehensive Arbitration Rules), as mutually agreed by the parties or selected by the arbitrator. The arbitrator's decision shall be final and binding and may be enforced in any court of competent jurisdiction.</p>
+      <p class="clause"><span class="num">18.2</span> <span class="label">Rules.</span> Arbitration shall be administered by a recognized arbitration organization — such as the American Arbitration Association (AAA) under its Commercial Arbitration Rules, or JAMS — as mutually agreed or selected by the arbitrator. The arbitrator's decision is final and binding and may be enforced in any court of competent jurisdiction.</p>
 
-      <p class="clause"><span class="num">18.3</span> <span class="label">Costs and Fees.</span> The parties shall share equally the costs of arbitration (filing fees and arbitrator compensation), unless the arbitrator determines that one party's claims or defenses were frivolous or brought in bad faith, in which case the arbitrator may apportion costs differently. Each party shall bear its own attorneys' fees and legal costs, unless the arbitrator determines that an award of attorneys' fees is appropriate under applicable law. If Member is the prevailing party in arbitration, Member is entitled to recover reasonable attorneys' fees and costs.</p>
+      <p class="clause"><span class="num">18.3</span> <span class="label">Costs and Fees.</span> The parties share arbitration costs equally unless the arbitrator determines that one party's position was frivolous or brought in bad faith. Each party bears its own attorneys' fees unless the arbitrator determines otherwise. A prevailing Member is entitled to recover reasonable attorneys' fees and costs.</p>
 
-      <p class="clause"><span class="num">18.4</span> <span class="label">Waiver of Class Action.</span></p>
-      <div class="allcaps-block">
-        ALL ARBITRATION PROCEEDINGS SHALL BE CONDUCTED ON AN INDIVIDUAL BASIS. MEMBER WAIVES ANY RIGHT TO BRING A CLASS ACTION, CLASS ARBITRATION, CONSOLIDATED ARBITRATION, OR REPRESENTATIVE ACTION AGAINST COMPANY.
-      </div>
+      <p class="clause"><span class="num">18.4</span> <span class="label">Waiver of Class Action.</span> ALL ARBITRATION SHALL BE ON AN INDIVIDUAL BASIS. MEMBER WAIVES ANY RIGHT TO CLASS, CONSOLIDATED, OR REPRESENTATIVE ARBITRATION OR ACTION AGAINST COMPANY.</p>
 
-      <p class="clause"><span class="num">18.5</span> <span class="label">Small Claims Court Exception.</span> Notwithstanding the foregoing, either party may elect to bring an individual claim in a small claims court in Maricopa County, Arizona, for disputes within the jurisdictional limits of such court, without first submitting to arbitration.</p>
+      <p class="clause"><span class="num">18.5</span> <span class="label">Small Claims Exception.</span> Either party may bring an individual claim in a small claims court in Maricopa County, Arizona, within that court's jurisdictional limits, without first arbitrating.</p>
 
-      <p class="clause"><span class="num">18.6</span> <span class="label">Informal Resolution First.</span> Before initiating arbitration, the parties agree to attempt in good faith to resolve any dispute informally by providing written notice of the dispute to the other party and allowing thirty (30) days for the parties to negotiate a resolution. Arbitration may be initiated only after this informal resolution period has expired without a resolution.</p>
+      <p class="clause"><span class="num">18.6</span> <span class="label">Informal Resolution First.</span> Before initiating arbitration, the parties agree to attempt in good faith to resolve any dispute informally within thirty (30) days of written notice of the dispute.</p>
     </section>
 
     <!-- ============================================================ -->
-    <!-- SECTION 19 — GOVERNING LAW AND VENUE -->
+    <!-- SECTION 19 — GOVERNING LAW -->
     <!-- ============================================================ -->
     <section class="legal-section" id="sec19">
       <div class="section-eyebrow">Section 19</div>
       <h2>Governing Law and Venue</h2>
-      <p>This Agreement shall be governed by and construed in accordance with the laws of the State of Arizona, without regard to its conflict of law provisions. For any dispute not subject to arbitration under Section 18 (including but not limited to requests for injunctive or equitable relief or actions to confirm an arbitration award), the parties consent to exclusive jurisdiction and venue in the state or federal courts located in Maricopa County, Arizona.</p>
+      <p>This Agreement is governed by the laws of the State of Arizona, without regard to conflict of law principles. For disputes not subject to arbitration under Section 18, the parties consent to exclusive jurisdiction and venue in the state or federal courts of Maricopa County, Arizona.</p>
     </section>
 
     <!-- ============================================================ -->
@@ -921,210 +644,21 @@
       <div class="section-eyebrow">Section 20</div>
       <h2>General Provisions</h2>
 
-      <p class="clause"><span class="num">20.1</span> <span class="label">Entire Agreement.</span> This Agreement, together with all Schedules attached hereto, constitutes the entire agreement between the parties with respect to the subject matter hereof and supersedes all prior and contemporaneous negotiations, representations, warranties, and agreements, whether oral or written, between the parties relating to such subject matter.</p>
+      <p class="clause"><span class="num">20.1</span> <span class="label">Entire Agreement.</span> The Membership Agreement (including these Terms and Conditions and any schedules) constitutes the entire agreement between the parties and supersedes all prior negotiations, representations, and agreements relating to its subject matter.</p>
 
-      <p class="clause"><span class="num">20.2</span> <span class="label">Modifications.</span> This Agreement may not be modified or amended except by a written instrument signed by authorized representatives of both parties. No oral statement, course of dealing, or course of performance shall operate to modify this Agreement.</p>
+      <p class="clause"><span class="num">20.2</span> <span class="label">Modifications.</span> These Terms and Conditions may be updated by Company from time to time. Updated terms apply to renewals and new agreements; they do not retroactively alter the terms of an active Annual Term without Member's written consent. Company will provide Member with notice of material changes at least thirty (30) days before any Renewal Date on which they take effect.</p>
 
-      <p class="clause"><span class="num">20.3</span> <span class="label">Severability.</span> If any provision of this Agreement is held by a court or arbitrator to be invalid, illegal, or unenforceable, such provision shall be modified to the minimum extent necessary to make it enforceable, or if it cannot be so modified, such provision shall be severed from this Agreement, and the remaining provisions shall continue in full force and effect.</p>
+      <p class="clause"><span class="num">20.3</span> <span class="label">Severability.</span> If any provision is held invalid or unenforceable, it shall be modified to the minimum extent necessary or severed, with remaining provisions continuing in full effect.</p>
 
-      <p class="clause"><span class="num">20.4</span> <span class="label">Waiver.</span> No failure or delay by either party in exercising any right, remedy, or privilege under this Agreement shall operate as a waiver thereof, nor shall any single or partial exercise of any right preclude any other or further exercise thereof.</p>
+      <p class="clause"><span class="num">20.4</span> <span class="label">Waiver.</span> No failure to exercise any right under this Agreement operates as a waiver of that right.</p>
 
-      <p class="clause"><span class="num">20.5</span> <span class="label">Notices.</span> All notices, requests, and other communications required or permitted under this Agreement shall be in writing and shall be deemed effectively delivered: (a) upon personal delivery; (b) upon confirmed delivery by a nationally recognized overnight courier; (c) three (3) business days after deposit in the U.S. mail, postage prepaid, certified mail, return receipt requested; or (d) upon confirmed delivery by email to the address on file, with acknowledgment of receipt by the receiving party. Notices to Company shall be sent to: SEV Home Services Inc., dba Zoom Drain Phoenix East Valley, 162 W Boxelder Pl, Ste 4, Chandler, AZ 85225, Attn: Operations Manager; Email: phoenixeastvalley@zoomdrain.com.</p>
+      <p class="clause"><span class="num">20.5</span> <span class="label">Notices.</span> Notices shall be in writing and deemed delivered upon: personal delivery; confirmed overnight courier delivery; three (3) business days after certified U.S. mail deposit; or confirmed email delivery with acknowledgment. Notices to Company: SEV Home Services Inc., dba Zoom Drain Phoenix East Valley, 162 W Boxelder Pl, Ste 4, Chandler, AZ 85225; phoenixeastvalley@zoomdrain.com.</p>
 
-      <p class="clause"><span class="num">20.6</span> <span class="label">Assignment.</span> Member may not assign this Agreement or any of its rights or obligations hereunder without the prior written consent of Company. Company may assign this Agreement without Member's consent in connection with a sale of all or substantially all of Company's business assets or in connection with a merger or corporate restructuring, provided that Member's service terms are not materially adversely affected.</p>
+      <p class="clause"><span class="num">20.6</span> <span class="label">Assignment.</span> Member may not assign this Agreement without Company's prior written consent. Company may assign this Agreement in connection with a sale of substantially all of its business assets or a corporate restructuring, provided Member's service terms are not materially adversely affected.</p>
 
-      <p class="clause"><span class="num">20.7</span> <span class="label">Independent Contractor.</span> Company is an independent contractor. Nothing in this Agreement shall be construed to create a partnership, joint venture, employment, or agency relationship between the parties.</p>
+      <p class="clause"><span class="num">20.7</span> <span class="label">Independent Contractor.</span> Company is an independent contractor. Nothing in this Agreement creates a partnership, joint venture, employment, or agency relationship.</p>
 
-      <p class="clause"><span class="num">20.8</span> <span class="label">Headings.</span> Section headings are for convenience only and shall not affect the interpretation of this Agreement.</p>
-
-      <p class="clause"><span class="num">20.9</span> <span class="label">Counterparts.</span> This Agreement may be executed in one or more counterparts, each of which shall be deemed an original, and all of which together shall constitute one and the same instrument. Electronic signatures are valid and binding.</p>
-    </section>
-
-    <hr class="schedule-divider">
-
-    <!-- ============================================================ -->
-    <!-- SCHEDULE A -->
-    <!-- ============================================================ -->
-    <section class="legal-section" id="schedA">
-      <div class="section-eyebrow">Schedule A</div>
-      <h2>Membership Plan Service Details</h2>
-
-      <div class="formula-box">
-        <p style="font-weight:700; color:var(--navy); margin:0 0 8px;">Pricing Disclosure.</p>
-        <p style="margin:0 0 8px; font-weight:400; color:var(--ink);">The Membership Plan prices set forth in this Schedule A reflect Company's standard pricing for new enrollments as of the date noted below and are subject to change at Company's discretion for future enrollments. For any Member with an active Membership Agreement, the Membership Fee is the amount specified in that Member's signed Membership Agreement at enrollment, and may be increased only in accordance with Section 4 (Price Adjustments). A revision to this Schedule A does not, by itself, change the Membership Fee owed by any then-current Member.</p>
-        <p class="example" style="margin:0;">Schedule A last updated: June 20, 2026</p>
-      </div>
-
-      <div class="table-wrap">
-        <table class="schedule-table">
-          <caption>A.1 — HGI Monthly Care — $183/month ($2,196/year)</caption>
-          <thead><tr><th>Service Component</th><th>Frequency</th><th>Included</th></tr></thead>
-          <tbody>
-            <tr><td>Full pump-out, scrape, baffle &amp; flow inspection</td><td>Monthly (12x/yr)</td><td>Yes</td></tr>
-            <tr><td>Written service report &amp; FOG compliance documentation</td><td>Every visit</td><td>Yes</td></tr>
-            <tr><td>Waste manifest</td><td>Every visit</td><td>Yes</td></tr>
-            <tr><td>ZoomBio biological treatment</td><td>Monthly (12x/yr)</td><td>Yes</td></tr>
-            <tr><td>Annual line jetting</td><td>1x per Annual Term</td><td>Yes</td></tr>
-            <tr><td>Camera inspection</td><td>At sign-up (1x per Annual Term)</td><td>Yes</td></tr>
-            <tr><td>Plumbing services discount</td><td>Ongoing</td><td>10%</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="table-wrap">
-        <table class="schedule-table">
-          <caption>A.2 — HGI Quarterly Care – Low FOG — $61/month ($732/year)</caption>
-          <thead><tr><th>Service Component</th><th>Frequency</th><th>Included</th></tr></thead>
-          <tbody>
-            <tr><td>Full pump-out, scrape, baffle &amp; flow inspection</td><td>Quarterly (4x/yr)</td><td>Yes</td></tr>
-            <tr><td>Written service report &amp; FOG compliance documentation</td><td>Every visit</td><td>Yes</td></tr>
-            <tr><td>Waste manifest</td><td>Every visit</td><td>Yes</td></tr>
-            <tr><td>ZoomBio biological treatment</td><td>Not included</td><td>No</td></tr>
-            <tr><td>Camera inspection</td><td>At sign-up only (1x per Annual Term)</td><td>Yes</td></tr>
-            <tr><td>Plumbing services discount</td><td>Ongoing</td><td>10%</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="plan-note">Available in Mesa, Chandler, and Gilbert locations only.</p>
-
-      <div class="table-wrap">
-        <table class="schedule-table">
-          <caption>A.3 — GGI Essential (Tier 1) — Quarterly (4x/yr)</caption>
-          <thead><tr><th>Service Component</th><th>Frequency</th><th>Included</th></tr></thead>
-          <tbody>
-            <tr><td>Full pump-out, scrape, baffle &amp; flow inspection</td><td>Quarterly (4x/yr)</td><td>Yes</td></tr>
-            <tr><td>Written service report &amp; FOG compliance documentation</td><td>Every visit</td><td>Yes</td></tr>
-            <tr><td>Waste manifest</td><td>Every visit</td><td>Yes</td></tr>
-            <tr><td>Camera inspection</td><td>At sign-up (new members)</td><td>Yes</td></tr>
-            <tr><td>20% discount on additional camera inspections</td><td>On demand</td><td>Yes</td></tr>
-            <tr><td>Plumbing services discount</td><td>Ongoing</td><td>10%</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="table-wrap">
-        <table class="schedule-table">
-          <thead><tr><th>Tank Size</th><th>Monthly Price</th><th>Annual Price</th></tr></thead>
-          <tbody>
-            <tr><td>500 gallon</td><td class="num">$102</td><td class="num">$1,224</td></tr>
-            <tr><td>750 gallon</td><td class="num">$116</td><td class="num">$1,392</td></tr>
-            <tr><td>1,000 gallon</td><td class="num">$135</td><td class="num">$1,620</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="table-wrap">
-        <table class="schedule-table">
-          <caption>A.4 — GGI Professional (Tier 2) — Bi-Monthly (6x/yr)</caption>
-          <thead><tr><th>Service Component</th><th>Frequency</th><th>Included</th></tr></thead>
-          <tbody>
-            <tr><td>Full pump-out, scrape, baffle &amp; flow inspection</td><td>Bi-Monthly (6x/yr)</td><td>Yes</td></tr>
-            <tr><td>Written service report &amp; FOG compliance documentation</td><td>Every visit</td><td>Yes</td></tr>
-            <tr><td>Waste manifest</td><td>Every visit</td><td>Yes</td></tr>
-            <tr><td>ZoomBio biological treatment</td><td>Bi-Monthly (6x/yr)</td><td>Yes</td></tr>
-            <tr><td>Annual camera inspection of drain lines</td><td>1x per Annual Term</td><td>Yes</td></tr>
-            <tr><td>Annual line jetting</td><td>1x per Annual Term</td><td>Yes</td></tr>
-            <tr><td>15% discount on additional jetting/snaking</td><td>On demand</td><td>Yes</td></tr>
-            <tr><td>Plumbing services discount</td><td>Ongoing</td><td>10%</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="table-wrap">
-        <table class="schedule-table">
-          <thead><tr><th>Tank Size</th><th>Monthly Price</th><th>Annual Price</th></tr></thead>
-          <tbody>
-            <tr><td>500 gallon</td><td class="num">$153</td><td class="num">$1,836</td></tr>
-            <tr><td>750 gallon</td><td class="num">$174</td><td class="num">$2,088</td></tr>
-            <tr><td>1,000 gallon</td><td class="num">$202</td><td class="num">$2,424</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="table-wrap">
-        <table class="schedule-table">
-          <caption>A.5 — GGI Premier (Tier 3) — Monthly (12x/yr)</caption>
-          <thead><tr><th>Service Component</th><th>Frequency</th><th>Included</th></tr></thead>
-          <tbody>
-            <tr><td>Full pump-out, scrape, baffle &amp; flow inspection</td><td>Monthly (12x/yr)</td><td>Yes</td></tr>
-            <tr><td>Written service report &amp; FOG compliance documentation</td><td>Every visit</td><td>Yes</td></tr>
-            <tr><td>Waste manifest</td><td>Every visit</td><td>Yes</td></tr>
-            <tr><td>ZoomBio biological treatment</td><td>Monthly (12x/yr)</td><td>Yes</td></tr>
-            <tr><td>ZoomBio automatic dosing unit installed</td><td>Ongoing (unit on loan)</td><td>Yes — No charge</td></tr>
-            <tr><td>Biannual camera inspections</td><td>2x per Annual Term</td><td>Yes</td></tr>
-            <tr><td>Quarterly line jetting</td><td>4x per Annual Term</td><td>Yes</td></tr>
-            <tr><td>Priority scheduling — next-business-day (subject to Section 9.4)</td><td>On request</td><td>Yes</td></tr>
-            <tr><td>20% discount on additional plumbing services</td><td>Ongoing</td><td>Yes</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="table-wrap">
-        <table class="schedule-table">
-          <thead><tr><th>Tank Size</th><th>Monthly Price</th><th>Annual Price</th></tr></thead>
-          <tbody>
-            <tr><td>500 gallon</td><td class="num">$306</td><td class="num">$3,672</td></tr>
-            <tr><td>750 gallon</td><td class="num">$349</td><td class="num">$4,188</td></tr>
-            <tr><td>1,000 gallon</td><td class="num">$404</td><td class="num">$4,848</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <hr class="schedule-divider">
-
-    <!-- ============================================================ -->
-    <!-- SCHEDULE B -->
-    <!-- ============================================================ -->
-    <section class="legal-section" id="schedB">
-      <div class="section-eyebrow">Schedule B</div>
-      <h2>Retail Service Rates</h2>
-      <p class="plan-note">Effective as of Agreement Effective Date. Retail Prices are used for Early Termination Fee calculations under Section 6.</p>
-
-      <div class="table-wrap">
-        <table class="schedule-table">
-          <caption>B.1 — HGI (Indoor) Service — Retail Prices</caption>
-          <thead><tr><th>Service</th><th>Retail Price</th></tr></thead>
-          <tbody>
-            <tr><td>Single HGI pump-out, scrape, baffle &amp; flow inspection visit</td><td class="num">$215.00</td></tr>
-            <tr><td>ZoomBio biological treatment — per visit (1/2 gallon dose)</td><td class="num">$60.00</td></tr>
-            <tr><td>Camera inspection (HGI drain lines)</td><td class="num">$500.00</td></tr>
-            <tr><td>Annual line jetting (HGI)</td><td class="num">$768.00</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="table-wrap">
-        <table class="schedule-table">
-          <caption>B.2 — GGI (In-Ground) Service — Retail Prices</caption>
-          <thead><tr><th>Service</th><th>500 Gallon</th><th>750 Gallon</th><th>1,000 Gallon</th></tr></thead>
-          <tbody>
-            <tr><td>Single GGI pump-out, scrape, baffle &amp; flow inspection visit</td><td class="num">$367.20</td><td class="num">$418.80</td><td class="num">$484.80</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="table-wrap">
-        <table class="schedule-table">
-          <thead><tr><th>Service</th><th>Retail Price (all tank sizes)</th></tr></thead>
-          <tbody>
-            <tr><td>ZoomBio biological treatment — per visit (1/2 gallon dose)</td><td class="num">$60.00</td></tr>
-            <tr><td>Camera inspection (GGI drain lines)</td><td class="num">$500.00</td></tr>
-            <tr><td>Line jetting (per jetting occurrence — HGI or GGI)</td><td class="num">$768.00</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="table-wrap">
-        <table class="schedule-table">
-          <caption>B.3 — Other Charges</caption>
-          <thead><tr><th>Charge</th><th>Rate</th></tr></thead>
-          <tbody>
-            <tr><td>Access Surcharge (Section 10.2)</td><td class="num">$275.00 per hour (prorated to nearest 15 min)</td></tr>
-            <tr><td>After-Hours — Scheduled Non-Emergency (Section 9.3)</td><td class="num">$50.00 per visit</td></tr>
-            <tr><td>After-Hours — Emergency (Section 9.3)</td><td class="num">$100.00 per visit</td></tr>
-            <tr><td>ZoomBio Dosing Unit — Removal/Restocking (Section 13.3, Option A)</td><td class="num">$150.00</td></tr>
-            <tr><td>ZoomBio Dosing Unit — Full Equipment Retail Value (Section 13.3, Option B base)</td><td class="num">$383.50</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="plan-note">Retail Prices are subject to annual adjustment. For purposes of Early Termination Fee calculations under Section 6, the applicable Retail Prices shall be those in effect at the time the relevant service was performed. Schedule B last updated: [Month, Year].</p>
+      <p class="clause"><span class="num">20.8</span> <span class="label">Counterparts &amp; Electronic Signatures.</span> This Agreement may be executed in counterparts, each of which is an original. Electronic signatures are valid and binding.</p>
     </section>
 
   </main>
@@ -1138,7 +672,7 @@
       <div>(623) 232-3120 &nbsp;·&nbsp; <a href="mailto:phoenixeastvalley@zoomdrain.com">phoenixeastvalley@zoomdrain.com</a></div>
     </div>
     <div>
-      This page is incorporated by reference into the Restaurant Plumbing Care Program Membership Agreement.<br>
+      These Terms and Conditions are incorporated by reference into the Restaurant Plumbing Care Program Membership Agreement.<br>
       In the event of a conflict, the signed Membership Agreement controls.
     </div>
   </div>
@@ -1147,41 +681,26 @@
 <button class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top">&#8593;</button>
 
 <script>
-  // Active-state highlighting for desktop sidebar TOC and mobile strip
   (function () {
     var sections = Array.prototype.slice.call(document.querySelectorAll('section.legal-section'));
     var sidebarLinks = Array.prototype.slice.call(document.querySelectorAll('nav.toc a[data-toc]'));
     var stripLinks = Array.prototype.slice.call(document.querySelectorAll('.toc-strip a'));
 
     function setActive(id) {
-      sidebarLinks.forEach(function (a) {
-        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
-      });
-      stripLinks.forEach(function (a) {
-        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
-      });
+      sidebarLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + id); });
+      stripLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + id); });
     }
 
     if ('IntersectionObserver' in window) {
       var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            setActive(entry.target.id);
-          }
-        });
+        entries.forEach(function (entry) { if (entry.isIntersecting) setActive(entry.target.id); });
       }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
-
       sections.forEach(function (s) { observer.observe(s); });
     }
 
-    // Back-to-top visibility
     var backBtn = document.getElementById('backToTop');
-    window.addEventListener('scroll', function () {
-      backBtn.classList.toggle('visible', window.scrollY > 400);
-    });
-    backBtn.addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    window.addEventListener('scroll', function () { backBtn.classList.toggle('visible', window.scrollY > 400); });
+    backBtn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
   })();
 </script>
 
